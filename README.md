@@ -127,6 +127,7 @@ ai-governance-workbench/
 └── LICENSE
 ```
 ## License
-
+```code
 This project is licensed under the MIT License. See LICENSE￼ for details.
+```
 
