@@ -17,6 +17,8 @@ It runs entirely in the browser using HTML, CSS, and JavaScript with no server, 
 
 *Overview of the five framework Explore interface.*
 
+![AI Governance Practitioner Workbench overview](docs/screenshot-overview.png)
+
 ![AI Governance Practitioner Workbench in action](docs/screenshot-in-action.png)
 
 *Selected item view showing cross framework relationships and linked governance context.*
