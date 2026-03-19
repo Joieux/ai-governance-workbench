@@ -103,6 +103,7 @@ cd ai-governance-workbench
 ```
 Open the main file in your browser:
 
+```bash
 # macOS
 open index.html
 
@@ -111,7 +112,7 @@ start index.html
 
 # Linux
 xdg-open index.html
-
+```
 ## Repository Structure
 
 ai-governance-workbench/
