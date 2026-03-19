@@ -11,13 +11,13 @@ I built this static web application to make complex governance material easier t
 
 ## Screenshots
 
+*Overview of the five framework Explore interface.*
 ![AI Governance Practitioner Workbench overview](docs/screenshot-overview.png)
 
-*Overview of the five framework Explore interface.*
+*Selected item view showing cross framework relationships and linked governance context.*
 
 ![AI Governance Practitioner Workbench in action](docs/screenshot-in-action.png)
 
-*Selected item view showing cross framework relationships and linked governance context.*
 
 ## Overview
 
