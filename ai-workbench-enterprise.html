@@ -29,6 +29,8 @@
 
       <div class="nav-divider"></div>
 
+      <div class="nav-spacer"></div>
+
       <div class="nav-search">
         <span class="nav-search-icon">⌕</span>
         <input
@@ -41,35 +43,7 @@
         <span id="search-count" class="search-hit-count"></span>
       </div>
 
-      <div class="nav-spacer"></div>
-
       <div class="nav-actions">
-        <button
-          class="nav-btn"
-          onclick="switchMode('assess')"
-          title="Track your implementation status"
-        >
-          📋 Assess Coverage
-        </button>
-        <button
-          class="nav-btn primary"
-          onclick="switchMode('export')"
-          title="Export reports and mappings"
-        >
-          ↓ Export
-        </button>
-        <button
-          class="nav-btn"
-          onclick="switchMode('audit')"
-          style="
-            background: rgba(56, 189, 248, 0.1);
-            border-color: var(--nist);
-            color: var(--nist);
-          "
-          title="AI Risk Assessment"
-        >
-          🔍 Audit
-        </button>
         <button
           id="theme-toggle"
           title="Toggle light / dark mode"
