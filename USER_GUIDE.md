@@ -1,742 +1,557 @@
-# AI Governance Practitioner Workbench — User Guide
+<a id="top"></a>
 
-**Version 1.0**
+# AI Governance Practitioner Workbench User Guide
+
+> **Version 1.0**  
+> **Format:** Markdown guide for GitHub and local use
+
+<p>
+  <img src="https://img.shields.io/badge/Guide-User%20Guide-4F46E5" alt="User Guide badge" />
+  <img src="https://img.shields.io/badge/App-Static%20Browser%20Tool-0F766E" alt="Static app badge" />
+  <img src="https://img.shields.io/badge/Frameworks-5-2563EB" alt="Frameworks badge" />
+  <img src="https://img.shields.io/badge/Controls-40-7C3AED" alt="Controls badge" />
+</p>
+
+<table>
+  <tr>
+    <td><strong>What this guide covers</strong></td>
+    <td>Setup, navigation, framework mapping, control review, exports, risk assessment workflow, shortcuts, and reference terms.</td>
+  </tr>
+  <tr>
+    <td><strong>Who it is for</strong></td>
+    <td>AI governance practitioners, auditors, risk leaders, compliance teams, and portfolio reviewers.</td>
+  </tr>
+  <tr>
+    <td><strong>How to use it</strong></td>
+    <td>Start with the table of contents, jump to the section you need, and use the return links to move back quickly.</td>
+  </tr>
+</table>
 
 ---
+
+<a id="contents"></a>
 
 ## Table of Contents
 
-1. [Overview](#1-overview)
-2. [Getting Started](#2-getting-started)
-3. [Navigation](#3-navigation)
-4. [Explore Mode](#4-explore-mode)
+<table>
+  <tr>
+    <td width="50%">
+
+1. [Overview](#1-overview)  
+2. [Getting Started](#2-getting-started)  
+3. [Navigation](#3-navigation)  
+4. [Explore Mode](#4-explore-mode)  
 5. [Assess Mode](#5-assess-mode)
-6. [Export Mode](#6-export-mode)
-7. [Audit Mode](#7-audit-mode)
-8. [Keyboard Shortcuts](#8-keyboard-shortcuts)
-9. [Framework Reference](#9-framework-reference)
+
+   </td>
+   <td width="50%">
+
+6. [Export Mode](#6-export-mode)  
+7. [Audit Mode](#7-audit-mode)  
+8. [Keyboard Shortcuts](#8-keyboard-shortcuts)  
+9. [Framework Reference](#9-framework-reference)  
 10. [Glossary](#10-glossary)
 
+   </td>
+  </tr>
+</table>
+
 ---
+
+<a id="1-overview"></a>
 
 ## 1. Overview
 
-The AI Governance Practitioner Workbench is a browser-based tool designed for AI GRC practitioners, auditors, risk officers, and compliance teams. It serves two core purposes:
+<table>
+  <tr>
+    <td bgcolor="#EEF2FF"><strong>Purpose</strong></td>
+    <td>The AI Governance Practitioner Workbench is a browser based tool for mapping governance frameworks, reviewing control coverage, and running a structured AI risk assessment.</td>
+  </tr>
+  <tr>
+    <td bgcolor="#ECFDF5"><strong>Primary use</strong></td>
+    <td>It helps users understand how five major AI governance frameworks connect and supports a repeatable review workflow for assessing AI systems.</td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFF7ED"><strong>Data handling</strong></td>
+    <td>The tool runs locally in the browser. There is no server, no login, and no external data transfer built into the app.</td>
+  </tr>
+</table>
 
-**Exploration and education** — understand how five major AI governance frameworks relate to each other, what each control requires, and why specific connections matter in practice.
+### What the workbench is designed to do
 
-**Structured risk assessment** — conduct a complete AI risk assessment for any organization using any AI system, producing audit-standard findings and a formatted report.
+The workbench supports two main jobs.
 
-The tool runs entirely in your browser. There is no login, no server, and no data leaves your machine. Your work is saved automatically to your browser's local storage.
+**Framework exploration**  
+Understand how major governance, security, and assurance frameworks relate to each other and where concepts overlap.
+
+**Structured risk assessment**  
+Guide an organization through a repeatable AI risk review that can be documented and exported.
+
+### What makes it useful
+
+- It is lightweight and easy to open
+- It brings multiple frameworks into one interface
+- It supports practical control tracking
+- It generates portable markdown outputs
+- It helps translate standards into usable review steps
+
+[Back to contents](#contents)
 
 ---
+
+<a id="2-getting-started"></a>
 
 ## 2. Getting Started
 
+<table>
+  <tr>
+    <td bgcolor="#DBEAFE"><strong>Entry file</strong></td>
+    <td><code>index.html</code></td>
+  </tr>
+  <tr>
+    <td bgcolor="#DCFCE7"><strong>Install required</strong></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td bgcolor="#FEF3C7"><strong>Recommended browsers</strong></td>
+    <td>Chrome 120+, Firefox 121+, Safari 17+, Edge 120+</td>
+  </tr>
+</table>
+
 ### Opening the tool
 
-Download `ai-workbench-enterprise.html` and open it in any modern browser. No installation is required.
+Open `index.html` in any modern browser.
 
-```
+```text
 Chrome 120+  |  Firefox 121+  |  Safari 17+  |  Edge 120+
 ```
 
-On macOS: double-click the file or drag it onto a browser window.
-On Windows: right-click → Open with → your browser of choice.
+On macOS, double click the file or drag it into a browser window.  
+On Windows, right click the file and choose your preferred browser.  
+On Linux, open it from your file manager or launch it from the terminal.
 
-### First time use
+### First run experience
 
-When the tool opens, you will land in **Explore mode** by default. The framework grid is visible immediately — five columns, one per framework, with all 40 controls listed.
+When the tool opens, it loads directly into **Explore mode**. The framework grid appears immediately, with five columns and all framework items visible.
 
-Nothing is pre-selected. Click any item in any column to begin.
+No item is selected by default. Click any item to begin exploring framework relationships.
 
-### Your data
+### Data persistence
 
-The Assess mode saves your implementation status automatically to `localStorage` in your browser. This means:
+Assessment data is stored in browser `localStorage`.
 
-- Your progress persists between sessions on the same browser and device
-- Clearing browser data or using a different device will not carry your state over
-- Use the **Export mode** to create a portable record before clearing browser data
-- The **↺ Reset** button in Assess mode clears all saved state permanently after confirmation
+That means:
+
+- Progress stays saved on the same browser and device
+- Clearing browser data removes saved assessment state
+- Using a different browser or machine will not carry progress over
+- Exporting reports is the best way to keep portable documentation
+
+[Back to contents](#contents)
 
 ---
+
+<a id="3-navigation"></a>
 
 ## 3. Navigation
 
+<table>
+  <tr>
+    <td bgcolor="#F3E8FF"><strong>Modes</strong></td>
+    <td>Explore, Assess, Export, Audit</td>
+  </tr>
+  <tr>
+    <td bgcolor="#E0F2FE"><strong>Global tools</strong></td>
+    <td>Search, theme toggle, quick navigation buttons</td>
+  </tr>
+</table>
+
 ### Top navigation bar
 
-The navigation bar runs across the top of every screen. From left to right:
+The navigation bar appears at the top of the interface.
 
-**AI Governance Workbench** — the tool name. Clicking it does nothing; it is a label.
-
-**Mode tabs** — four tabs that switch between the tool's main modes:
-
-| Tab | Purpose |
+| Element | Purpose |
 |---|---|
-| 🔍 Explore | Framework cross-reference map and documentation |
-| 📋 Assess | Control coverage tracker |
-| 📤 Export | Report and mapping exports |
-| 🔍 Audit | AI risk assessment workflow |
-
-**Search bar** — searches across all 40 controls in real time. Type any term to filter. Press **Escape** to clear. Press **⌘K** (Mac) or **Ctrl+K** (Windows/Linux) to focus the search bar from anywhere.
-
-**Assess Coverage button** — shortcut to jump directly to Assess mode.
-
-**↓ Export button** — shortcut to jump directly to Export mode.
-
-**🔍 Audit button** — shortcut to jump directly to Audit mode.
-
-**Theme toggle** — the circle button at the far right switches between dark mode (default) and light mode. Your preference is saved.
-
----
-
-## 4. Explore Mode
-
-Explore mode is the framework cross-reference map. It is the primary reference tool for understanding how AI governance frameworks relate to each other.
-
-### The framework grid
-
-Five columns, one per framework, displayed side by side:
-
-| Column | Framework | Items |
-|---|---|---|
-| 1 | NIST AI RMF | 4 functions |
-| 2 | CSA AICM | 11 control domains |
-| 3 | ISO Standards | 5 standards |
-| 4 | MITRE ATLAS | 10 tactics |
-| 5 | OWASP LLM Top 10 2025 | 10 risks |
-
-Each column scrolls independently. The column header stays fixed as you scroll down through items.
-
-### Selecting an item
-
-Click any item in any column to select it. When selected:
-
-- The selected item highlights with a colored left border
-- Every item connected to it across all five columns highlights in the same color
-- All unconnected items dim significantly
-- The **connector panel** appears above the grid
-
-Click the same item again to deselect and return to the default view. Click any highlighted (related) item to open its full documentation. Press **Escape** to clear the selection.
-
-### The connector panel
-
-The connector panel appears between the search bar and the framework grid whenever an item is selected. It has three sections:
-
-**Item title** — the name of the selected item in the framework's accent color. A **✕ Clear** button sits to the right to deselect.
-
-**Narrative** — a practitioner paragraph explaining why this item connects to its related items, what the real-world implication is, and what you should do about it. This is the "so what" layer — not just tags, but context.
-
-**Cross-framework tags** — four panels showing the connected items in each framework: NIST AI RMF, CSA AICM, ISO Standards, and ATLAS / OWASP.
-
-### Opening documentation
-
-Double-click any item, or click a highlighted (related) item after making a selection, to open the documentation modal. This modal contains:
-
-- The item's full title and framework reference
-- A summary paragraph
-- A list of subcategories with descriptions and detail text
-- A link to the official source documentation
-
-Press **Escape** or click outside the modal to close it.
-
-### NEW and UPDATED badges
-
-Items that were published or significantly revised between 2022 and 2025 carry a colored badge next to their name:
-
-| Badge | Meaning |
-|---|---|
-| NEW 2022 | First published in 2022 (ISO/IEC TS 5723:2022) |
-| NEW 2023 | First published in 2023 (ISO/IEC 42001, ISO/IEC 5338) |
-| UPDATED | Significantly updated (ATLAS agentic additions, 2025) |
-| UPDATED 2025 | Full revision (OWASP LLM Top 10 2025 edition) |
-
-### Domain cards
-
-Below the framework grid, a set of governance domain cards provides a second way to explore connections. Domains cut across frameworks — clicking a domain card (for example, "Supply Chain & Third-Party Risk") highlights all framework items that touch that domain.
-
-Domain cards include framework tags showing which frameworks address that domain and at which controls.
-
-### Operational tools
-
-Below the domain cards, a row of eight practitioner tools links directly to external resources:
-
-| Tool | What it does |
-|---|---|
-| AIBOM Generator | Generates AI Bills of Materials for Hugging Face models |
-| ATLAS Navigator | Interactive MITRE ATLAS matrix with coverage visualization |
-| Arsenal (CALDERA Plugin) | Automated adversarial emulation against AI systems |
-| NIST AI RMF Playbook | Suggested actions per RMF category with profile builder |
-| AI Risk Database | Searchable database of AI incidents and vulnerabilities |
-| OWASP Governance Checklist | LLM application governance checklist |
-| ISO/IEC 42001:2023 | Official ISO standard page |
-| Agentic AI Security Top 10 | OWASP risks for autonomous AI agents |
-
-All tools open in a new tab.
+| AI Governance Workbench | App title |
+| Explore | Framework mapping view |
+| Assess | Control tracking view |
+| Export | Markdown export view |
+| Audit | Structured risk assessment view |
+| Search | Search framework items in real time |
+| Theme toggle | Switch between light and dark mode |
 
 ### Search
 
-Type in the search bar to filter items across all five columns simultaneously. Matching items remain visible; non-matching items dim. The hit count appears in the search bar.
+The search bar filters framework items across the app in real time.
 
-Search matches against item names, IDs, and descriptions. It is case-insensitive.
+- Search is case insensitive
+- Matching items remain visible
+- Non matching items dim
+- `Escape` clears search
+- `Command K` on Mac or `Ctrl K` on Windows or Linux focuses the search field
 
-Clear the search by pressing **Escape** or deleting the search text. If an item was selected before searching, the selection clears when you begin typing.
+### Theme toggle
+
+The theme toggle switches between dark and light display modes. The selected theme is retained for future sessions.
+
+[Back to contents](#contents)
 
 ---
+
+<a id="4-explore-mode"></a>
+
+## 4. Explore Mode
+
+<table>
+  <tr>
+    <td bgcolor="#E0E7FF"><strong>Main purpose</strong></td>
+    <td>Visual cross reference map of five frameworks</td>
+  </tr>
+  <tr>
+    <td bgcolor="#D1FAE5"><strong>Best for</strong></td>
+    <td>Research, framework comparison, concept mapping, and control discovery</td>
+  </tr>
+</table>
+
+### Framework grid
+
+Explore mode displays five columns side by side.
+
+| Column | Framework |
+|---|---|
+| 1 | NIST AI RMF |
+| 2 | CSA AICM |
+| 3 | ISO |
+| 4 | MITRE ATLAS |
+| 5 | OWASP LLM Top 10 2025 |
+
+Each column contains framework items or domains relevant to AI governance and security.
+
+### Selecting items
+
+Click any item to select it.
+
+When selected:
+
+- The chosen item is highlighted
+- Related items in other columns are highlighted
+- Unrelated items dim
+- A connector panel appears with contextual detail
+
+Clicking the same item again clears the selection.
+
+### Connector panel
+
+The connector panel explains why linked items matter together. It is meant to provide practical governance context, not just raw tags.
+
+The panel includes:
+
+- Selected item name
+- Summary or narrative context
+- Cross framework relationship display
+- Quick clear option
+
+### Documentation modal
+
+Open detailed item documentation from Explore mode to review:
+
+- Item description
+- Framework references
+- Supporting details
+- Linked standards or concepts
+
+### Domain cards and related exploration
+
+The app also supports domain level exploration for broader themes such as supply chain risk, security, oversight, and governance alignment.
+
+[Back to contents](#contents)
+
+---
+
+<a id="5-assess-mode"></a>
 
 ## 5. Assess Mode
 
-Assess mode is a coverage tracker. Use it to record your organization's implementation status across all 40 controls and identify priority gaps.
+<table>
+  <tr>
+    <td bgcolor="#ECFCCB"><strong>Main purpose</strong></td>
+    <td>Track implementation status across the control set</td>
+  </tr>
+  <tr>
+    <td bgcolor="#FCE7F3"><strong>Best for</strong></td>
+    <td>Coverage review, gap visibility, and implementation planning</td>
+  </tr>
+</table>
 
-### Opening Assess mode
+### What it tracks
 
-Click the **📋 Assess** tab or the **📋 Assess Coverage** button in the navigation bar.
+Assess mode tracks implementation status across 40 controls.
 
-### Framework score cards
+### Status options
 
-Five score cards at the top show implementation progress per framework. Each card displays:
-
-- Number of controls implemented out of total
-- Number in progress
-- Number not started
-- A progress bar
-
-The cards update live as you change statuses.
-
-### Overall progress bar
-
-The header shows overall implementation percentage and in-progress count. This updates live.
-
-### The controls table
-
-All 40 controls are listed in a table with four columns:
-
-**Priority** — P1, P2, or P3 based on risk significance:
-
-| Priority | Meaning | Count |
-|---|---|---|
-| P1 | Highest risk — address first | 17 controls |
-| P2 | Important — address after P1 | 19 controls |
-| P3 | Foundational — address in sustained program | 4 controls |
-
-**Control** — the control name and a brief description.
-
-**Framework** — which framework the control belongs to, shown as a colored label.
-
-**Status** — three buttons to set implementation status:
-
-| Button | Meaning |
+| Status | Meaning |
 |---|---|
-| ✓ Done | Control is fully implemented |
-| ⚡ WIP | Control is in progress |
-| ✗ | Control has not been started |
+| Done | Fully implemented |
+| In Progress | Under active implementation |
+| Not Started | Not yet addressed |
 
-Click any status button to set that status. The change saves immediately to local storage.
+### What the view shows
 
-### Filtering the table
+Assess mode includes:
 
-Four filter buttons above the table narrow the view:
+- Per framework progress cards
+- Overall progress summary
+- Control table
+- Filter controls
+- Priority gap list
+- Reset option for local status data
 
-| Filter | Shows |
-|---|---|
-| All | All 40 controls |
-| Not Started | Controls marked ✗ only |
-| In Progress | Controls marked ⚡ only |
-| Done | Controls marked ✓ only |
+### Filtering
 
-### Status badges in Explore mode
+You can filter by:
 
-When you switch back to Explore mode after setting statuses in Assess mode, each item in the framework grid shows its implementation status:
+- All
+- Not Started
+- In Progress
+- Done
 
-- Green left border — Done
-- Amber left border — In Progress
-- ✓ badge (green circle) — Done
-- ⚡ badge (amber circle) — In Progress
+### Why it matters
 
-This lets you see coverage at a glance while exploring framework connections.
+This mode turns the tool from a reference experience into a practical review workflow. It gives users a simple way to see where work is complete and where the most important gaps remain.
 
-### Priority gap list
-
-Below the controls table, the priority gap list automatically shows your top unimplemented controls sorted P1 first, then P2, then P3. Each gap item shows:
-
-- Priority badge
-- Control name and framework
-- In-progress indicator if applicable
-- A short narrative explaining why this control matters
-
-The list updates live as you change statuses.
-
-### Resetting assessment data
-
-Click the **↺ Reset** button to clear all saved status data. A confirmation prompt appears before anything is deleted. This action cannot be undone.
+[Back to contents](#contents)
 
 ---
+
+<a id="6-export-mode"></a>
 
 ## 6. Export Mode
 
-Export mode generates portable markdown reports from your current workbench state.
+<table>
+  <tr>
+    <td bgcolor="#FFE4E6"><strong>Main purpose</strong></td>
+    <td>Create portable markdown outputs</td>
+  </tr>
+  <tr>
+    <td bgcolor="#EDE9FE"><strong>Best for</strong></td>
+    <td>Reporting, documentation, planning, and record keeping</td>
+  </tr>
+</table>
 
-### Opening Export mode
+### Available export types
 
-Click the **📤 Export** tab or the **↓ Export** button in the navigation bar.
+| Export type | Use case |
+|---|---|
+| Gap Report | Show coverage status and priority gaps |
+| Selection Mapping | Show linked framework items for a selected concept |
+| Full Control Inventory | Export the complete control set with statuses |
 
-### Export types
+### Output format
 
-Three export types are available. Select the one you need from the left panel.
+Exports are produced as markdown so they can be reused in:
 
-**Gap Report**
+- GitHub
+- Notion
+- Confluence
+- Jira
+- Internal documentation
+- Planning documents
 
-A coverage summary table plus a prioritized list of unimplemented controls, each with a narrative explaining why it matters. Best for board reporting, project planning, or communicating risk posture to leadership.
+### Export actions
 
-Contents:
-- Overall coverage percentage
-- Per-framework coverage table
-- Top 20 priority gaps with status and narrative excerpts
+Users can typically:
 
-**Selection Mapping**
+- Preview the export
+- Copy it to the clipboard
+- Download the `.md` file
 
-A full cross-framework mapping for whichever item is currently selected in Explore mode. If no item is selected, the export prompts you to go back and select one first.
-
-Best for writing control narratives, populating Jira tickets, drafting Confluence documentation, or preparing evidence for a specific control.
-
-Contents:
-- Item name and narrative
-- Connected items in NIST AI RMF
-- Connected items in CSA AICM
-- Connected ISO standards
-- Connected ATLAS tactics
-- Connected OWASP LLM risks
-
-**Full Control Inventory**
-
-A complete list of all 40 controls organized by framework, with implementation status. Best for compliance evidence packages, audit preparation, or program tracking in external tools.
-
-Contents:
-- All 40 controls grouped by framework
-- Implementation status per control (✅ Done / ⚡ WIP / ❌ Not Started)
-- Priority rating per control
-
-### Downloading and copying
-
-**Copy to clipboard** — copies the full markdown text. Paste directly into Confluence, Notion, Jira, or any markdown-capable tool.
-
-**↓ Download .md file** — downloads the report as a `.md` file named with the export type and today's date (e.g., `ai-governance-gap-report-2025-11-10.md`).
-
-### Preview
-
-The right panel shows a live preview of the markdown output before you copy or download. It updates automatically when you change export types or when your assessment state changes.
+[Back to contents](#contents)
 
 ---
+
+<a id="7-audit-mode"></a>
 
 ## 7. Audit Mode
 
-Audit mode is a structured AI risk assessment workflow. It takes any organization through five steps and produces an audit-standard report with formal findings.
+<table>
+  <tr>
+    <td bgcolor="#FEF2F2"><strong>Main purpose</strong></td>
+    <td>Guide a structured AI risk assessment workflow</td>
+  </tr>
+  <tr>
+    <td bgcolor="#ECFEFF"><strong>Best for</strong></td>
+    <td>Documented review, internal audit support, and risk analysis</td>
+  </tr>
+</table>
 
-The workflow is fully generic. Nothing is pre-filled with organization names, system names, or sector-specific assumptions. All content comes from what you enter.
+### Five step workflow
 
-### Opening Audit mode
+Audit mode guides the user through five structured stages.
 
-Click the **🔍 Audit** tab in the navigation bar.
-
-### The five steps
-
-A stepper at the top of the page tracks your position. Steps completed turn green. You can move backward at any step using the **← Back** button.
-
----
-
-### Step 1 — System Profile
-
-Capture the organization and AI system being assessed. This information scopes which risk scenarios are suggested in Step 2 and populates the report header in Step 5.
-
-**Assessment metadata**
-
-| Field | Required | Purpose |
-|---|---|---|
-| Assessment Title | Yes | Appears in the report header |
-| Assessment Date | No | Defaults to today's date |
-| Organization Name | Yes | Appears throughout the report |
-| Assessor Name | No | Appears in the report header |
-
-**System details**
-
-| Field | Purpose |
+| Step | Purpose |
 |---|---|
-| AI System Being Assessed | Name, vendor (if applicable), and type |
-| What does this AI system do? | Function, inputs, outputs, users |
+| 1. System Profile | Capture the system being assessed |
+| 2. Risk Scenarios | Select relevant AI risk scenarios |
+| 3. Risk Register | Review and score identified risks |
+| 4. Formal Findings | Draft findings using a structured audit format |
+| 5. Report | Generate a final markdown assessment report |
 
-**Supply chain role** — select all roles that apply to the organization in relation to this specific system:
+### Step 1: System Profile
 
-| Role | Description | Example |
-|---|---|---|
-| AI Customer (AIC) | Buys and uses AI services, builds nothing | Using ChatGPT Enterprise or Microsoft Copilot |
-| Application Provider (AP) | Builds products on top of AI APIs | SaaS company calling OpenAI API |
-| Orchestrated Service Provider (OSP) | Runs AI infrastructure and pipelines | Operating RAG pipelines or MLOps infrastructure |
-| Model Provider (MP) | Trains or fine-tunes models | Internal ML team or foundation model vendor |
+This stage captures context such as:
 
-Many organizations occupy more than one role simultaneously. Select all that apply.
+- Assessment title
+- Organization name
+- AI system being assessed
+- Use case description
+- Data types involved
+- Deployment model
+- Supply chain role
+- Use case tier
+- Sector and context notes
 
-**Use case risk tier** — select the highest-risk tier that applies to this system:
+### Step 2: Risk Scenarios
 
-| Tier | Label | Description |
-|---|---|---|
-| 1 | Productivity / Assistive | AI helps humans, no autonomous decisions. Writing assistance, search, summarization. |
-| 2 | Decision Support | AI recommends, human decides. Credit scoring, medical triage, legal research. |
-| 3 | Automated Decision | AI decides without real-time human review. Hiring screening, fraud detection, content moderation. |
-| 4 | Autonomous Action | AI acts without human confirmation. Agents sending emails, executing trades, controlling systems. |
+This stage presents prebuilt risk scenarios to help the user choose relevant risks for the system under review.
 
-**Data processed** — select all data types this system handles. This affects which scenarios are suggested and which regulatory frameworks are cited in findings.
+Typical scenario categories include:
 
-| Data Type | Regulatory relevance |
-|---|---|
-| Public data only | Minimal regulatory requirements |
-| Internal / proprietary | Confidentiality and trade secret controls |
-| Personal data (PII) | GDPR, CCPA, CPRA |
-| Health data (PHI) | HIPAA, HITECH |
-| Financial data | FCRA, GLBA, PCI-DSS |
-| Employment data | EEOC, state employment AI laws |
-| Biometric data | BIPA, GDPR special category |
-| Classified / sensitive | Sector-specific security requirements |
-
-**Deployment model** — select all that apply:
-
-| Model | Description |
-|---|---|
-| Third-party SaaS — no model access | Vendor controls the model entirely |
-| API consumer — calling external model | You call an external API but control the application |
-| Self-hosted open source | You run the model infrastructure |
-| Custom fine-tuned model | You have adapted a base model on your data |
-| Internally trained model | You trained the model from scratch |
-| Embedded in purchased software | AI is inside a product you bought |
-
-**Sector** — optional. Selecting a sector adds sector-specific regulatory context to finding criteria (for example, SR 11-7 for financial services, HIPAA for healthcare).
-
-**Governance maturity** — optional. Provides context for the root cause section of findings.
-
-**Additional context** — free text for anything else relevant: pending procurement decisions, known incidents, regulatory deadlines, or current remediation work.
-
-When complete, click **Next: Risk Scenarios →**.
-
----
-
-### Step 2 — Risk Scenarios
-
-Twenty pre-built risk scenarios are displayed. Each scenario represents a distinct AI risk that is relevant to organizations regardless of industry.
-
-**Auto-suggestion**
-
-When you arrive at Step 2, scenarios that match your profile are automatically pre-selected and marked "suggested." The match is based on your use case tier and data types. Suggestions are a starting point — review all scenarios and adjust the selection to reflect the actual risks for this system.
-
-**Selecting scenarios**
-
-Click any scenario card to select or deselect it. Selected cards show a checkmark. Each card shows:
-
-- Scenario title
-- Risk category
-- Relevant framework tags (NIST, CSA, OWASP, ATLAS)
-- A "suggested" indicator if it matches your profile
-
-**The 20 scenarios**
-
-| Scenario | Category |
-|---|---|
-| Algorithmic bias in automated decisions | Fairness & Bias |
-| Third-party AI model with no visibility or control | Accountability & Third-Party Risk |
-| Inability to explain AI decisions to affected individuals | Explainability & Transparency |
-| Biased or unrepresentative training data | Data Quality |
-| AI system deployed without formal risk assessment | Accountability & Third-Party Risk |
-| Prompt injection vulnerability in LLM-powered system | Security |
-| Sensitive data disclosure via AI outputs | Privacy & Data Protection |
-| Insufficient human oversight of consequential AI decisions | Accountability & Third-Party Risk |
-| AI supply chain compromise or poisoned components | Security |
-| AI agent with excessive permissions or autonomy | Security |
-| Non-compliance with applicable AI regulations | Accountability & Third-Party Risk |
-| Model performance degradation and concept drift | Robustness & Reliability |
-| No AI-specific incident response plan | Accountability & Third-Party Risk |
-| Adversarial inputs evading AI security or safety controls | Security |
-| Operational reliance on AI outputs without verification | Robustness & Reliability |
-| No AI Bill of Materials — invisible component inventory | Accountability & Third-Party Risk |
-| Training data poisoning or model backdoor | Security |
-| Operational dependency on single AI vendor | Robustness & Reliability |
-| Uncontrolled AI resource consumption | Robustness & Reliability |
-| Insufficient employee AI literacy and acceptable use governance | Accountability & Third-Party Risk |
-
-When you have selected all applicable scenarios, click **Build Risk Register →**.
-
----
-
-### Step 3 — Risk Register
-
-The risk register is generated from your selected scenarios. Each selected scenario becomes a risk entry with pre-populated content that you review, edit, and score.
-
-**Risk cards**
-
-Each risk appears as a card with the following editable fields:
-
-**Risk title** — edit inline by clicking the title text. This appears in the report.
-
-**Category** — select from seven standard NIST AI RMF risk categories:
-- Fairness & Bias
-- Explainability & Transparency
-- Data Quality
-- Robustness & Reliability
-- Privacy & Data Protection
+- Fairness and bias
+- Explainability and transparency
+- Data quality
+- Privacy and data protection
 - Security
-- Accountability & Third-Party Risk
+- Accountability and third party risk
+- Robustness and reliability
 
-**Risk description** — pre-populated from the scenario library. Edit to reflect the specifics of this system and context.
+### Step 3: Risk Register
 
-**Real-world precedent** — pre-populated with documented incidents relevant to this risk. Edit or add precedents specific to your sector.
+Selected scenarios become risk entries. Each entry can be reviewed, edited, and scored.
 
-**Risk rating — Likelihood × Impact**
+Typical risk data includes:
 
-Score both Likelihood and Impact on a 1 to 5 scale by clicking the numbered buttons. The score calculates automatically.
+- Title
+- Category
+- Description
+- Real world precedent
+- Likelihood
+- Impact
+- Controls
 
-| Score | Rating |
-|---|---|
-| 20–25 | 🔴 CRITICAL |
-| 12–19 | 🟠 HIGH |
-| 6–11 | 🟡 MEDIUM |
-| 1–5 | 🟢 LOW |
+### Step 4: Formal Findings
 
-Default scores are pre-set based on the typical risk profile for each scenario. Adjust them to reflect your specific context — a Tier 1 system using public data should score differently than a Tier 3 system processing personal employment data.
+High priority risks can be turned into formal findings using a standard audit style structure:
 
-**Controls table**
+- Condition
+- Criteria
+- Cause
+- Effect
+- Recommendation
 
-Each risk card includes four pre-designed controls. Each control has:
+### Step 5: Report
 
-- **Description** — edit to reflect your specific environment
-- **Type** — Preventive, Detective, or Corrective (select from dropdown)
-- **Framework reference** — the specific control or sub-control in the relevant standard
+The final report can include:
 
-Add rationale or context directly in the description field. The controls table populates the controls matrix in your report.
+- Assessment header
+- Executive summary
+- Risk register
+- Formal findings
+- Framework appendix
 
-**Risk summary bar**
-
-A summary bar above the risk cards shows a live count of Critical, High, Medium, and Low risks. It updates as you adjust scores.
-
-When complete, click **Generate Findings →**. Formal findings are generated for all Critical and High risks.
-
----
-
-### Step 4 — Formal Findings
-
-The finding generator creates a formal finding for each Critical and High risk using the five-element audit format. This is the standard used by Big 4 firms, internal audit functions, and GRC teams.
-
-Each finding is pre-drafted and fully editable. Edit every field to reflect your specific observations.
-
-**The five elements**
-
-| Element | Definition | Guidance |
-|---|---|---|
-| **Condition** | What was observed | Describe what you found during the assessment — what is currently wrong or absent |
-| **Criteria** | What should be | Cite the specific frameworks, standards, regulations, or policies that require something different |
-| **Cause** | Why it happened | Identify the root cause — not what is wrong, but why it exists |
-| **Effect** | What is at risk | Describe the potential business, legal, regulatory, and operational consequences if not remediated |
-| **Recommendation** | What to do | Provide specific, actionable steps. Reference controls and frameworks. Be concrete. |
-
-**Finding metadata**
-
-Each finding also captures:
-
-| Field | Purpose |
-|---|---|
-| Finding ID | Auto-generated (e.g., AI-FIND-001). Edit if your organization has a different format. |
-| Risk Rating | Set automatically from Step 3. Displays Critical / High with score. |
-| Risk Owner | The person or role responsible for remediation |
-| Remediation Deadline | Target date for completing remediation |
-| Priority | Immediate (0–30 days) / Short-term (30–90 days) / Medium-term (90–180 days) / Long-term (180+ days) |
-
-**Editing guidance**
-
-The pre-drafted text is a starting point based on the scenario description and your profile. Before finalizing, ensure:
-
-- The Condition reflects your actual observations, not generic language
-- The Criteria cites regulations that specifically apply to your organization and jurisdiction
-- The Cause reflects the actual root cause you identified, not a template phrase
-- The Effect quantifies impact where possible (number of affected individuals, regulatory exposure, financial risk)
-- The Recommendation is specific enough to assign to a person and track to completion
-
-When complete, click **Generate Report →**.
+[Back to contents](#contents)
 
 ---
 
-### Step 5 — Report
-
-The full AI risk assessment report is generated in markdown format.
-
-**Report structure**
-
-| Section | Contents |
-|---|---|
-| Assessment Header | Organization, system, date, assessor, methodology, supply chain role, tier, data types, deployment model, maturity |
-| Executive Summary | Risk count table (Critical / High / Medium / Low) with immediate attention note |
-| Risk Register | All risks with category, Likelihood × Impact score, description, precedent, and controls matrix |
-| Formal Findings | All Critical and High findings in five-element format with owner, deadline, and priority |
-| Framework Appendix | List of all frameworks applied with citations |
-
-**Downloading the report**
-
-**Copy Report** — copies the full markdown text to your clipboard. Paste into Confluence, Notion, SharePoint, or any document tool.
-
-**↓ Download .md** — downloads the report as a markdown file named `ai-risk-assessment-{organization}-{date}.md`.
-
-The markdown format renders cleanly in GitHub, Confluence, Notion, Jira, and any standard markdown renderer. It can also be converted to PDF or Word using Pandoc or any markdown editor.
-
----
+<a id="8-keyboard-shortcuts"></a>
 
 ## 8. Keyboard Shortcuts
 
+<table>
+  <tr>
+    <td bgcolor="#F0FDF4"><strong>Tip</strong></td>
+    <td>These shortcuts make the tool much faster to navigate during demos and reviews.</td>
+  </tr>
+</table>
+
 | Shortcut | Action |
 |---|---|
-| **⌘K** / **Ctrl+K** | Focus the search bar |
-| **Escape** | Clear search / close documentation modal / deselect item |
-| **Double-click** any item | Open documentation modal directly |
+| Command K / Ctrl K | Focus search |
+| Escape | Clear search, close modal, or deselect current item |
+| Double click item | Open documentation directly |
+
+[Back to contents](#contents)
 
 ---
+
+<a id="9-framework-reference"></a>
 
 ## 9. Framework Reference
 
-### NIST AI Risk Management Framework (AI RMF 1.0)
+### NIST AI RMF
 
-Published by the National Institute of Standards and Technology. The AI RMF organizes AI risk management into four functions:
+The NIST AI Risk Management Framework organizes AI risk work into four functions.
 
 | Function | Focus |
 |---|---|
-| **GOVERN** | Policies, accountability structures, culture of AI risk management |
-| **MAP** | Context establishment, risk identification, impact characterization |
-| **MEASURE** | Risk analysis, testing, evaluation, monitoring |
-| **MANAGE** | Risk treatment, response, recovery, communication |
+| Govern | Accountability, policy, oversight, culture |
+| Map | Context, system purpose, and risk identification |
+| Measure | Evaluation, testing, analysis, and monitoring |
+| Manage | Response, treatment, and governance action |
 
-Source: NIST AI 100-1 — https://doi.org/10.6028/NIST.AI.100-1
+### CSA AICM
 
----
+The Cloud Security Alliance AI Controls Matrix brings together AI security and governance controls across multiple domains relevant to the AI supply chain.
 
-### CSA AI Controls Matrix (AICM v1.0.3)
+### ISO
 
-Published by the Cloud Security Alliance. The AICM provides 18 AI-specific control domains mapped to the CSA supply chain role model.
-
-The 11 domains covered in this workbench:
-
-| Code | Domain |
-|---|---|
-| GRC | Governance, Risk & Compliance |
-| MDS | Model & Data Security |
-| DSP | Data Security & Privacy |
-| TVM | Threat & Vulnerability Management |
-| STA | Supply Chain Transparency & Assurance |
-| SEF | Security Incident & Event Management |
-| AIS | Application & Interface Security |
-| LOG | Logging & Monitoring |
-| BCR | Business Continuity & Resilience |
-| IAM | Identity & Access Management |
-| CCC | Change Control & Configuration Management |
-
-Source: https://cloudsecurityalliance.org/research/working-groups/ai-controls-matrix
-
----
-
-### ISO/IEC AI Standards
-
-Five standards are cross-referenced in this workbench:
-
-| Standard | Title | Focus |
-|---|---|---|
-| ISO/IEC 42001:2023 | AI Management Systems | Certification standard for AI governance programs |
-| ISO/IEC 23894:2023 | AI Risk Management | Risk management guidance extending ISO 31000 into AI |
-| ISO/IEC 5338:2023 | AI System Lifecycle | Engineering processes for AI system development and operation |
-| ISO/IEC TS 5723:2022 | AI Trustworthiness | Vocabulary for the seven AI trustworthiness characteristics |
-| ISO/IEC 27001 | Information Security | ISMS baseline — foundational security controls |
-
----
+The workbench references ISO standards relevant to AI governance, AI risk management, lifecycle practice, trustworthiness, and baseline security.
 
 ### MITRE ATLAS
 
-The Adversarial Threat Landscape for AI Systems (ATLAS) is a knowledge base of adversarial tactics and techniques targeting AI systems, analogous to MITRE ATT&CK for traditional IT.
-
-The 10 tactics covered in this workbench:
-
-| Tactic | Description |
-|---|---|
-| TA0001 Reconnaissance | Gathering information about target AI systems |
-| TA0003 Initial Access | Gaining initial foothold through AI supply chain or interfaces |
-| TA0004 ML Model Access | Obtaining direct or indirect access to model internals |
-| TA0006 Persistence | Maintaining access through model backdoors or parameter modification |
-| TA0008 Defense Evasion | Crafting adversarial inputs to evade detection |
-| TA0009 Credential Access | Stealing credentials from AI configurations and prompts |
-| TA0011 Collection | Extracting sensitive data through AI inference |
-| TA0012 ML Attack Staging | Preparing attacks against ML components before execution |
-| TA0013 Exfiltration | Exfiltrating data via the AI inference channel |
-| TA0014 Impact | Causing denial of service, misclassification, or system disruption |
-
-Source: https://atlas.mitre.org
-
----
+MITRE ATLAS focuses on adversarial threats to AI systems and helps frame attacker behavior, techniques, and defensive thinking.
 
 ### OWASP LLM Top 10 2025
 
-The Open Worldwide Application Security Project LLM Top 10 identifies the ten most critical security risks for applications built on large language models. The 2025 edition reflects evolved attack patterns including agentic systems.
+OWASP identifies critical risks for applications built on large language models, including prompt injection, supply chain risk, sensitive data disclosure, and excessive agency.
 
-| ID | Risk |
-|---|---|
-| LLM01 | Prompt Injection |
-| LLM02 | Sensitive Information Disclosure |
-| LLM03 | Supply Chain |
-| LLM04 | Data and Model Poisoning |
-| LLM05 | Improper Output Handling |
-| LLM06 | Excessive Agency |
-| LLM07 | System Prompt Leakage |
-| LLM08 | Vector and Embedding Weaknesses |
-| LLM09 | Misinformation |
-| LLM10 | Unbounded Consumption |
-
-Source: https://genai.owasp.org/llm-top-10
+[Back to contents](#contents)
 
 ---
+
+<a id="10-glossary"></a>
 
 ## 10. Glossary
 
-**AIBOM** — AI Bill of Materials. A structured inventory of all AI model components, datasets, frameworks, and dependencies used in an AI system. Analogous to a software bill of materials (SBOM).
+| Term | Meaning |
+|---|---|
+| AIBOM | AI Bill of Materials |
+| AP | Application Provider |
+| AIC | AI Customer |
+| ATLAS | Adversarial Threat Landscape for AI Systems |
+| Condition | What was observed |
+| Criteria | What should exist |
+| Cause | Why the issue exists |
+| Effect | What is at risk |
+| Recommendation | What should be done |
+| Detect, Prevent, Correct | Common control types used in governance and assurance work |
+| LLM | Large language model |
+| MP | Model Provider |
+| OSP | Orchestrated Service Provider |
+| RAG | Retrieval augmented generation |
+| Risk scenario | A plausible AI related risk event or condition |
+| Use case tier | Relative risk classification of the AI system under review |
 
-**AI Customer (AIC)** — An organization that purchases and uses AI services or products built by others, without building AI capabilities themselves.
-
-**Application Provider (AP)** — An organization that builds applications or services on top of AI APIs or pre-trained models provided by a model provider.
-
-**ATLAS** — Adversarial Threat Landscape for AI Systems. A MITRE knowledge base of tactics and techniques used to attack AI systems.
-
-**Concept drift** — The degradation of a model's performance over time as the statistical properties of real-world data diverge from the data the model was trained on.
-
-**Condition / Criteria / Cause / Effect / Recommendation** — The five-element audit finding format used by Big 4 firms and internal audit functions to document control deficiencies in a structured, actionable way.
-
-**Control** — A safeguard or countermeasure designed to prevent, detect, or correct a risk. Controls are typed as Preventive, Detective, or Corrective.
-
-**Corrective control** — A control that reduces the impact of a risk after it has occurred. Examples: model rollback, human review override, incident response activation.
-
-**Detective control** — A control that identifies when a risk is occurring or has occurred. Examples: fairness audits, drift monitoring, anomaly alerts, inference logging.
-
-**Governance maturity** — A five-level assessment of how formally an organization manages AI risk, from None (no formal processes) through Managed (measured and continuously improved).
-
-**L × I score** — Likelihood multiplied by Impact. The standard quantitative risk rating method. Both dimensions are scored 1 to 5, producing a score of 1 to 25.
-
-**Model Provider (MP)** — An organization that trains foundation models, fine-tunes models on proprietary data, or provides model hosting infrastructure to downstream consumers.
-
-**NIST AI RMF** — The National Institute of Standards and Technology AI Risk Management Framework. A voluntary framework organized into four functions: GOVERN, MAP, MEASURE, MANAGE.
-
-**Orchestrated Service Provider (OSP)** — An organization that operates AI infrastructure such as RAG pipelines, vector databases, model serving, or MLOps tooling.
-
-**PDC** — Preventive / Detective / Corrective. The standard control type taxonomy.
-
-**Preventive control** — A control that stops a risk from occurring. Examples: bias testing before deployment, input validation, vendor due diligence, access controls.
-
-**Prompt injection** — An attack where malicious content in user input or external data overrides an LLM's instructions, causing it to take unintended actions or disclose sensitive information.
-
-**RAG** — Retrieval-Augmented Generation. An architecture where an LLM is supplemented with information retrieved from an external knowledge base at inference time.
-
-**Risk scenario** — A specific, plausible situation in which an AI-related risk could materialize. Risk scenarios are mapped to frameworks and controls in this workbench.
-
-**Supply chain role** — An organization's position in the AI supply chain: AI Customer, Application Provider, Orchestrated Service Provider, or Model Provider. Determines which controls are most relevant.
-
-**Use case tier** — A 1 to 4 classification of an AI system's risk level based on the degree of autonomous decision-making and the stakes of the decisions. Tier 1 is assistive; Tier 4 is fully autonomous.
+[Back to contents](#contents)
 
 ---
 
-*AI Governance Practitioner Workbench — User Guide v1.0*
+## Notes for Repo Use
+
+- Keep this guide as `USER_GUIDE.md` in the project root
+- Link to it from `README.md`
+- Keep screenshots in the main README for quick visual orientation
+- Use this guide for deeper workflow and reference detail
+
+---
+
+*AI Governance Practitioner Workbench User Guide v1.0*
