@@ -646,6 +646,11 @@ html.light .new-badge {
   border-color: rgba(245, 158, 11, 0.25);
   color: #fcd34d;
 }
+.conn-tag-euaia {
+  background: rgba(232, 121, 249, 0.1);
+  border-color: rgba(232, 121, 249, 0.25);
+  color: #f0abfc;
+}
 html.light .conn-tag-nist {
   color: #0369a1;
   background: rgba(2, 132, 199, 0.08);
@@ -670,6 +675,11 @@ html.light .conn-tag-owasp {
   color: #92400e;
   background: rgba(217, 119, 6, 0.08);
   border-color: rgba(217, 119, 6, 0.25);
+}
+html.light .conn-tag-euaia {
+  color: #86198f;
+  background: rgba(192, 38, 211, 0.08);
+  border-color: rgba(192, 38, 211, 0.25);
 }
 
 .conn-clear {
