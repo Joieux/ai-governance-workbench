@@ -13,7 +13,7 @@ It runs entirely in the browser using HTML, CSS, and JavaScript with no server, 
 
 ## Screenshots
 
-![AI Governance Practitioner Workbench overview](docs/screenshot-overview.png)
+![AI Governance Practitioner Workbench overview](docs/screenshot-AI Workbench.png)
 
 *Overview of the five framework Explore interface.*
 
