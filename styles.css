@@ -17,6 +17,7 @@
   --iso: #34d399;
   --atlas: #f87171;
   --owasp: #f59e0b;
+  --euaia: #e879f9;
 
   --c-gov: #38bdf8;
   --c-map: #34d399;
@@ -43,6 +44,7 @@ html.light {
   --iso: #059669;
   --atlas: #dc2626;
   --owasp: #d97706;
+  --euaia: #c026d3;
 }
 
 *,
