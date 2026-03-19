@@ -3,4 +3,9 @@
 =======
 .DS_Store
 .DS_Store
+<<<<<<< HEAD
 >>>>>>> 9f3a89f (Update portfolio README and project files)
+=======
+.DS_Store
+.DS_Store
+>>>>>>> e6df12f (Remove .DS_Store and ignore macOS system files)
