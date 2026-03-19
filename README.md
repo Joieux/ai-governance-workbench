@@ -18,9 +18,10 @@ It runs entirely in the browser using HTML, CSS, and JavaScript with no server, 
 ![AI Governance Practitioner Workbench overview](docs/screenshot-overview.png)
 
 
-*Selected item view showing cross framework relationships and linked governance context.*
-![AI Governance Practitioner Workbench in action](docs/screenshot-in-action.png)
 
+*Selected item view showing cross framework relationships and linked governance context.*
+
+![AI Governance Practitioner Workbench in action](docs/screenshot-in-action.png)
 
 
 ## Why I Built It
