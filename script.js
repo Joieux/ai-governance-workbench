@@ -1099,6 +1099,205 @@ const DOC_LIBRARY = {
     ],
     docLink: "https://genai.owasp.org/llmrisk/llm102025-unbounded-consumption/",
   },
+,
+  // ─────────────────────────────────────────────────────────────────
+  // EU AI ACT (Regulation 2024/1689)
+  // ─────────────────────────────────────────────────────────────────
+  "euaia-ch2": {
+    title: `Prohibited AI Practices`,
+    framework: "EU AI Act",
+    ref: `Reg. 2024/1689 · Chapter II · Article 5`,
+    color: "#e879f9",
+    summary: `Article 5 bans AI systems that deploy subliminal manipulation, exploit vulnerabilities, conduct untargeted facial-image scraping, infer emotions in workplaces/schools, derive sensitive attributes from biometrics, assess criminal risk by profiling, and real-time remote biometric identification in public spaces (with narrow exceptions). Non-compliance carries the highest penalty tier (up to €35 million or 7% global turnover).`,
+    categories: [
+      {
+        id: "Art.5(a-b)",
+        name: "Subliminal / Manipulative AI",
+        detail: `Prohibition on AI that deploys subliminal techniques beyond conscious awareness or exploits vulnerabilities of specific groups to materially distort behaviour causing harm. Covers deceptive nudging, dark patterns driven by AI, and targeted manipulation of vulnerable populations.`,
+      },
+      {
+        id: "Art.5(c)",
+        name: "Social Scoring by Public Authorities",
+        detail: `Prohibition on AI systems used by public authorities that evaluate or classify natural persons based on social behaviour or inferred personal characteristics, leading to detrimental or unfavourable treatment.`,
+      },
+      {
+        id: "Art.5(d-g)",
+        name: "Real-Time Biometric ID & Emotion Inference",
+        detail: `Prohibition on: real-time remote biometric identification in publicly accessible spaces (narrow law-enforcement exceptions apply); emotion recognition in workplaces and educational institutions; biometric categorisation inferring race, political opinions, or other sensitive attributes; untargeted facial-image scraping.`,
+      },
+      {
+        id: "Art.5(h)",
+        name: "Predictive Policing by Profiling",
+        detail: `Prohibition on AI systems that assess the risk of an individual committing a criminal offence based solely on profiling or on assessing personality traits, without substantive factual activity by the individual.`,
+      },
+    ],
+    docLink: "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689",
+  },
+  "euaia-ch3-req": {
+    title: `High-Risk AI Requirements`,
+    framework: "EU AI Act",
+    ref: `Reg. 2024/1689 · Chapter III · Articles 8–15`,
+    color: "#e879f9",
+    summary: `High-risk AI systems (Annex III sectors: biometrics, critical infrastructure, education, employment, essential services, law enforcement, migration, justice) must satisfy six mandatory requirements before market placement: a risk management system, data governance, technical documentation, automatic logging, transparency with instructions for use, human oversight measures, and accuracy/robustness/cybersecurity.`,
+    categories: [
+      {
+        id: "Art.9",
+        name: "Risk Management System",
+        detail: `Mandatory continuous risk management lifecycle: identify and analyse known and reasonably foreseeable risks; estimate and evaluate risks under intended use and foreseeable misuse; adopt risk mitigation measures. Residual risks must be judged acceptable against societal benefits.`,
+      },
+      {
+        id: "Art.10",
+        name: "Data & Data Governance",
+        detail: `Training, validation, and test datasets must satisfy quality criteria: relevant, sufficiently representative, free of errors and complete as possible; appropriate data governance and management practices; bias examination; personal data only where strictly necessary with appropriate safeguards.`,
+      },
+      {
+        id: "Art.11–12",
+        name: "Technical Documentation & Logging",
+        detail: `Providers must prepare Annex IV technical documentation before market placement and keep it updated. Systems must enable automatic logging of events throughout lifetime, retained for at least 6 months, available to competent authorities on request.`,
+      },
+      {
+        id: "Art.13–14",
+        name: "Transparency & Human Oversight",
+        detail: `Systems must be transparent so deployers can interpret output and use it appropriately; instructions for use must accompany the system. Human oversight measures must be built in by design: ability to understand, monitor, override, and shut down the system.`,
+      },
+      {
+        id: "Art.15",
+        name: "Accuracy, Robustness & Cybersecurity",
+        detail: `High-risk AI systems must achieve appropriate accuracy levels throughout lifecycle, documented in technical documentation. Systems must be resilient to errors, faults, inconsistencies, and adversarial attacks (data poisoning, model evasion, adversarial examples) with cybersecurity measures proportionate to risk.`,
+      },
+    ],
+    docLink: "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689",
+  },
+  "euaia-ch3-obl": {
+    title: `Provider & Deployer Obligations`,
+    framework: "EU AI Act",
+    ref: `Reg. 2024/1689 · Chapter III · Articles 16–27 & 43–49`,
+    color: "#e879f9",
+    summary: `Detailed obligations on providers (place on market), importers, distributors, and deployers of high-risk AI. Includes quality management systems, conformity assessment procedures (internal or notified body), CE marking, registration in the EU database, post-market monitoring, and fundamental rights impact assessments for public-sector deployers.`,
+    categories: [
+      {
+        id: "Art.16–17",
+        name: "Provider Obligations & Quality Management System",
+        detail: `Providers must ensure conformity, affix CE marking, and implement a quality management system (policies, procedures, design controls, data management, risk management, post-market monitoring, incident reporting, and corrective actions) documented and kept updated.`,
+      },
+      {
+        id: "Art.19–21",
+        name: "Logging, Corrective Actions & Duty to Inform",
+        detail: `Providers must retain automatically generated logs. When non-conformity or serious incidents are identified, providers must take corrective actions, withdraw or recall the system, and inform distributors, deployers, importers, and market surveillance authorities.`,
+      },
+      {
+        id: "Art.25–26",
+        name: "Value Chain Responsibilities & Deployer Obligations",
+        detail: `Deployers who put their name/trademark on a high-risk AI system assume full provider obligations. Deployers must: assign human oversight; monitor operation; document incidents; conduct fundamental rights impact assessment (Art.27) before deploying in certain public-sector contexts.`,
+      },
+      {
+        id: "Art.43–49",
+        name: "Conformity Assessment & CE Marking",
+        detail: `Before market placement: undergo conformity assessment procedure (internal control for most Annex III systems; third-party notified body for Annex I biometric/critical systems). Issue EU Declaration of Conformity, affix CE marking, register in the EU database.`,
+      },
+    ],
+    docLink: "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689",
+  },
+  "euaia-ch4": {
+    title: `Transparency Obligations`,
+    framework: "EU AI Act",
+    ref: `Reg. 2024/1689 · Chapter IV · Article 50`,
+    color: "#e879f9",
+    summary: `Article 50 mandates disclosure for AI systems that interact with humans or generate synthetic content. Chatbot providers must disclose AI interaction upfront. Generative AI systems producing synthetic images, audio, video, or text must label outputs as AI-generated using machine-readable watermarking or provenance signals. Applies to providers and deployers.`,
+    categories: [
+      {
+        id: "Art.50(a)",
+        name: "AI Interaction Disclosure (Chatbots)",
+        detail: `Providers and deployers of AI systems intended to interact directly with natural persons must inform users they are interacting with AI at the outset, unless it is obvious from context. Exceptions: lawfully authorised law enforcement.`,
+      },
+      {
+        id: "Art.50(b-c)",
+        name: "Emotion & Biometric System Disclosure",
+        detail: `Deployers of emotion recognition systems or biometric categorisation systems must inform natural persons exposed to these systems. Exceptions apply for safety purposes, authorised law enforcement, and content moderation.`,
+      },
+      {
+        id: "Art.50(d)",
+        name: "Synthetic Content Labelling / AI Watermarking",
+        detail: `Providers of GPAI systems that generate synthetic images, audio, video, or text must ensure outputs are machine-readable marked as AI-generated. Providers of GPAI with systemic risk must implement technical measures ensuring traceability of synthetic content.`,
+      },
+    ],
+    docLink: "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689",
+  },
+  "euaia-ch5": {
+    title: `General-Purpose AI Models`,
+    framework: "EU AI Act",
+    ref: `Reg. 2024/1689 · Chapter V · Articles 51–56`,
+    color: "#e879f9",
+    summary: `All providers of GPAI models (foundation models) placed on the EU market must meet baseline obligations: technical documentation, downstream provider information, copyright compliance policy, and training data summary. GPAI models with systemic risk (≥10^25 FLOPs training compute or designated by Commission) carry additional obligations including adversarial testing (red-teaming), serious incident reporting to the AI Office, and cybersecurity measures.`,
+    categories: [
+      {
+        id: "Art.53",
+        name: "GPAI Baseline Obligations",
+        detail: `All GPAI model providers must: maintain up-to-date technical documentation (Annex XI); supply information and documentation to downstream providers integrating the model into AI systems; publish a sufficiently detailed summary of training data used; implement a copyright compliance policy.`,
+      },
+      {
+        id: "Art.55",
+        name: "Systemic-Risk GPAI Obligations",
+        detail: `GPAI models with systemic risk must additionally: perform model evaluations including adversarial testing (red-teaming) prior to and after market placement; track, document, and report serious incidents and corrective actions to the AI Office without undue delay; ensure adequate cybersecurity protection.`,
+      },
+      {
+        id: "Art.51–52",
+        name: "Systemic Risk Classification",
+        detail: `A GPAI model has systemic risk if trained with a compute threshold exceeding 10^25 FLOPs or if designated by the Commission based on qualitative criteria (reach, capabilities, societal/economic impact). Providers may rebut the presumption.`,
+      },
+    ],
+    docLink: "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689",
+  },
+  "euaia-ch7": {
+    title: `Governance Structure`,
+    framework: "EU AI Act",
+    ref: `Reg. 2024/1689 · Chapter VII · Articles 64–70`,
+    color: "#e879f9",
+    summary: `The EU governance architecture for AI: the AI Office (within European Commission) as the primary body for GPAI models; the European AI Board coordinating Member States; the Scientific Panel of independent AI experts advising on systemic risks; national competent authorities designated by each Member State. All operators must cooperate with supervisory authorities.`,
+    categories: [
+      {
+        id: "Art.64",
+        name: "AI Office",
+        detail: `The AI Office is the primary EU-level supervisory body, responsible for: enforcing GPAI model obligations; managing codes of practice; issuing guidance and recommendations; coordinating with national authorities; monitoring AI developments and risks.`,
+      },
+      {
+        id: "Art.65–68",
+        name: "European AI Board & Scientific Panel",
+        detail: `The European AI Board (one senior representative per Member State + Commission) facilitates consistent application and advises on implementation. The Advisory Forum includes industry, civil society, and academia. The Scientific Panel provides independent technical expertise on systemic risks of GPAI models.`,
+      },
+      {
+        id: "Art.70",
+        name: "National Competent Authorities",
+        detail: `Member States must designate one or more national competent authorities and a single point of contact by 2 August 2025. Authorities must be independent, resourced for enforcement, and have powers to request documentation, conduct audits, and impose penalties.`,
+      },
+    ],
+    docLink: "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689",
+  },
+  "euaia-ch9": {
+    title: `Post-Market Monitoring & Incidents`,
+    framework: "EU AI Act",
+    ref: `Reg. 2024/1689 · Chapter IX · Articles 72–74`,
+    color: "#e879f9",
+    summary: `Providers of high-risk AI systems must proactively monitor performance after market placement, collect and analyse data throughout the system's lifetime, report serious incidents to market surveillance authorities, and take corrective actions. Deployers have complementary incident reporting duties. Authorities have broad investigative and enforcement powers.`,
+    categories: [
+      {
+        id: "Art.72",
+        name: "Post-Market Monitoring Plan",
+        detail: `Providers must implement a post-market monitoring system integrated into technical documentation. The plan must actively gather, document, and analyse data on system performance throughout lifetime, including feedback from deployers and affected persons, to identify issues and trigger corrective action.`,
+      },
+      {
+        id: "Art.73",
+        name: "Serious Incident Reporting",
+        detail: `Providers (and deployers when they become aware) must report serious incidents to market surveillance authorities without undue delay. Timeframes: immediately for life-threatening incidents; within 15 days for other serious incidents. Deployers must inform providers and authorities of incidents.`,
+      },
+      {
+        id: "Art.74",
+        name: "Market Surveillance & Enforcement",
+        detail: `National market surveillance authorities have full investigative powers: request and access all documentation and source code; conduct tests and evaluations; require corrective actions; order withdrawals, recalls, or prohibitions. Providers, importers, distributors, and deployers must fully cooperate.`,
+      },
+    ],
+    docLink: "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202401689",
+  }
 };
 
 // ══════════════════════════════════════════════
@@ -1129,6 +1328,32 @@ const CSA_CODE_MAP = {
   CEK: null,
 };
 
+
+// ══════════════════════════════════════════════════════════
+// EU AI ACT CROSS-FRAMEWORK MAPPINGS
+// ══════════════════════════════════════════════════════════
+
+// EU AI Act → NIST AI RMF mapping
+const EUAIA_TO_NIST = {
+  "euaia-ch2":     ["nist-gov", "nist-map"],
+  "euaia-ch3-req": ["nist-gov", "nist-map", "nist-meas", "nist-mgmt"],
+  "euaia-ch3-obl": ["nist-gov", "nist-mgmt"],
+  "euaia-ch4":     ["nist-gov", "nist-map"],
+  "euaia-ch5":     ["nist-gov", "nist-map", "nist-meas"],
+  "euaia-ch7":     ["nist-gov"],
+  "euaia-ch9":     ["nist-meas", "nist-mgmt"],
+};
+
+// EU AI Act → CSA AICM mapping
+const EUAIA_TO_CSA = {
+  "euaia-ch2":     ["GRC", "AIS"],
+  "euaia-ch3-req": ["GRC", "TVM", "MDS", "DSP", "AIS", "LOG"],
+  "euaia-ch3-obl": ["GRC", "MDS", "CCC"],
+  "euaia-ch4":     ["GRC", "AIS", "MDS"],
+  "euaia-ch5":     ["GRC", "MDS", "TVM"],
+  "euaia-ch7":     ["GRC", "STA"],
+  "euaia-ch9":     ["LOG", "TVM", "BCR"],
+};
 const OWASP_TO_CSA = {
   "owasp-llm01": ["AIS", "TVM"],
   "owasp-llm02": ["DSP", "LOG"],
@@ -1197,6 +1422,14 @@ const NARRATIVES = {
   "owasp-llm08": `Vector and embedding weaknesses are the RAG pipeline's attack surface — a domain that barely existed two years ago and is now in production everywhere. Poisoned embeddings cause RAG systems to retrieve and incorporate adversarial content; cross-tenant leakage exposes documents across organisational boundaries. ATLAS TA0011 (collection) and TA0012 (attack staging via embedding poisoning) are the threat entries. AICM DSP and MDS are the control domains. Treat vector databases with the same rigour as production databases.`,
   "owasp-llm09": `Misinformation is the only LLM Top 10 entry with no ATLAS mapping — it's not an adversarial attack, it's an inherent model capability failure. Hallucination at scale creates liability, reputational risk, and in regulated contexts, legal exposure. NIST MEASURE 2.9 (model explanation and validation) and ISO/IEC TS 5723:2022 (trustworthiness) are the framework references. The mitigation architecture is retrieval augmentation over parametric knowledge plus human review for high-stakes outputs. You cannot test your way to zero hallucination.`,
   "owasp-llm10": `Unbounded consumption is the DoS vector native to LLMs — and it's directly monetisable as a cost attack against pay-per-token deployments. Sponge examples (ATLAS T0029) exploit worst-case inference paths. NIST MEASURE 2.6 requires demonstrating fail-safe behavior under resource pressure. AICM BCR-05 (DoS resilience) is the control. The practical floor: rate limiting, token limits, circuit breakers, and cost anomaly alerting. Without these, a motivated adversary can run up your API bill faster than your security team can respond.`,
+,
+  "euaia-ch2": `The EU AI Act's prohibited practices list is the hard boundary of lawful AI in Europe. Article 5 bans eight categories — from subliminal manipulation to real-time biometric surveillance. If a system you're assessing touches any of these, it's not a compliance gap — it's an outright ban. Start here.`,
+  "euaia-ch3-req": `Chapter III requirements are the engineering spec for high-risk AI. Risk management (Art.9), data governance (Art.10), technical documentation (Art.11), logging (Art.12), transparency (Art.13), human oversight (Art.14), and robustness/cybersecurity (Art.15) must all be satisfied before market placement. Map each requirement to your SDLC.`,
+  "euaia-ch3-obl": `The obligations chapter tells you who is responsible for what along the AI value chain. Providers own quality management and conformity. Deployers who rebrand take on provider duties. Fundamental rights impact assessments (Art.27) apply to many public-sector deployments. Know your role before you build your compliance program.`,
+  "euaia-ch4": `Transparency is not optional. If your AI system talks to users, it must say it's AI. If your generative AI makes synthetic media, the output must be machine-readable labelled. Article 50 is already in force — watermarking infrastructure and disclosure UX need to be in your product roadmap now.`,
+  "euaia-ch5": `GPAI obligations apply to every foundation model provider operating in the EU — not just the big names. Baseline: technical documentation + downstream provider info + copyright policy + training data summary. Systemic risk (10^25 FLOPs threshold): add red-teaming, incident reporting to the AI Office, and cybersecurity hardening.`,
+  "euaia-ch7": `Governance is the enforcement scaffolding. The AI Office holds the pen on GPAI enforcement. National competent authorities come online August 2025. Codes of practice create presumption of conformity. Build a regulatory radar: track AI Office guidance, participate in codes of practice, designate your internal single point of contact.`,
+  "euaia-ch9": `Post-market is where most compliance programs fall short. The EU AI Act demands active monitoring, not just reactive incident reporting. Build your monitoring plan into the technical documentation. Wire your incident reporting to market surveillance authority notification within 15 days of any serious incident. Deployers: your reporting duty is real.`
 };
 
 // ══════════════════════════════════════════════
@@ -1411,7 +1644,17 @@ function applyHighlight(relIds, color, label, narrative) {
           ? `inset 4px 0 0 ${color}, 0 0 0 1px ${color}55, 0 2px 16px ${color}25`
           : `inset 3px 0 0 ${color}, 0 0 0 1px ${color}30`;
       item.style.background = iid === activeId ? "" : "";
-    } else {
+    } else if (fw === "euaia") {
+    addNist(EUAIA_TO_NIST[id] || []);
+    addCsa(EUAIA_TO_CSA[id] || []);
+    addIso(splitAttr(item, "data-iso"));
+    addAtlas(splitAttr(item, "data-atlas"));
+    addDomains(splitAttr(item, "data-domains"));
+    // → reverse: NIST items that map to this EU AI Act article
+    Object.entries(EUAIA_TO_NIST).forEach(([k, v]) => {
+      if (v.includes(id)) rel.add(k);
+    });
+  } else {
       item.classList.add("dimmed");
       item.classList.remove("active", "related");
       item.style.boxShadow = "";
@@ -1811,13 +2054,7 @@ function getAssessStats() {
   return { total, done, wip, none: total - done - wip, fwStats };
 }
 
-const FW_META = {
-  nist: { name: "NIST AI RMF", color: "#38bdf8" },
-  csa: { name: "CSA AICM", color: "#a78bfa" },
-  iso: { name: "ISO Standards", color: "#34d399" },
-  atlas: { name: "MITRE ATLAS", color: "#f87171" },
-  owasp: { name: "OWASP LLM 10", color: "#f59e0b" },
-};
+const FW_META = {"nist":{"name":"NIST AI RMF","color":"#38bdf8"},"csa":{"name":"CSA AICM","color":"#a78bfa"},"iso":{"name":"ISO Standards","color":"#34d399"},"atlas":{"name":"MITRE ATLAS","color":"#f87171"},"owasp":{"name":"OWASP LLM 10","color":"#f59e0b"},"euaia":{"name":"EU AI Act","color":"#e879f9"}};
 
 const PRIORITY_MAP = {
   "nist-gov": "P1",
@@ -1860,6 +2097,13 @@ const PRIORITY_MAP = {
   "owasp-llm08": "P2",
   "owasp-llm09": "P3",
   "owasp-llm10": "P2",
+  "euaia-ch2": "P1",
+  "euaia-ch3-req": "P1",
+  "euaia-ch3-obl": "P1",
+  "euaia-ch4": "P2",
+  "euaia-ch5": "P1",
+  "euaia-ch7": "P2",
+  "euaia-ch9": "P2"
 };
 
 function renderAssessMode() {
