@@ -114,7 +114,7 @@ start index.html
 xdg-open index.html
 ```
 ## Repository Structure
-
+```text
 ai-governance-workbench/
 ├── index.html
 ├── script.js
@@ -125,7 +125,7 @@ ai-governance-workbench/
 │   ├── screenshot-overview.png
 │   └── screenshot-in-action.png
 └── LICENSE
-
+```
 ## License
 
 This project is licensed under the MIT License. See LICENSE￼ for details.
