@@ -2,14 +2,14 @@
 
 # AI Governance Practitioner Workbench User Guide
 
-> **Version 1.0**  
+> **Version 1.1**  
 > **Format:** Markdown guide for GitHub and local use
 
 <p>
   <img src="https://img.shields.io/badge/Guide-User%20Guide-4F46E5" alt="User Guide badge" />
   <img src="https://img.shields.io/badge/App-Static%20Browser%20Tool-0F766E" alt="Static app badge" />
-  <img src="https://img.shields.io/badge/Frameworks-5-2563EB" alt="Frameworks badge" />
-  <img src="https://img.shields.io/badge/Controls-40-7C3AED" alt="Controls badge" />
+  <img src="https://img.shields.io/badge/Frameworks-6-2563EB" alt="Frameworks badge" />
+  <img src="https://img.shields.io/badge/Controls-47-7C3AED" alt="Controls badge" />
 </p>
 
 <table>
@@ -23,7 +23,7 @@
   </tr>
   <tr>
     <td><strong>How to use it</strong></td>
-    <td>Start with the table of contents, jump to the section you need, and use the return links to move back quickly.</td>
+    <td>Start with the table of contents, jump to the section you need, and return to it during actual review work.</td>
   </tr>
 </table>
 
@@ -33,28 +33,16 @@
 
 ## Table of Contents
 
-<table>
-  <tr>
-    <td width="50%">
-
-1. [Overview](#1-overview)  
-2. [Getting Started](#2-getting-started)  
-3. [Navigation](#3-navigation)  
-4. [Explore Mode](#4-explore-mode)  
+1. [Overview](#1-overview)
+2. [Getting Started](#2-getting-started)
+3. [Navigation](#3-navigation)
+4. [Explore Mode](#4-explore-mode)
 5. [Assess Mode](#5-assess-mode)
-
-   </td>
-   <td width="50%">
-
-6. [Export Mode](#6-export-mode)  
-7. [Audit Mode](#7-audit-mode)  
-8. [Keyboard Shortcuts](#8-keyboard-shortcuts)  
-9. [Framework Reference](#9-framework-reference)  
+6. [Export Mode](#6-export-mode)
+7. [Audit Mode](#7-audit-mode)
+8. [Keyboard Shortcuts](#8-keyboard-shortcuts)
+9. [Framework Reference](#9-framework-reference)
 10. [Glossary](#10-glossary)
-
-   </td>
-  </tr>
-</table>
 
 ---
 
@@ -69,7 +57,7 @@
   </tr>
   <tr>
     <td bgcolor="#ECFDF5"><strong>Primary use</strong></td>
-    <td>It helps users understand how five major AI governance frameworks connect and supports a repeatable review workflow for assessing AI systems.</td>
+    <td>It helps users understand how six major AI governance frameworks connect and supports a repeatable review workflow for assessing AI systems.</td>
   </tr>
   <tr>
     <td bgcolor="#FFF7ED"><strong>Data handling</strong></td>
@@ -82,18 +70,17 @@
 The workbench supports two main jobs.
 
 **Framework exploration**  
-Understand how major governance, security, and assurance frameworks relate to each other and where concepts overlap.
+Understand how major governance, security, and assurance frameworks relate to each other and where concepts overlap. The workbench now covers six frameworks: NIST AI RMF, CSA AICM, ISO standards, MITRE ATLAS, OWASP LLM Top 10 2025, and the EU AI Act (Regulation 2024/1689).
 
 **Structured risk assessment**  
-Guide an organization through a repeatable AI risk review that can be documented and exported.
+Guide an organisation or practitioner through a five step AI risk assessment process that produces a markdown report.
 
 ### What makes it useful
 
-- It is lightweight and easy to open
-- It brings multiple frameworks into one interface
-- It supports practical control tracking
-- It generates portable markdown outputs
-- It helps translate standards into usable review steps
+- No install or server required. Open the HTML file and use it immediately.
+- Cross framework mapping is built in. Clicking an item in one column highlights related items in other columns, including EU AI Act compliance areas.
+- Control tracking persists in the browser. Assessment state is stored locally so work continues across sessions.
+- Outputs are portable markdown that can be pasted into reports, tickets, or documentation systems.
 
 [Back to contents](#contents)
 
@@ -132,7 +119,7 @@ On Linux, open it from your file manager or launch it from the terminal.
 
 ### First run experience
 
-When the tool opens, it loads directly into **Explore mode**. The framework grid appears immediately, with five columns and all framework items visible.
+When the tool opens, it loads directly into **Explore mode**. The framework grid appears immediately, with six columns and all framework items visible.
 
 No item is selected by default. Click any item to begin exploring framework relationships.
 
@@ -176,23 +163,21 @@ The navigation bar appears at the top of the interface.
 | Explore | Framework mapping view |
 | Assess | Control tracking view |
 | Export | Markdown export view |
-| Audit | Structured risk assessment view |
-| Search | Search framework items in real time |
-| Theme toggle | Switch between light and dark mode |
+| Audit | Structured risk assessment workflow |
+| Search | Filter framework items by keyword |
+| Theme toggle | Switch between dark and light mode |
 
 ### Search
 
-The search bar filters framework items across the app in real time.
+The search bar filters framework items across all six columns in real time. Type any keyword, framework name, article reference, or control concept to narrow the visible items.
 
-- Search is case insensitive
-- Matching items remain visible
-- Non matching items dim
-- `Escape` clears search
-- `Command K` on Mac or `Ctrl K` on Windows or Linux focuses the search field
+Use **Command K** (macOS) or **Ctrl K** (Windows/Linux) to focus the search bar from anywhere in the tool.
+
+Press **Escape** to clear the search and restore the full grid.
 
 ### Theme toggle
 
-The theme toggle switches between dark and light display modes. The selected theme is retained for future sessions.
+The theme toggle switches between dark mode (default) and light mode. The selected theme is preserved in browser storage between sessions.
 
 [Back to contents](#contents)
 
@@ -205,25 +190,26 @@ The theme toggle switches between dark and light display modes. The selected the
 <table>
   <tr>
     <td bgcolor="#E0E7FF"><strong>Main purpose</strong></td>
-    <td>Visual cross reference map of five frameworks</td>
+    <td>Visual cross reference map of six frameworks</td>
   </tr>
   <tr>
     <td bgcolor="#D1FAE5"><strong>Best for</strong></td>
-    <td>Research, framework comparison, concept mapping, and control discovery</td>
+    <td>Research, framework comparison, concept mapping, regulatory alignment, and control discovery</td>
   </tr>
 </table>
 
 ### Framework grid
 
-Explore mode displays five columns side by side.
+Explore mode displays six columns side by side.
 
-| Column | Framework |
-|---|---|
-| 1 | NIST AI RMF |
-| 2 | CSA AICM |
-| 3 | ISO |
-| 4 | MITRE ATLAS |
-| 5 | OWASP LLM Top 10 2025 |
+| Column | Framework | Colour |
+|---|---|---|
+| 1 | NIST AI RMF | Blue |
+| 2 | CSA AICM | Purple |
+| 3 | ISO Standards | Green |
+| 4 | MITRE ATLAS | Red |
+| 5 | OWASP LLM Top 10 2025 | Amber |
+| 6 | EU AI Act (Reg. 2024/1689) | Fuchsia |
 
 Each column contains framework items or domains relevant to AI governance and security.
 
@@ -240,29 +226,28 @@ When selected:
 
 Clicking the same item again clears the selection.
 
+The EU AI Act column follows the same interaction pattern. Clicking an EU AI Act compliance area highlights related NIST functions, CSA domains, and ISO standards, and vice versa.
+
 ### Connector panel
 
-The connector panel explains why linked items matter together. It is meant to provide practical governance context, not just raw tags.
-
-The panel includes:
-
-- Selected item name
-- Summary or narrative context
-- Cross framework relationship display
-- Quick clear option
+The connector panel explains why linked items matter together. It is meant to provide narrative context rather than just a list of references. The panel appears on the left side of the grid when an item is selected.
 
 ### Documentation modal
 
-Open detailed item documentation from Explore mode to review:
+Double clicking any framework item opens a documentation modal with:
 
-- Item description
-- Framework references
-- Supporting details
-- Linked standards or concepts
+- Full framework reference
+- Summary of the item
+- Sub categories and detailed descriptions
+- A link to the source document
+
+For EU AI Act items, the modal includes the specific article references, compliance obligations, and a direct link to the official EUR-Lex text of Regulation 2024/1689.
 
 ### Domain cards and related exploration
 
-The app also supports domain level exploration for broader themes such as supply chain risk, security, oversight, and governance alignment.
+Domain cards appear below the framework grid. Each card represents a governance theme such as transparency, safety, or threat.
+
+Clicking a domain card highlights all framework items across all six columns that relate to that domain, including any EU AI Act articles that address that theme.
 
 [Back to contents](#contents)
 
@@ -274,37 +259,32 @@ The app also supports domain level exploration for broader themes such as supply
 
 <table>
   <tr>
-    <td bgcolor="#ECFCCB"><strong>Main purpose</strong></td>
-    <td>Track implementation status across the control set</td>
+    <td bgcolor="#FFF7ED"><strong>Main purpose</strong></td>
+    <td>Track review status for each framework control</td>
   </tr>
   <tr>
-    <td bgcolor="#FCE7F3"><strong>Best for</strong></td>
-    <td>Coverage review, gap visibility, and implementation planning</td>
+    <td bgcolor="#ECFDF5"><strong>Best for</strong></td>
+    <td>Control gap reviews, compliance tracking, and audit preparation</td>
   </tr>
 </table>
 
 ### What it tracks
 
-Assess mode tracks implementation status across 40 controls.
+Assess mode shows all 47 framework items across all six frameworks and allows a status to be set for each one.
 
 ### Status options
 
 | Status | Meaning |
 |---|---|
-| Done | Fully implemented |
-| In Progress | Under active implementation |
-| Not Started | Not yet addressed |
+| Not Started | No review has been done yet |
+| In Progress | Review is underway |
+| Done | Review is complete |
 
 ### What the view shows
 
-Assess mode includes:
+The assess view shows each framework item with its current status. Items include EU AI Act compliance areas alongside the existing NIST, CSA, ISO, ATLAS, and OWASP items.
 
-- Per framework progress cards
-- Overall progress summary
-- Control table
-- Filter controls
-- Priority gap list
-- Reset option for local status data
+Priority markers indicate which items are considered highest impact. EU AI Act items in Chapter II (Prohibited Practices), Chapter III (High-Risk Requirements and Obligations), and Chapter V (GPAI Models) are marked P1.
 
 ### Filtering
 
@@ -348,22 +328,12 @@ This mode turns the tool from a reference experience into a practical review wor
 
 ### Output format
 
-Exports are produced as markdown so they can be reused in:
-
-- GitHub
-- Notion
-- Confluence
-- Jira
-- Internal documentation
-- Planning documents
+Exports are produced as markdown so they can be reused in documentation systems, ticketing tools, or audit files. The full control inventory export includes EU AI Act compliance areas alongside the other five frameworks.
 
 ### Export actions
 
-Users can typically:
-
-- Preview the export
-- Copy it to the clipboard
-- Download the `.md` file
+- **Copy** pastes the markdown to your clipboard
+- **Download** saves a `.md` file to your device
 
 [Back to contents](#contents)
 
@@ -412,51 +382,25 @@ This stage captures context such as:
 
 ### Step 2: Risk Scenarios
 
-This stage presents prebuilt risk scenarios to help the user choose relevant risks for the system under review.
-
-Typical scenario categories include:
-
-- Fairness and bias
-- Explainability and transparency
-- Data quality
-- Privacy and data protection
-- Security
-- Accountability and third party risk
-- Robustness and reliability
+Select the risk scenarios relevant to the system under review. Scenarios are drawn from the framework content and cover adversarial threats, data risks, governance failures, and regulatory exposures including EU AI Act obligations.
 
 ### Step 3: Risk Register
 
-Selected scenarios become risk entries. Each entry can be reviewed, edited, and scored.
-
-Typical risk data includes:
-
-- Title
-- Category
-- Description
-- Real world precedent
-- Likelihood
-- Impact
-- Controls
+The risk register calculates ratings based on likelihood and impact. Entries are generated from selected scenarios and can be reviewed, scored, and annotated.
 
 ### Step 4: Formal Findings
 
-High priority risks can be turned into formal findings using a standard audit style structure:
+Draft findings follow a structured format including:
 
-- Condition
-- Criteria
-- Cause
-- Effect
-- Recommendation
+- Condition: what was observed
+- Criteria: what should exist
+- Cause: why the issue exists
+- Effect: what is at risk
+- Recommendation: what should be done
 
 ### Step 5: Report
 
-The final report can include:
-
-- Assessment header
-- Executive summary
-- Risk register
-- Formal findings
-- Framework appendix
+The final report is generated as markdown and includes the system profile, risk register, and formal findings. It can be copied or downloaded for use in documentation or governance reporting.
 
 [Back to contents](#contents)
 
@@ -512,7 +456,43 @@ MITRE ATLAS focuses on adversarial threats to AI systems and helps frame attacke
 
 ### OWASP LLM Top 10 2025
 
-OWASP identifies critical risks for applications built on large language models, including prompt injection, supply chain risk, sensitive data disclosure, and excessive agency.
+OWASP identifies critical risks for applications built on large language models, including prompt injection, supply chain risk, and excessive agency.
+
+### EU AI Act (Regulation 2024/1689)
+
+The EU AI Act is the European Union's comprehensive legal framework for artificial intelligence, published in the Official Journal on 12 July 2024. It applies to providers, deployers, importers, and distributors of AI systems and general-purpose AI models in or affecting the EU market.
+
+The workbench maps seven compliance areas drawn from the Act's substantive chapters.
+
+| Compliance Area | Chapter / Articles | Priority |
+|---|---|---|
+| Prohibited AI Practices | Ch. II · Art. 5 | P1 |
+| High-Risk AI Requirements | Ch. III · Arts. 8–15 | P1 |
+| Provider and Deployer Obligations | Ch. III · Arts. 16–27, 43–49 | P1 |
+| Transparency Obligations | Ch. IV · Art. 50 | P2 |
+| General-Purpose AI Models | Ch. V · Arts. 51–56 | P1 |
+| Governance and AI Office | Ch. VII · Arts. 64–70 | P2 |
+| Post-Market Monitoring and Incidents | Ch. IX · Arts. 72–74 | P2 |
+
+**Key obligations by role**
+
+*Providers* (organisations that develop and place AI systems or GPAI models on the market) are responsible for conformity assessment, technical documentation, quality management systems, and logging.
+
+*Deployers* (organisations that put AI systems into use) are responsible for human oversight, fundamental rights impact assessments in public-sector contexts, and incident reporting.
+
+*GPAI model providers* must meet baseline documentation and copyright obligations. Those with systemic risk (training compute exceeding 10^25 FLOPs) must additionally conduct adversarial testing and report serious incidents to the EU AI Office.
+
+**Penalty tiers**
+
+| Violation type | Maximum penalty |
+|---|---|
+| Prohibited AI practices (Art. 5) | €35 million or 7% of global annual turnover |
+| Other high-risk AI obligations | €15 million or 3% of global annual turnover |
+| Providing incorrect information | €7.5 million or 1% of global annual turnover |
+
+**Cross-framework alignment**
+
+EU AI Act compliance areas are mapped to NIST AI RMF functions, CSA AICM domains, and ISO standards in the tool. Clicking any EU AI Act item in Explore mode highlights its related NIST, CSA, and ISO counterparts, and vice versa.
 
 [Back to contents](#contents)
 
@@ -525,21 +505,29 @@ OWASP identifies critical risks for applications built on large language models,
 | Term | Meaning |
 |---|---|
 | AIBOM | AI Bill of Materials |
+| AI Office | EU body within the European Commission responsible for supervising GPAI models and overseeing application of the EU AI Act |
 | AP | Application Provider |
 | AIC | AI Customer |
 | ATLAS | Adversarial Threat Landscape for AI Systems |
 | Condition | What was observed |
 | Criteria | What should exist |
 | Cause | Why the issue exists |
+| CE Marking | Conformity marking required for high-risk AI systems placed on the EU market |
+| Conformity Assessment | Procedure by which a provider verifies a high-risk AI system meets EU AI Act requirements |
+| Deployer | Organisation or individual that puts an AI system into use under its own authority |
 | Effect | What is at risk |
-| Recommendation | What should be done |
-| Detect, Prevent, Correct | Common control types used in governance and assurance work |
+| FRIA | Fundamental Rights Impact Assessment (required by Art. 27 for certain deployers of high-risk AI) |
+| GPAI | General-Purpose AI model — a model trained on broad data and capable of a wide range of tasks |
 | LLM | Large language model |
 | MP | Model Provider |
 | OSP | Orchestrated Service Provider |
+| Provider | Organisation or individual that develops an AI system or GPAI model and places it on the market |
 | RAG | Retrieval augmented generation |
+| Recommendation | What should be done |
 | Risk scenario | A plausible AI related risk event or condition |
+| Systemic risk | Classification applied to GPAI models exceeding 10^25 FLOPs training compute, carrying enhanced EU AI Act obligations |
 | Use case tier | Relative risk classification of the AI system under review |
+| Detect, Prevent, Correct | Common control types used in governance and assurance work |
 
 [Back to contents](#contents)
 
@@ -552,6 +540,4 @@ OWASP identifies critical risks for applications built on large language models,
 - Keep screenshots in the main README for quick visual orientation
 - Use this guide for deeper workflow and reference detail
 
----
-
-*AI Governance Practitioner Workbench User Guide v1.0*
+[Back to top](#top)
