@@ -63,7 +63,6 @@ start index.html
 # Linux
 xdg-open index.html
 ```
-<<<<<<< HEAD
 ## Repository Structure
 ```text
 ai-governance-workbench/
@@ -77,7 +76,7 @@ ai-governance-workbench/
 │   └── screenshot-in-action.png
 └── LICENSE
 =======
-Documentation
+## Documentation
 ```text
 For full usage instructions, screenshots, workflow details, framework reference material, and glossary terms, see the User Guide￼.
 >>>>>>> fd4995a (Shorten README and link user guide)
