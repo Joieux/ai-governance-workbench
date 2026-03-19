@@ -1552,6 +1552,10 @@ function getRelatedIds(item) {
     Object.entries(OWASP_TO_NIST).forEach(([k, v]) => {
       if (v.includes(id)) rel.add(k);
     });
+    // → EU AI Act reverse
+    Object.entries(EUAIA_TO_NIST).forEach(([k, v]) => {
+      if (v.includes(id)) rel.add(k);
+    });
   } else if (fw === "csa") {
     addNist(splitAttr(item, "data-nist"));
     addIso(splitAttr(item, "data-iso"));
@@ -1563,6 +1567,11 @@ function getRelatedIds(item) {
       Object.entries(OWASP_TO_CSA).forEach(([k, v]) => {
         if (v.includes(myCode)) rel.add(k);
       });
+    // → EU AI Act reverse
+    Object.entries(EUAIA_TO_CSA).forEach(([k, v]) => {
+      const myCsaCode = Object.entries(CSA_CODE_MAP).find(([code, fwid]) => fwid === id)?.[0];
+      if (myCsaCode && v.includes(myCsaCode)) rel.add(k);
+    });
   } else if (fw === "iso") {
     addNist(splitAttr(item, "data-nist"));
     addCsa(splitAttr(item, "data-csa"));
@@ -1575,6 +1584,11 @@ function getRelatedIds(item) {
         if (splitAttr(oi, "data-iso").some((r) => isoLabelToId(r) === id))
           rel.add(oi.dataset.id);
       });
+    // → EU AI Act reverse (via shared NIST mapping)
+    const isoNistRefs = splitAttr(item, "data-nist");
+    Object.entries(EUAIA_TO_NIST).forEach(([k, v]) => {
+      if (isoNistRefs.some((n) => v.includes(n))) rel.add(k);
+    });
   } else if (fw === "atlas") {
     addNist(splitAttr(item, "data-nist"));
     addCsa(splitAttr(item, "data-csa"));
@@ -1587,9 +1601,25 @@ function getRelatedIds(item) {
         if (splitAttr(oi, "data-atlas").some((t) => atlasTacticToId(t) === id))
           rel.add(oi.dataset.id);
       });
+    // → EU AI Act reverse (via shared NIST mapping)
+    const atlasNistRefs = splitAttr(item, "data-nist");
+    Object.entries(EUAIA_TO_NIST).forEach(([k, v]) => {
+      if (atlasNistRefs.some((n) => v.includes(n))) rel.add(k);
+    });
   } else if (fw === "owasp") {
     addNist(OWASP_TO_NIST[id] || []);
     addCsa(OWASP_TO_CSA[id] || []);
+    addIso(splitAttr(item, "data-iso"));
+    addAtlas(splitAttr(item, "data-atlas"));
+    addDomains(splitAttr(item, "data-domains"));
+    // → EU AI Act reverse
+    const owaspNistRefs = OWASP_TO_NIST[id] || [];
+    Object.entries(EUAIA_TO_NIST).forEach(([k, v]) => {
+      if (owaspNistRefs.some((n) => v.includes(n))) rel.add(k);
+    });
+  } else if (fw === "euaia") {
+    addNist(EUAIA_TO_NIST[id] || []);
+    addCsa(EUAIA_TO_CSA[id] || []);
     addIso(splitAttr(item, "data-iso"));
     addAtlas(splitAttr(item, "data-atlas"));
     addDomains(splitAttr(item, "data-domains"));
@@ -1644,16 +1674,6 @@ function applyHighlight(relIds, color, label, narrative) {
           ? `inset 4px 0 0 ${color}, 0 0 0 1px ${color}55, 0 2px 16px ${color}25`
           : `inset 3px 0 0 ${color}, 0 0 0 1px ${color}30`;
       item.style.background = iid === activeId ? "" : "";
-    } else if (fw === "euaia") {
-    addNist(EUAIA_TO_NIST[id] || []);
-    addCsa(EUAIA_TO_CSA[id] || []);
-    addIso(splitAttr(item, "data-iso"));
-    addAtlas(splitAttr(item, "data-atlas"));
-    addDomains(splitAttr(item, "data-domains"));
-    // → reverse: NIST items that map to this EU AI Act article
-    Object.entries(EUAIA_TO_NIST).forEach(([k, v]) => {
-      if (v.includes(id)) rel.add(k);
-    });
   } else {
       item.classList.add("dimmed");
       item.classList.remove("active", "related");
