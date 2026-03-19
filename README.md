@@ -75,11 +75,10 @@ ai-governance-workbench/
 │   ├── screenshot-overview.png
 │   └── screenshot-in-action.png
 └── LICENSE
-=======
+```
 ## Documentation
 ```text
 For full usage instructions, screenshots, workflow details, framework reference material, and glossary terms, see the User Guide￼.
->>>>>>> fd4995a (Shorten README and link user guide)
 ```
 ## License
 ```code
