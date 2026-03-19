@@ -78,8 +78,10 @@ ai-governance-workbench/
 ```
 ## Documentation
 ```text
-For full usage instructions, screenshots, workflow details,
-framework reference material, and glossary terms, see the User Guide￼.
+## Documentation
+
+For full usage instructions, workflow details,
+ framework reference material, and glossary terms, see the [User Guide](USER_GUIDE.md).
 ```
 ## License
 ```code
