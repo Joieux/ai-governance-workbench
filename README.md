@@ -77,10 +77,11 @@ ai-governance-workbench/
 └── LICENSE
 ```
 ## Documentation
-For full usage instructions, workflow details,
-framework reference material, and glossary terms, see the [User Guide](USER_GUIDE.md).
+
+For full usage instructions, workflow details, framework reference material, 
+and glossary terms, see the [User Guide](./USER_GUIDE.md).
 
 ## License
 
-This project is licensed under the MIT License. See LICENSE￼ for details.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
