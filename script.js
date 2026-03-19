@@ -1099,7 +1099,6 @@ const DOC_LIBRARY = {
     ],
     docLink: "https://genai.owasp.org/llmrisk/llm102025-unbounded-consumption/",
   },
-,
   // ─────────────────────────────────────────────────────────────────
   // EU AI ACT (Regulation 2024/1689)
   // ─────────────────────────────────────────────────────────────────
@@ -1422,7 +1421,6 @@ const NARRATIVES = {
   "owasp-llm08": `Vector and embedding weaknesses are the RAG pipeline's attack surface — a domain that barely existed two years ago and is now in production everywhere. Poisoned embeddings cause RAG systems to retrieve and incorporate adversarial content; cross-tenant leakage exposes documents across organisational boundaries. ATLAS TA0011 (collection) and TA0012 (attack staging via embedding poisoning) are the threat entries. AICM DSP and MDS are the control domains. Treat vector databases with the same rigour as production databases.`,
   "owasp-llm09": `Misinformation is the only LLM Top 10 entry with no ATLAS mapping — it's not an adversarial attack, it's an inherent model capability failure. Hallucination at scale creates liability, reputational risk, and in regulated contexts, legal exposure. NIST MEASURE 2.9 (model explanation and validation) and ISO/IEC TS 5723:2022 (trustworthiness) are the framework references. The mitigation architecture is retrieval augmentation over parametric knowledge plus human review for high-stakes outputs. You cannot test your way to zero hallucination.`,
   "owasp-llm10": `Unbounded consumption is the DoS vector native to LLMs — and it's directly monetisable as a cost attack against pay-per-token deployments. Sponge examples (ATLAS T0029) exploit worst-case inference paths. NIST MEASURE 2.6 requires demonstrating fail-safe behavior under resource pressure. AICM BCR-05 (DoS resilience) is the control. The practical floor: rate limiting, token limits, circuit breakers, and cost anomaly alerting. Without these, a motivated adversary can run up your API bill faster than your security team can respond.`,
-,
   "euaia-ch2": `The EU AI Act's prohibited practices list is the hard boundary of lawful AI in Europe. Article 5 bans eight categories — from subliminal manipulation to real-time biometric surveillance. If a system you're assessing touches any of these, it's not a compliance gap — it's an outright ban. Start here.`,
   "euaia-ch3-req": `Chapter III requirements are the engineering spec for high-risk AI. Risk management (Art.9), data governance (Art.10), technical documentation (Art.11), logging (Art.12), transparency (Art.13), human oversight (Art.14), and robustness/cybersecurity (Art.15) must all be satisfied before market placement. Map each requirement to your SDLC.`,
   "euaia-ch3-obl": `The obligations chapter tells you who is responsible for what along the AI value chain. Providers own quality management and conformity. Deployers who rebrand take on provider duties. Fundamental rights impact assessments (Art.27) apply to many public-sector deployments. Know your role before you build your compliance program.`,
@@ -1786,8 +1784,11 @@ function buildConnTags(id) {
     csa = OWASP_TO_CSA[id] || [];
     iso = splitAttr(item, "data-iso").filter((s) => s !== "none");
     atlas = splitAttr(item, "data-atlas").filter((s) => s !== "none");
+  } else if (fw === "euaia") {
+    nist = (EUAIA_TO_NIST[id] || []).map((n) => n.replace("nist-", "").toUpperCase());
+    csa = (EUAIA_TO_CSA[id] || []);
   }
-  return { nist, csa, iso, atlas, owasp };
+  return { nist, csa, iso, atlas, owasp, euaia: id.startsWith("euaia-") ? [DOC_LIBRARY[id]?.ref || id] : [] };
 }
 
 function showConnPanel(color, label, narrative, tags) {
@@ -1807,7 +1808,8 @@ function showConnPanel(color, label, narrative, tags) {
     <div class="conn-section"><div class="conn-section-label">NIST AI RMF</div><div class="conn-tags">${makeTag("conn-tag-nist", nist)}</div></div>
     <div class="conn-section"><div class="conn-section-label">CSA AICM</div><div class="conn-tags">${makeTag("conn-tag-csa", csa)}</div></div>
     <div class="conn-section"><div class="conn-section-label">ISO Standards</div><div class="conn-tags">${makeTag("conn-tag-iso", iso)}</div></div>
-    <div class="conn-section" style="border-right:none"><div class="conn-section-label">ATLAS / OWASP</div><div class="conn-tags">${makeTag("conn-tag-atlas", atlas)} ${makeTag("conn-tag-owasp", owasp)}</div></div>
+    <div class="conn-section"><div class="conn-section-label">ATLAS / OWASP</div><div class="conn-tags">${makeTag("conn-tag-atlas", atlas)} ${makeTag("conn-tag-owasp", owasp)}</div></div>
+    <div class="conn-section" style="border-right:none"><div class="conn-section-label">EU AI Act</div><div class="conn-tags">${makeTag("conn-tag-euaia", tags.euaia || [])}</div></div>
   `;
   panel.classList.add("visible");
 }
@@ -1822,17 +1824,19 @@ function updateStatusBar(relIds, color, label) {
       <div class="status-item"><div class="status-dot" style="background:var(--iso)"></div><span class="status-label">ISO</span><span class="status-val" id="sb-iso">5 standards</span></div>
       <div class="status-item"><div class="status-dot" style="background:var(--atlas)"></div><span class="status-label">ATLAS</span><span class="status-val" id="sb-atlas">10 tactics</span></div>
       <div class="status-item"><div class="status-dot" style="background:var(--owasp)"></div><span class="status-label">OWASP</span><span class="status-val" id="sb-owasp">10 risks</span></div>
+      <div class="status-item"><div class="status-dot" style="background:var(--euaia)"></div><span class="status-label">EU AI Act</span><span class="status-val" id="sb-euaia">7 areas</span></div>
       <div class="status-item" style="margin-left:auto;color:var(--muted);font-size:9px;">Click any item to explore connections</div>
     `;
     return;
   }
-  const counts = { nist: 0, csa: 0, iso: 0, atlas: 0, owasp: 0 };
+  const counts = { nist: 0, csa: 0, iso: 0, atlas: 0, owasp: 0, euaia: 0 };
   relIds.forEach((id) => {
     if (id.startsWith("nist-")) counts.nist++;
     else if (id.startsWith("csa-")) counts.csa++;
     else if (id.startsWith("iso-")) counts.iso++;
     else if (id.startsWith("atlas-")) counts.atlas++;
     else if (id.startsWith("owasp-")) counts.owasp++;
+    else if (id.startsWith("euaia-")) counts.euaia++;
   });
   bar.innerHTML = `
     <div class="status-item"><span style="color:${color};font-size:10px;font-weight:600;">▶ ${label}</span></div>
@@ -1841,6 +1845,7 @@ function updateStatusBar(relIds, color, label) {
     <div class="status-item"><div class="status-dot" style="background:var(--iso)"></div><span class="status-val">${counts.iso} ISO</span></div>
     <div class="status-item"><div class="status-dot" style="background:var(--atlas)"></div><span class="status-val">${counts.atlas} ATLAS</span></div>
     <div class="status-item"><div class="status-dot" style="background:var(--owasp)"></div><span class="status-val">${counts.owasp} OWASP</span></div>
+    <div class="status-item"><div class="status-dot" style="background:var(--euaia)"></div><span class="status-val">${counts.euaia} EU AI Act</span></div>
     <button class="nav-btn" style="margin-left:auto;font-size:9px;" onclick="clearHighlight()">✕ Clear</button>
   `;
 }
@@ -2061,7 +2066,7 @@ function getAssessStats() {
     if (s === "wip") wip++;
   });
   const fwStats = {};
-  ["nist", "csa", "iso", "atlas", "owasp"].forEach((fw) => {
+  ["nist", "csa", "iso", "atlas", "owasp", "euaia"].forEach((fw) => {
     const fwItems = allItems.filter((i) => i.dataset.fw === fw);
     const fwDone = fwItems.filter(
       (i) => (assessState[i.dataset.id] || "none") === "done",
@@ -2375,7 +2380,7 @@ function generateExportPreview(type) {
     }
   } else if (type === "full-inventory") {
     md = `# AI Control Inventory\n**Generated:** ${ts}  |  **Coverage:** ${pct}%\n\n`;
-    ["nist", "csa", "iso", "atlas", "owasp"].forEach((fw) => {
+    ["nist", "csa", "iso", "atlas", "owasp", "euaia"].forEach((fw) => {
       md += `## ${FW_META[fw].name}\n\n| Control | Status | Priority |\n|---|---|---|\n`;
       allItems
         .filter((i) => i.dataset.fw === fw)
