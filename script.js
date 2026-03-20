@@ -1847,6 +1847,7 @@ function updateStatusBar(relIds, color, label) {
     <div class="status-item"><div class="status-dot" style="background:var(--owasp)"></div><span class="status-val">${counts.owasp} OWASP</span></div>
     <div class="status-item"><div class="status-dot" style="background:var(--euaia)"></div><span class="status-val">${counts.euaia} EU AI Act</span></div>
     <button class="nav-btn" style="margin-left:auto;font-size:9px;" onclick="clearHighlight()">✕ Clear</button>
+  <span id="last-saved-indicator" class="sb-save-hint"></span>
   `;
 }
 
@@ -3523,6 +3524,14 @@ function renderScenarios() {
         !s.applicableData ||
         s.applicableData.some((d) => (auditProfile.data || []).includes(d));
       if (tierMatch && dataMatch) auditSelectedScenarios.push(s.id);
+      // Profile relevance: score scenarios by data+role overlap with user profile
+      const profileData  = auditProfile.data   || [];
+      const profileRoles = auditProfile.roles  || [];
+      const profileDeploy= auditProfile.deploy || [];
+      s.profileScore =
+        (s.applicableData   ? s.applicableData.filter(d => profileData.includes(d)).length   : 1) +
+        (s.applicableTiers  ? (auditProfile.tier && s.applicableTiers.includes(parseInt(auditProfile.tier, 10)) ? 1 : 0) : 0);
+      s.profileRelevant = s.profileScore > 0;
     });
   }
 
@@ -3582,21 +3591,77 @@ function toggleScenario(id, el) {
 }
 
 // ── RISK REGISTER ──
+// ── ASSESS → AUDIT BRIDGE ────────────────────────────────────────────────────
+// Maps human-readable control ref strings to DOC_LIBRARY framework item IDs
+// so Assess mode gap status can pre-populate Audit risk register controls.
+function refToFwIds(ref) {
+  if (!ref) return [];
+  const ids = [];
+  const r = ref.toUpperCase();
+  if (r.includes("GOVERN"))  ids.push("nist-gov");
+  if (r.includes("MAP"))     ids.push("nist-map");
+  if (r.includes("MEASURE")) ids.push("nist-meas");
+  if (r.includes("MANAGE"))  ids.push("nist-mgmt");
+  if (r.includes("GRC"))  ids.push("csa-grc");
+  if (r.includes("MDS"))  ids.push("csa-mds");
+  if (r.includes("DSP"))  ids.push("csa-dsp");
+  if (r.includes("TVM"))  ids.push("csa-tvm");
+  if (r.includes("STA"))  ids.push("csa-sta");
+  if (r.includes("SEF"))  ids.push("csa-sef");
+  if (r.includes("AIS"))  ids.push("csa-ais");
+  if (r.includes("LOG"))  ids.push("csa-log");
+  if (r.includes("BCR"))  ids.push("csa-bcr");
+  if (r.includes("IAM"))  ids.push("csa-iam");
+  if (r.includes("CCC") || r.includes("AIBOM")) ids.push("csa-ccc");
+  if (r.includes("42001")) ids.push("iso-42001");
+  if (r.includes("23894")) ids.push("iso-23894");
+  if (r.includes("5338"))  ids.push("iso-5338");
+  if (r.includes("5723"))  ids.push("iso-5723");
+  if (r.includes("27001")) ids.push("iso-27001");
+  if (r.includes("LLM01")) ids.push("owasp-llm01");
+  if (r.includes("LLM02")) ids.push("owasp-llm02");
+  if (r.includes("LLM03")) ids.push("owasp-llm03");
+  if (r.includes("LLM04")) ids.push("owasp-llm04");
+  if (r.includes("LLM05")) ids.push("owasp-llm05");
+  if (r.includes("LLM06")) ids.push("owasp-llm06");
+  if (r.includes("LLM07")) ids.push("owasp-llm07");
+  if (r.includes("LLM08")) ids.push("owasp-llm08");
+  if (r.includes("LLM09")) ids.push("owasp-llm09");
+  if (r.includes("LLM10")) ids.push("owasp-llm10");
+  if (r.includes("ART. 5"))  ids.push("euaia-ch2");
+  if (r.includes("ART. 14") || r.includes("ART. 13") || r.includes("HIGH-RISK")) ids.push("euaia-ch3-req");
+  if (r.includes("ART. 16") || r.includes("PROVIDER")) ids.push("euaia-ch3-obl");
+  if (r.includes("ART. 50") || r.includes("TRANSPARENCY")) ids.push("euaia-ch4");
+  if (r.includes("GPAI")) ids.push("euaia-ch5");
+  if (r.includes("AI OFFICE")) ids.push("euaia-ch7");
+  if (r.includes("ART. 72") || r.includes("INCIDENT")) ids.push("euaia-ch9");
+  return [...new Set(ids)];
+}
 function buildRiskRegister() {
   getProfileValues();
-  auditRisks = auditSelectedScenarios.map((id, i) => {
-    const s = RISK_SCENARIOS.find((r) => r.id === id);
+  auditRisks = RISK_SCENARIOS.filter(s => s.applied).map((s, i) => {
+    const st = assessState || {};
     return {
-      id,
-      num: i + 1,
-      scenario: s,
-      title: s.title,
-      category: s.category,
+      id:          s.id,
+      num:         i + 1,
+      scenario:    s.id,
+      title:       s.title,
+      category:    s.category,
       description: s.description,
-      precedent: s.precedent,
-      likelihood: s.defaultLikelihood,
-      impact: s.defaultImpact,
-      controls: s.controls.map((c) => ({ ...c })),
+      precedent:   s.precedent,
+      likelihood:  s.defaultLikelihood || 3,
+      impact:      s.defaultImpact     || 3,
+      controls: s.controls.map((c) => {
+        const fwIds     = refToFwIds(c.ref);
+        const fromAssess = fwIds.some(id => st[id] && st[id].status === "gap");
+        const naInAssess = fwIds.length > 0 && fwIds.every(id => st[id] && st[id].status === "na");
+        return {
+          ...c,
+          type:       fromAssess ? "gap" : (naInAssess ? "na" : c.type),
+          fromAssess,
+          fwIds,
+        };
+      }),
     };
   });
   renderRiskRegister();
@@ -4294,4 +4359,121 @@ async function downloadAuditReportDocx() {
     alert("Word export failed: " + e.message);
     console.error("docx export error", e);
   }
+}
+
+// ── SESSION MANAGEMENT ─────────────────────────────────────────────────────
+const SESSION_KEY = 'ai_gwb_session_v1';
+
+function updateSavedIndicator(label) {
+  const el = document.getElementById('last-saved-indicator');
+  if (el) el.textContent = label;
+}
+function saveSession() {
+  try {
+    const state = JSON.parse(localStorage.getItem('ai_assess_state') || '{}');
+    const session = {
+      savedAt: new Date().toISOString(),
+      assessState: state,
+      auditProfile: window.auditProfile || {},
+      auditRisks: (() => {
+        const risks = {};
+        document.querySelectorAll('.risk-row').forEach(row => {
+          const id = row.dataset.id;
+          if (!id) return;
+          const lSel = row.querySelector('.likelihood-select');
+          const iSel = row.querySelector('.impact-select');
+          const tSel = row.querySelector('.control-type-select');
+          risks[id] = {
+            likelihood: lSel ? lSel.value : null,
+            impact: iSel ? iSel.value : null,
+            controlType: tSel ? tSel.value : null
+          };
+        });
+        return risks;
+      })(),
+      auditTier: window.auditTier || null
+    };
+    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    updateSavedIndicator('Saved ' + new Date().toLocaleTimeString());
+    console.log('[GWB] Session saved');
+  } catch(e) {
+    console.error('[GWB] Save failed', e);
+  }
+}
+function loadSession() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return;
+    const session = JSON.parse(raw);
+    // Restore assess state
+    if (session.assessState) {
+      localStorage.setItem('ai_assess_state', JSON.stringify(session.assessState));
+    }
+    // Restore audit profile
+    if (session.auditProfile && typeof initAuditProfile === "function") {
+      Object.assign(window.auditProfile || {}, session.auditProfile);
+    }
+    // Restore tier
+    if (session.auditTier != null) {
+      window.auditTier = session.auditTier;
+    }
+    const d = new Date(session.savedAt);
+    const label = 'Restored ' + d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
+    updateSavedIndicator(label);
+    console.log('[GWB] Session loaded from', session.savedAt);
+  } catch(e) {
+    console.error('[GWB] Load failed', e);
+  }
+}
+function resetSession() {
+  if (!confirm('Reset all assessment data? This cannot be undone.')) return;
+  localStorage.removeItem(SESSION_KEY);
+  localStorage.removeItem('ai_assess_state');
+  window.auditProfile = {};
+  window.auditTier = null;
+  // Reset UI chips
+  document.querySelectorAll('.chip.active').forEach(c => c.classList.remove('active'));
+  // Re-render if audit panel visible
+  if (typeof renderAuditDashboard === 'function') renderAuditDashboard();
+  updateSavedIndicator('New session');
+  console.log('[GWB] Session reset');
+}
+function exportSessionJSON() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    const data = raw ? JSON.parse(raw) : { savedAt: new Date().toISOString(), note: 'No session saved yet' };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'gwb-session-' + new Date().toISOString().slice(0,10) + '.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  } catch(e) {
+    alert('Export failed: ' + e.message);
+  }
+}
+function importSessionJSON() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json,application/json';
+  input.onchange = async e => {
+    try {
+      const file = e.target.files[0];
+      if (!file) return;
+      const text = await file.text();
+      const session = JSON.parse(text);
+      if (session.assessState) {
+        localStorage.setItem('ai_assess_state', JSON.stringify(session.assessState));
+      }
+      localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+      if (session.auditTier != null) window.auditTier = session.auditTier;
+      const d = new Date(session.savedAt || Date.now());
+      updateSavedIndicator('Imported ' + d.toLocaleDateString());
+      alert('Session imported. Reload the page to apply all state.');
+      console.log('[GWB] Session imported');
+    } catch(e) {
+      alert('Import failed: ' + e.message);
+    }
+  };
+  input.click();
 }
