@@ -121,7 +121,7 @@
                 data-color="#38bdf8"
                 data-label="GOVERN (GV-1 to GV-6)"
                 data-csa="GRC,A&A,HRS,STA"
-                data-iso="ISO/IEC 42001:2023,ISO/IEC 23894:2023"
+                data-iso="ISO/IEC 42001:2023,ISO/IEC 27001"
                 data-atlas="none"
                 data-domains="governance,transparency"
                 data-desc="Policies, accountability, culture, third-party risk. Cross-cutting — infused throughout all other functions."
@@ -142,7 +142,7 @@
                 data-color="#38bdf8"
                 data-label="MAP (MP-1 to MP-5)"
                 data-csa="GRC,TVM,SEF,MDS"
-                data-iso="ISO/IEC 23894:2023"
+                data-iso="ISO/IEC 42001:2023"
                 data-atlas="AML.TA0001,AML.TA0003,AML.TA0012"
                 data-domains="threat,lifecycle,safety"
                 data-desc="Establishes context, categorizes AI systems, identifies impacts to individuals and society. Feeds MEASURE and MANAGE."
@@ -163,7 +163,7 @@
                 data-color="#38bdf8"
                 data-label="MEASURE (MS-1 to MS-4)"
                 data-csa="TVM,MDS,DSP,LOG,AIS,BCR"
-                data-iso="ISO/IEC 23894:2023,ISO/IEC TS 5723:2022"
+                data-iso="ISO/IEC 27001"
                 data-atlas="AML.TA0008,AML.TA0012,AML.TA0014"
                 data-domains="threat,safety,data,transparency"
                 data-desc="Quantitative and qualitative evaluation of all 7 trustworthiness characteristics. Covers safety, security, privacy, fairness, explainability."
@@ -184,7 +184,7 @@
                 data-color="#38bdf8"
                 data-label="MANAGE (MG-1 to MG-4)"
                 data-csa="TVM,SEF,BCR,STA,CCC,IAM,LOG,MDS"
-                data-iso="ISO/IEC 23894:2023,ISO/IEC 5338:2023"
+                data-iso="ISO/IEC 42001:2023,ISO/IEC 27001"
                 data-atlas="AML.TA0006,AML.TA0013,AML.TA0014"
                 data-domains="threat,lifecycle,safety"
                 data-desc="Risk treatment: mitigate, transfer, avoid, accept. Incident response, third-party monitoring, continuous improvement."
@@ -376,7 +376,7 @@
                 data-fw="iso"
                 data-color="#34d399"
                 data-label="ISO/IEC 42001:2023 — AI Management Systems"
-                data-nist="nist-gov"
+                data-nist="nist-gov,nist-map,nist-mgmt"
                 data-csa="GRC,STA,A&A,HRS"
                 data-atlas="none"
                 data-domains="governance,transparency"
@@ -393,79 +393,8 @@
                 </div>
               </div>
 
-              <div
-                class="fw-item"
-                data-id="iso-23894"
-                data-fw="iso"
-                data-color="#34d399"
-                data-label="ISO/IEC 23894:2023 — AI Risk Management"
-                data-nist="nist-gov,nist-map,nist-meas,nist-mgmt"
-                data-csa="GRC,TVM,MDS,SEF"
-                data-atlas="AML.TA0012,AML.TA0008"
-                data-domains="governance,threat,lifecycle"
-                data-desc="Guidance on managing risks specific to AI systems. Extends ISO 31000 (general risk management) into AI contexts."
-              >
-                <div class="fw-item-id" style="color: var(--iso)">
-                  ISO/IEC 23894:2023
-                </div>
-                <div class="fw-item-name">AI Risk Management</div>
-                <div class="fw-item-desc">
-                  Risk identification · AI-specific treatment · ISO 31000
-                  extension
-                </div>
-              </div>
 
-              <div
-                class="fw-item"
-                data-id="iso-5338"
-                data-new="NEW 2023"
-                data-fw="iso"
-                data-color="#34d399"
-                data-label="ISO/IEC 5338:2023 — AI Engineering Lifecycle"
-                data-nist="nist-gov,nist-meas,nist-mgmt"
-                data-csa="MDS,CCC,STA,AIS"
-                data-atlas="AML.TA0003,AML.TA0012"
-                data-domains="lifecycle"
-                data-desc="Processes for the AI system lifecycle including design, development, deployment, operation, and retirement. The MLOps process standard."
-              >
-                <div class="fw-item-id" style="color: var(--iso)">
-                  ISO/IEC 5338:2023
-                </div>
-                <div class="fw-item-name">
-                  AI Engineering Lifecycle<span class="new-badge"
-                    >NEW 2023</span
-                  >
-                </div>
-                <div class="fw-item-desc">
-                  MLOps processes · Lifecycle mgmt · AI system engineering
-                </div>
-              </div>
 
-              <div
-                class="fw-item"
-                data-id="iso-5723"
-                data-new="NEW 2022"
-                data-fw="iso"
-                data-color="#34d399"
-                data-label="ISO/IEC TS 5723:2022 — Trustworthiness"
-                data-nist="nist-meas"
-                data-csa="TVM,MDS,BCR"
-                data-atlas="AML.TA0008,AML.TA0014"
-                data-domains="safety,transparency"
-                data-desc="Defines trustworthiness vocabulary: valid, reliable, safe, secure, resilient, accountable, transparent, explainable, privacy-enhanced, fair. Used in NIST MEASURE characterizations."
-              >
-                <div class="fw-item-id" style="color: var(--iso)">
-                  ISO/IEC TS 5723:2022
-                </div>
-                <div class="fw-item-name">
-                  Trustworthiness Vocabulary<span class="new-badge"
-                    >NEW 2022</span
-                  >
-                </div>
-                <div class="fw-item-desc">
-                  7 characteristics · Safety · Explainability · Privacy
-                </div>
-              </div>
 
               <div
                 class="fw-item"
@@ -473,9 +402,9 @@
                 data-fw="iso"
                 data-color="#34d399"
                 data-label="ISO/IEC 27001 — Information Security"
-                data-nist="nist-gov,nist-mgmt"
-                data-csa="DSP,IAM,LOG,AIS,SEF,CEK"
-                data-atlas="AML.TA0009,AML.TA0011,AML.TA0013"
+                data-nist="nist-gov,nist-meas,nist-mgmt"
+                data-csa="DSP,IAM,LOG,AIS,SEF,CEK,TVM,BCR"
+                data-atlas="AML.TA0004,AML.TA0009,AML.TA0011,AML.TA0013"
                 data-domains="data,threat"
                 data-desc="The foundational information security management standard. Extended into AI contexts by AICM DSP, IAM, LOG, and AIS domains."
               >
@@ -507,7 +436,7 @@
                 data-color="#a78bfa"
                 data-label="GRC — Governance, Risk & Compliance"
                 data-nist="nist-gov,nist-map"
-                data-iso="ISO/IEC 42001:2023,ISO/IEC 23894:2023"
+                data-iso="ISO/IEC 42001:2023"
                 data-atlas="none"
                 data-domains="governance,transparency"
                 data-desc="AI governance policies, risk management programs, regulatory compliance, AI impact assessments."
@@ -526,7 +455,7 @@
                 data-color="#a78bfa"
                 data-label="MDS — Model Security"
                 data-nist="nist-meas,nist-mgmt,nist-map"
-                data-iso="ISO/IEC 5338:2023,ISO/IEC 23894:2023"
+                data-iso="none"
                 data-atlas="AML.TA0012,AML.TA0008,AML.TA0003"
                 data-domains="lifecycle,threat,safety"
                 data-desc="Model hardening, adversarial robustness, model integrity across training, validation, and deployment."
@@ -583,7 +512,7 @@
                 data-color="#a78bfa"
                 data-label="STA — Supply Chain, Transparency & Accountability"
                 data-nist="nist-gov,nist-mgmt,nist-map"
-                data-iso="ISO/IEC 5338:2023,ISO/IEC 42001:2023"
+                data-iso="ISO/IEC 42001:2023"
                 data-atlas="AML.TA0003"
                 data-domains="lifecycle,governance,transparency"
                 data-desc="AI supply chain integrity, model provenance, third-party transparency, documentation requirements."
@@ -697,7 +626,7 @@
                 data-color="#a78bfa"
                 data-label="CCC — Change Control & Configuration"
                 data-nist="nist-gov,nist-mgmt"
-                data-iso="ISO/IEC 5338:2023"
+                data-iso="none"
                 data-atlas="AML.TA0006"
                 data-domains="lifecycle"
                 data-desc="Model version control, MLOps pipeline change management, deployment gates."
@@ -750,7 +679,7 @@
                 data-label="AML.TA0003 — Initial Access"
                 data-nist="nist-map,nist-mgmt"
                 data-csa="AIS,STA,MDS"
-                data-iso="ISO/IEC 5338:2023"
+                data-iso="none"
                 data-domains="threat,lifecycle"
                 data-desc="ML supply chain compromise, prompt injection (AML.T0051), physical environment access to ML systems."
               >
@@ -816,7 +745,7 @@
                 data-label="AML.TA0008 — Defense Evasion"
                 data-nist="nist-meas,nist-mgmt"
                 data-csa="MDS,TVM,LOG"
-                data-iso="ISO/IEC TS 5723:2022,ISO/IEC 23894:2023"
+                data-iso="none"
                 data-domains="threat,safety"
                 data-desc="Adversarial perturbation (T0043), meta-prompt extraction, crafting inputs that evade ML-based security detectors."
               >
@@ -882,7 +811,7 @@
                 data-label="AML.TA0012 — ML Attack Staging (AI-Specific)"
                 data-nist="nist-map,nist-meas,nist-mgmt"
                 data-csa="MDS,TVM,STA"
-                data-iso="ISO/IEC 5338:2023,ISO/IEC 23894:2023"
+                data-iso="none"
                 data-domains="threat,lifecycle,safety"
                 data-desc="AI-specific tactic. Poison training data (T0020), backdoor ML models (T0044), insert triggers. Preparation before impact."
               >
@@ -924,7 +853,7 @@
                 data-label="AML.TA0014 — Impact"
                 data-nist="nist-meas,nist-mgmt"
                 data-csa="BCR,SEF,TVM"
-                data-iso="ISO/IEC TS 5723:2022"
+                data-iso="none"
                 data-domains="safety,threat"
                 data-desc="Denial of ML service, evade ML model outputs, spamming ML systems with adversarial queries."
               >
@@ -1010,7 +939,7 @@
                 data-label="LLM03:2025 — Supply Chain"
                 data-nist="nist-gov"
                 data-csa="STA,MDS,CCC"
-                data-iso="ISO/IEC 5338:2023"
+                data-iso="none"
                 data-atlas="atlas-ta0003,atlas-ta0012"
                 data-domains="lifecycle"
                 data-desc="Vulnerabilities in pre-trained models, datasets, third-party plugins, and ML libraries. Compromised supply chain components affect all downstream deployments."
@@ -1035,7 +964,7 @@
                 data-label="LLM04:2025 — Data & Model Poisoning"
                 data-nist="nist-map,nist-meas,nist-mgmt"
                 data-csa="MDS,DSP,TVM"
-                data-iso="ISO/IEC 5338:2023,ISO/IEC 23894:2023"
+                data-iso="none"
                 data-atlas="atlas-ta0012"
                 data-domains="threat,lifecycle"
                 data-desc="Pre-training, fine-tuning, or embedding data is manipulated to introduce backdoors, bias, or vulnerabilities that persist through deployment."
@@ -1141,7 +1070,7 @@
                 data-label="LLM08:2025 — Vector & Embedding Weaknesses"
                 data-nist="nist-meas,nist-mgmt"
                 data-csa="DSP,MDS,LOG"
-                data-iso="ISO/IEC 27001,ISO/IEC 23894:2023"
+                data-iso="ISO/IEC 27001"
                 data-atlas="atlas-ta0011,atlas-ta0012"
                 data-domains="data,threat"
                 data-desc="Vulnerabilities in vector databases and embedding models including poisoned embeddings, unauthorized cross-tenant retrieval, and adversarial similarity attacks."
@@ -1168,7 +1097,7 @@
                 data-label="LLM09:2025 — Misinformation"
                 data-nist="nist-meas"
                 data-csa="GRC,LOG"
-                data-iso="ISO/IEC TS 5723:2022"
+                data-iso="none"
                 data-atlas="none"
                 data-domains="transparency,safety"
                 data-desc="LLMs generate false, misleading, or fabricated content presented as factual. Hallucination, confident incorrect answers, and deepfake-quality disinformation."
@@ -1193,7 +1122,7 @@
                 data-label="LLM10:2025 — Unbounded Consumption"
                 data-nist="nist-meas,nist-mgmt"
                 data-csa="BCR,LOG,TVM"
-                data-iso="ISO/IEC TS 5723:2022"
+                data-iso="none"
                 data-atlas="atlas-ta0014"
                 data-domains="safety,threat"
                 data-desc="Uncontrolled inference resource consumption leading to denial of service, cost exhaustion, or model degradation via sponge examples and excessive API calls."
@@ -1229,7 +1158,7 @@
               data-color="#38bdf8"
               data-nist="nist-gov"
               data-csa="GRC,STA,A&A,HRS"
-              data-iso="iso-42001,iso-23894"
+              data-iso="iso-42001"
               data-atlas="none"
             >
               <div class="dc-accent" style="background: #38bdf8"></div>
@@ -1252,94 +1181,8 @@
               </div>
             </div>
 
-            <div
-              class="domain-card"
-              data-domain="threat"
-              data-color="#a78bfa"
-              data-nist="nist-map,nist-mgmt,nist-meas"
-              data-csa="TVM,SEF,AIS,LOG"
-              data-iso="iso-23894"
-              data-atlas="atlas-ta0001,atlas-ta0003,atlas-ta0008,atlas-ta0012,atlas-ta0014"
-            >
-              <div class="dc-accent" style="background: #a78bfa"></div>
-              <div class="dc-head">
-                <div class="dc-name" style="color: #a78bfa">
-                  Threat Mitigation
-                </div>
-                <div class="dc-sub">MAP/MANAGE · TVM · ATLAS Tactic Matrix</div>
-              </div>
-              <div class="dc-body">
-                <div class="dc-frameworks">
-                  <span class="dc-tag conn-tag-nist">MAP 5</span>
-                  <span class="dc-tag conn-tag-nist">MANAGE</span>
-                  <span class="dc-tag conn-tag-csa">TVM</span>
-                  <span class="dc-tag conn-tag-atlas">TA0012</span>
-                  <span class="dc-tag conn-tag-atlas">TA0008</span>
-                </div>
-                <div style="font-size: 9px; color: var(--dim)">
-                  Adversarial ML · Evasion · Poisoning · Extraction
-                </div>
-              </div>
-            </div>
 
-            <div
-              class="domain-card"
-              data-domain="lifecycle"
-              data-color="#34d399"
-              data-nist="nist-gov,nist-mgmt"
-              data-csa="MDS,CCC,STA"
-              data-iso="iso-5338"
-              data-atlas="atlas-ta0003,atlas-ta0006,atlas-ta0012"
-            >
-              <div class="dc-accent" style="background: #34d399"></div>
-              <div class="dc-head">
-                <div class="dc-name" style="color: #34d399">
-                  Model Lifecycle
-                </div>
-                <div class="dc-sub">MLOps · Supply Chain · ISO 5338</div>
-              </div>
-              <div class="dc-body">
-                <div class="dc-frameworks">
-                  <span class="dc-tag conn-tag-nist">GOVERN 6</span>
-                  <span class="dc-tag conn-tag-csa">MDS</span>
-                  <span class="dc-tag conn-tag-csa">STA</span>
-                  <span class="dc-tag conn-tag-iso">ISO 5338</span>
-                  <span class="dc-tag conn-tag-atlas">TA0003</span>
-                </div>
-                <div style="font-size: 9px; color: var(--dim)">
-                  MLOps · Provenance · Supply chain · Versioning
-                </div>
-              </div>
-            </div>
 
-            <div
-              class="domain-card"
-              data-domain="safety"
-              data-color="#fb923c"
-              data-nist="nist-meas"
-              data-csa="BCR,SEF,LOG"
-              data-iso="iso-5723"
-              data-atlas="atlas-ta0008,atlas-ta0014"
-            >
-              <div class="dc-accent" style="background: #fb923c"></div>
-              <div class="dc-head">
-                <div class="dc-name" style="color: #fb923c">Safety</div>
-                <div class="dc-sub">
-                  MEASURE 2.6 · ISO TS 5723 · ATLAS case studies
-                </div>
-              </div>
-              <div class="dc-body">
-                <div class="dc-frameworks">
-                  <span class="dc-tag conn-tag-nist">MEASURE 2.6</span>
-                  <span class="dc-tag conn-tag-csa">BCR</span>
-                  <span class="dc-tag conn-tag-iso">ISO TS 5723</span>
-                  <span class="dc-tag conn-tag-atlas">TA0014</span>
-                </div>
-                <div style="font-size: 9px; color: var(--dim)">
-                  Fail-safe design · Trustworthiness · Residual risk
-                </div>
-              </div>
-            </div>
 
             <div
               class="domain-card"
@@ -1377,7 +1220,7 @@
               data-color="#a78bfa"
               data-nist="nist-gov,nist-meas"
               data-csa="GRC,STA,A&A"
-              data-iso="iso-42001,iso-23894"
+              data-iso="iso-42001"
               data-atlas="none"
             >
               <div class="dc-accent" style="background: #a78bfa"></div>
