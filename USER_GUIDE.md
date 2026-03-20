@@ -132,7 +132,16 @@ That means:
 - Progress stays saved on the same browser and device
 - Clearing browser data removes saved assessment state
 - Using a different browser or machine will not carry progress over
-- Exporting reports is the best way to keep portable documentation
+
+### Session management
+
+The Audit tab includes three session controls in the toolbar:
+
+- **💾 Save Session** — persists your full assessment state (Assess data, audit profile, risk register values) to localStorage with a timestamp
+- **📂 Import Session** — loads a previously exported `.json` session file to resume work on any device
+- **🗑 New Assessment** — clears all state and resets the tool to a blank slate
+
+The status bar displays a last-saved indicator whenever a session is saved or restored. Use **Export Session** (in script, via `exportSessionJSON()`) to download a portable `.json` backup.
 
 [Back to contents](#contents)
 
@@ -328,12 +337,15 @@ This mode turns the tool from a reference experience into a practical review wor
 
 ### Output format
 
-Exports are produced as markdown so they can be reused in documentation systems, ticketing tools, or audit files. The full control inventory export includes EU AI Act compliance areas alongside the other five frameworks.
+Exports are produced as markdown so they can be reused in documentation systems, ticketing tools, or audit files. The full control inventory export includes EU AI Act compliance areas alongside all six frameworks.
+
+The Audit Report tab also supports print-to-PDF. Use Ctrl/Cmd+P from that tab to produce a clean A4-formatted PDF with navigation and interactive elements hidden.
 
 ### Export actions
 
 - **Copy** pastes the markdown to your clipboard
-- **Download** saves a `.md` file to your device
+- **Download .md** saves a markdown file to your device
+- **Download .docx** (Audit tab only) exports the full audit report as a formatted Word document with cover page, risk register, and gap summary
 
 [Back to contents](#contents)
 
@@ -448,7 +460,10 @@ The Cloud Security Alliance AI Controls Matrix brings together AI security and g
 
 ### ISO
 
-The workbench references ISO standards relevant to AI governance, AI risk management, lifecycle practice, trustworthiness, and baseline security.
+The workbench includes two ISO standards:
+
+- **ISO/IEC 42001:2023** — AI Management System. Covers governance, risk integration, and organizational AI accountability. Linked to GOVERN, MAP, and MANAGE in the NIST AI RMF.
+- **ISO/IEC 27001** — Information Security Management System. Covers security controls, risk treatment, and operational safeguards. Linked to GOVERN, MEASURE, and MANAGE in the NIST AI RMF.
 
 ### MITRE ATLAS
 
