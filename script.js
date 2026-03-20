@@ -3973,3 +3973,325 @@ function downloadAuditReport() {
   a.download = `ai-risk-assessment-${org}-${ts}.md`;
   a.click();
 }
+
+// ── WORD EXPORT ─────────────────────────────────────────────────────────────
+async function downloadAuditReportDocx() {
+  const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
+          HeadingLevel, AlignmentType, WidthType, BorderStyle, ShadingType,
+          PageNumber, NumberFormat, Footer, Header, PageBreak, Tab,
+          convertInchesToTwip, UnderlineType } = window.docx;
+
+  const p = auditProfile;
+  const ts = new Date().toISOString().split("T")[0];
+
+  // colour palette
+  const COL = {
+    navy:    "1E3A5F",
+    accent:  "38BDF8",
+    dark:    "0F172A",
+    mid:     "1E293B",
+    light:   "F1F5F9",
+    border:  "334155",
+    white:   "FFFFFF",
+    red:     "EF4444",
+    orange:  "F97316",
+    yellow:  "EAB308",
+    green:   "22C55E",
+    muted:   "64748B",
+  };
+
+  const txt = (text, opts = {}) => new TextRun({
+    text: String(text || ""),
+    font: "Calibri",
+    size: opts.size || 22,
+    bold: opts.bold || false,
+    italics: opts.italic || false,
+    color: opts.color || COL.dark,
+  });
+
+  const para = (children, opts = {}) => new Paragraph({
+    children: Array.isArray(children) ? children : [children],
+    alignment: opts.align || AlignmentType.LEFT,
+    spacing: { before: opts.before ?? 80, after: opts.after ?? 80 },
+    heading: opts.heading || undefined,
+  });
+
+  const h1 = (text) => new Paragraph({
+    children: [new TextRun({ text, font: "Calibri", size: 48, bold: true, color: COL.white })],
+    shading: { type: ShadingType.SOLID, color: COL.navy, fill: COL.navy },
+    spacing: { before: 400, after: 160 },
+  });
+
+  const h2 = (text) => new Paragraph({
+    children: [new TextRun({ text, font: "Calibri", size: 32, bold: true, color: COL.navy })],
+    spacing: { before: 320, after: 120 },
+    border: { bottom: { color: COL.accent, size: 8, space: 4, style: BorderStyle.SINGLE } },
+  });
+
+  const cell = (children, opts = {}) => new TableCell({
+    children: Array.isArray(children) ? children : [new Paragraph({
+      children: [txt(children, (opts.text || {}))],
+      spacing: { before: 60, after: 60 },
+    })],
+    width: opts.width ? { size: opts.width, type: WidthType.PERCENTAGE } : undefined,
+    shading: opts.shade ? { type: ShadingType.SOLID, color: opts.shade, fill: opts.shade } : undefined,
+    margins: { top: 80, bottom: 80, left: 120, right: 120 },
+  });
+
+  const hCell = (label, width) => cell(
+    [new Paragraph({ children: [txt(label, { bold: true, color: COL.white, size: 20 })], spacing: { before: 60, after: 60 } })],
+    { shade: COL.navy, width }
+  );
+
+  const trow = (cells) => new TableRow({ children: cells });
+
+  const sevColor = (score) => {
+    if (score >= 16) return { bg: "fee2e2", fg: COL.red,    label: "CRITICAL" };
+    if (score >= 9)  return { bg: "ffedd5", fg: COL.orange, label: "HIGH"     };
+    if (score >= 4)  return { bg: "fef9c3", fg: COL.yellow, label: "MEDIUM"   };
+    return             { bg: "dcfce7", fg: COL.green,  label: "LOW"      };
+  };
+
+  const blankPara = () => para([txt("")], { before: 40, after: 40 });
+
+  const tierLabel = p.tier
+    ? "Tier " + p.tier + " — " + (p.tier === "1" ? "Critical / High-Risk" : p.tier === "2" ? "Significant Risk" : p.tier === "3" ? "Limited Risk" : "Minimal Risk")
+    : "";
+
+  // COVER PAGE
+  const cover = [
+    new Paragraph({ children: [], spacing: { before: 0, after: 2400 } }),
+    new Paragraph({
+      children: [new TextRun({ text: "AI RISK ASSESSMENT REPORT", font: "Calibri", size: 72, bold: true, color: COL.navy })],
+      alignment: AlignmentType.CENTER, spacing: { before: 0, after: 240 },
+    }),
+    new Paragraph({
+      children: [new TextRun({ text: p.title || "Untitled System Assessment", font: "Calibri", size: 40, italics: true, color: COL.muted })],
+      alignment: AlignmentType.CENTER, spacing: { before: 0, after: 480 },
+    }),
+    new Paragraph({
+      children: [new TextRun({ text: "Confidential — For Internal Use Only", font: "Calibri", size: 22, italics: true, color: COL.muted })],
+      alignment: AlignmentType.CENTER, spacing: { before: 0, after: 400 },
+    }),
+    ...[
+      ["Organization",    p.org || "—"],
+      ["System",          p.system || "—"],
+      ["Assessor",        p.assessor || "—"],
+      ["Assessment Date", p.date || ts],
+      ["Sector",          p.sector || "—"],
+      ["Risk Tier",       tierLabel || "—"],
+    ].map(([label, value]) => new Paragraph({
+      children: [
+        new TextRun({ text: (label + ":").padEnd(25), font: "Calibri", size: 22, color: COL.muted }),
+        new TextRun({ text: value, font: "Calibri", size: 22, bold: true, color: COL.dark }),
+      ],
+      alignment: AlignmentType.CENTER, spacing: { before: 60, after: 60 },
+    })),
+    new Paragraph({ children: [new PageBreak()], spacing: { before: 0, after: 0 } }),
+  ];
+
+  // SECTION 1: SYSTEM PROFILE
+  const profileRows = [
+    ["Assessment Title",     p.title    || "—"],
+    ["Organization",         p.org      || "—"],
+    ["System Name",          p.system   || "—"],
+    ["Assessor",             p.assessor || "—"],
+    ["Date",                 p.date     || ts],
+    ["Sector",               p.sector   || "—"],
+    ["AI Supply Chain Role", (p.roles  || []).join(", ") || "—"],
+    ["Data Processed",       (p.data   || []).join(", ") || "—"],
+    ["Deployment Model",     (p.deploy || []).join(", ") || "—"],
+    ["Maturity Level",       p.maturity || "—"],
+    ["Risk Tier",            tierLabel  || "—"],
+  ];
+  if (p.desc)    profileRows.push(["System Description", p.desc]);
+  if (p.context) profileRows.push(["Additional Context",  p.context]);
+
+  const profileTable = new Table({
+    width: { size: 100, type: WidthType.PERCENTAGE },
+    rows: [
+      trow([hCell("Field", 30), hCell("Value", 70)]),
+      ...profileRows.map(([label, value], idx) => trow([
+        cell([new Paragraph({ children: [txt(label, { bold: true, size: 20 })], spacing: { before: 60, after: 60 } })],
+             { shade: idx % 2 === 0 ? "f8fafc" : COL.white, width: 30 }),
+        cell([new Paragraph({ children: [txt(value, { size: 20 })], spacing: { before: 60, after: 60 } })],
+             { shade: idx % 2 === 0 ? "f8fafc" : COL.white, width: 70 }),
+      ])),
+    ],
+  });
+
+  // SECTION 2: RISK SUMMARY
+  const counts = { CRITICAL: 0, HIGH: 0, MEDIUM: 0, LOW: 0 };
+  auditRisks.forEach(r => {
+    const score = r.likelihood * r.impact;
+    counts[sevColor(score).label]++;
+  });
+  const totalRisks = auditRisks.length;
+
+  const summaryTable = new Table({
+    width: { size: 100, type: WidthType.PERCENTAGE },
+    rows: [
+      trow([hCell("Severity", 20), hCell("Count", 15), hCell("% of Total", 15), hCell("Action Required", 50)]),
+      ...Object.entries({
+        CRITICAL: ["fee2e2", COL.red,    "Immediate action — regulatory breach or severe harm likely"],
+        HIGH:     ["ffedd5", COL.orange, "Urgent remediation required within 30 days"],
+        MEDIUM:   ["fef9c3", COL.yellow, "Address within 90 days via remediation roadmap"],
+        LOW:      ["dcfce7", COL.green,  "Monitor; remediate within normal governance cycle"],
+      }).map(([sev, [bg, fg, desc]]) => {
+        const pct = totalRisks > 0 ? Math.round((counts[sev] / totalRisks) * 100) + "%" : "0%";
+        return trow([
+          cell([new Paragraph({ children: [txt(sev, { bold: true, color: fg, size: 20 })], spacing: { before: 60, after: 60 } })], { shade: bg, width: 20 }),
+          cell([new Paragraph({ children: [txt(String(counts[sev]), { bold: true, size: 24, color: fg })], spacing: { before: 60, after: 60 }, alignment: AlignmentType.CENTER })], { shade: bg, width: 15 }),
+          cell([new Paragraph({ children: [txt(pct, { size: 20, color: COL.muted })], spacing: { before: 60, after: 60 }, alignment: AlignmentType.CENTER })], { shade: bg, width: 15 }),
+          cell([new Paragraph({ children: [txt(desc, { size: 20 })], spacing: { before: 60, after: 60 } })], { shade: bg, width: 50 }),
+        ]);
+      }),
+    ],
+  });
+
+  // SECTION 3: RISK REGISTER
+  const riskTableRows = [trow([hCell("Risk Scenario", 55), hCell("Rating", 15), hCell("L", 8), hCell("I", 8), hCell("Score", 14)])];
+  auditRisks.forEach((r, idx) => {
+    const score = r.likelihood * r.impact;
+    const sev = sevColor(score);
+    const gapCount = r.controls ? r.controls.filter(c => c.type === "gap").length : 0;
+    const ctrlCount = r.controls ? r.controls.length : 0;
+
+    // Risk row
+    riskTableRows.push(trow([
+      cell([
+        new Paragraph({ children: [txt((idx + 1) + ".  " + (r.title || "Risk Scenario"), { bold: true, size: 22 })], spacing: { before: 80, after: 40 } }),
+        ...(r.desc ? [new Paragraph({ children: [txt(r.desc, { size: 18, color: COL.muted })], spacing: { before: 0, after: 80 } })] : []),
+      ], { shade: idx % 2 === 0 ? "f8fafc" : COL.white, width: 55 }),
+      cell([new Paragraph({ children: [txt(sev.label, { bold: true, color: sev.fg, size: 20 })], spacing: { before: 80, after: 80 }, alignment: AlignmentType.CENTER })], { shade: sev.bg, width: 15 }),
+      cell([new Paragraph({ children: [txt(String(r.likelihood), { size: 20 })], spacing: { before: 80, after: 80 }, alignment: AlignmentType.CENTER })], { shade: idx % 2 === 0 ? "f8fafc" : COL.white, width: 8 }),
+      cell([new Paragraph({ children: [txt(String(r.impact), { size: 20 })], spacing: { before: 80, after: 80 }, alignment: AlignmentType.CENTER })], { shade: idx % 2 === 0 ? "f8fafc" : COL.white, width: 8 }),
+      cell([new Paragraph({ children: [txt(String(score), { bold: true, size: 20, color: sev.fg })], spacing: { before: 80, after: 80 }, alignment: AlignmentType.CENTER })], { shade: sev.bg, width: 14 }),
+    ]));
+
+    // Controls subrow
+    if (ctrlCount > 0) {
+      const gapLines = r.controls.filter(c => c.type === "gap").map(c => new Paragraph({ children: [txt("⚠ [GAP] " + (c.label || c.id || ""), { size: 18, color: COL.red })], spacing: { before: 20, after: 20 }, indent: { left: convertInchesToTwip(0.2) } }));
+      const okLines  = r.controls.filter(c => c.type !== "gap").map(c => new Paragraph({ children: [txt("✓ " + (c.label || c.id || ""), { size: 18, color: COL.green })], spacing: { before: 20, after: 20 }, indent: { left: convertInchesToTwip(0.2) } }));
+      riskTableRows.push(new TableRow({
+        children: [new TableCell({
+          children: [
+            new Paragraph({ children: [txt("Controls: " + ctrlCount + " reviewed, " + gapCount + " gap(s)", { bold: true, size: 18, color: COL.muted })], spacing: { before: 60, after: 40 } }),
+            ...gapLines, ...okLines.slice(0, 6),
+          ],
+          columnSpan: 5,
+          shading: { type: ShadingType.SOLID, color: "f0f9ff", fill: "f0f9ff" },
+          margins: { top: 40, bottom: 80, left: 240, right: 120 },
+        })],
+      }));
+    }
+  });
+
+  const riskTable = new Table({
+    width: { size: 100, type: WidthType.PERCENTAGE },
+    rows: riskTableRows,
+  });
+
+  // SECTION 4: CONTROL GAPS
+  const allGaps = [];
+  auditRisks.forEach(r => {
+    (r.controls || []).filter(c => c.type === "gap").forEach(c => {
+      allGaps.push({ risk: r.title || "Risk", ctrl: c.label || c.id || "Control" });
+    });
+  });
+
+  const gapSection = allGaps.length > 0 ? [
+    h1("4. Control Gaps"),
+    new Paragraph({ children: [txt("The following " + allGaps.length + " control gap" + (allGaps.length !== 1 ? "s" : "") + " require remediation:", { size: 20 })], spacing: { before: 80, after: 120 } }),
+    new Table({
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      rows: [
+        trow([hCell("#", 8), hCell("Risk Scenario", 42), hCell("Control Gap Identified", 50)]),
+        ...allGaps.map((g, i) => trow([
+          cell([new Paragraph({ children: [txt(String(i + 1), { size: 20 })], spacing: { before: 60, after: 60 }, alignment: AlignmentType.CENTER })], { shade: i % 2 === 0 ? "f8fafc" : COL.white, width: 8 }),
+          cell([new Paragraph({ children: [txt(g.risk, { size: 20 })], spacing: { before: 60, after: 60 } })], { shade: i % 2 === 0 ? "f8fafc" : COL.white, width: 42 }),
+          cell([new Paragraph({ children: [txt(g.ctrl, { bold: true, color: COL.red, size: 20 })], spacing: { before: 60, after: 60 } })], { shade: i % 2 === 0 ? "fee2e2" : "fff1f1", width: 50 }),
+        ])),
+      ],
+    }),
+  ] : [
+    h1("4. Control Gaps"),
+    new Paragraph({ children: [txt("No control gaps identified. All assessed controls are in place.", { italic: true, color: COL.green, size: 20 })], spacing: { before: 80, after: 80 } }),
+  ];
+
+  // ASSEMBLE DOCUMENT
+  const org = (p.org || "org").replace(/[^a-z0-9]/gi, "_").toLowerCase();
+  const filename = "ai-risk-assessment_" + org + "_" + ts + ".docx";
+
+  const doc = new Document({
+    creator: "AI Governance Practitioner Workbench",
+    title: "AI Risk Assessment Report",
+    description: "Exported from AI Governance Practitioner Workbench",
+    sections: [{
+      properties: {
+        page: {
+          margin: {
+            top:    convertInchesToTwip(1),
+            bottom: convertInchesToTwip(1),
+            left:   convertInchesToTwip(1.25),
+            right:  convertInchesToTwip(1.25),
+          },
+        },
+      },
+      headers: {
+        default: new Header({
+          children: [new Paragraph({
+            children: [
+              new TextRun({ text: "AI Risk Assessment Report  |  CONFIDENTIAL", font: "Calibri", size: 16, color: COL.muted }),
+              new TextRun({ text: "		" + (p.org || ""), font: "Calibri", size: 16, bold: true, color: COL.navy }),
+            ],
+            border: { bottom: { color: COL.accent, size: 6, style: BorderStyle.SINGLE, space: 4 } },
+          })],
+        }),
+      },
+      footers: {
+        default: new Footer({
+          children: [new Paragraph({
+            children: [
+              new TextRun({ text: "Generated " + ts + "  |  AI Governance Practitioner Workbench", font: "Calibri", size: 16, color: COL.muted }),
+              new TextRun({ text: "		Page ", font: "Calibri", size: 16, color: COL.muted }),
+              new TextRun({ children: [PageNumber.CURRENT], font: "Calibri", size: 16, color: COL.muted }),
+              new TextRun({ text: " of ", font: "Calibri", size: 16, color: COL.muted }),
+              new TextRun({ children: [PageNumber.TOTAL_PAGES], font: "Calibri", size: 16, color: COL.muted }),
+            ],
+            border: { top: { color: COL.border, size: 4, style: BorderStyle.SINGLE, space: 4 } },
+          })],
+        }),
+      },
+      children: [
+        ...cover,
+        h1("1. System Profile"),
+        blankPara(),
+        profileTable,
+        h1("2. Risk Summary"),
+        new Paragraph({ children: [txt("Total risk scenarios assessed: " + totalRisks, { bold: true, size: 20 })], spacing: { before: 80, after: 120 } }),
+        summaryTable,
+        h1("3. Risk Register"),
+        new Paragraph({ children: [txt("Detailed breakdown of assessed risk scenarios, controls, and identified gaps.", { size: 20, color: COL.muted })], spacing: { before: 80, after: 120 } }),
+        riskTable,
+        blankPara(),
+        ...gapSection,
+        blankPara(),
+        new Paragraph({ children: [new TextRun({ text: "END OF REPORT", font: "Calibri", size: 20, bold: true, color: COL.muted })], alignment: AlignmentType.CENTER, spacing: { before: 400, after: 80 } }),
+        new Paragraph({ children: [new TextRun({ text: "Generated by AI Governance Practitioner Workbench", font: "Calibri", size: 16, italics: true, color: COL.muted })], alignment: AlignmentType.CENTER, spacing: { before: 0, after: 0 } }),
+      ],
+    }],
+  });
+
+  try {
+    const blob = await Packer.toBlob(doc);
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  } catch (e) {
+    alert("Word export failed: " + e.message);
+    console.error("docx export error", e);
+  }
+}
