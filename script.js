@@ -2571,8 +2571,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Set default date
   const dateEl = document.getElementById("p-date");
   if (dateEl) dateEl.value = new Date().toISOString().split("T")[0];
-  // Init chips (audit mode) and set default date
-  initChips();
   const pDateEl = document.getElementById("p-date");
   if (pDateEl) pDateEl.value = new Date().toISOString().split("T")[0];
   // Init badges from saved state
