@@ -2109,3 +2109,121 @@ html.light .scenario-card {
 html.light .risk-card-body {
   background: #fff;
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   PRINT / PDF STYLESHEET
+   Hides navigation, chips, and interactive controls.
+   Renders the audit report in a clean single-column layout.
+   Usage: Ctrl/Cmd+P from the Audit Report tab.
+══════════════════════════════════════════════════════════════════ */
+@media print {
+  /* Page setup */
+  @page {
+    size: A4 portrait;
+    margin: 20mm 15mm 20mm 15mm;
+  }
+
+  /* Hide all interactive and navigation elements */
+  .top-nav,
+  .nav-tabs,
+  .status-toggles,
+  .chip-group,
+  .audit-chips-row,
+  .profile-form,
+  .export-actions,
+  .export-preview-header,
+  .fw-grid,
+  .assess-panel,
+  .connector-panel,
+  button,
+  .nav-btn,
+  .sb-save-hint,
+  #last-saved-indicator {
+    display: none !important;
+  }
+
+  /* Show only the audit panel */
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11pt;
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
+  .audit-panel,
+  .audit-report,
+  .report-section {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 0 16pt 0 !important;
+  }
+
+  /* Risk register and tables */
+  table,
+  .risk-table,
+  .risk-register {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 9pt;
+    page-break-inside: auto;
+  }
+
+  th, td {
+    border: 1px solid #999 !important;
+    padding: 4pt 6pt !important;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background: #eee !important;
+    font-weight: bold;
+    font-size: 9pt;
+  }
+
+  /* Section headings */
+  h1, h2, h3, .section-title, .report-title {
+    color: #000 !important;
+    page-break-after: avoid;
+    font-family: Arial, sans-serif;
+  }
+
+  h1, .report-title { font-size: 18pt; margin-bottom: 4pt; }
+  h2, .section-title { font-size: 13pt; margin-top: 16pt; border-bottom: 1px solid #ccc; }
+  h3 { font-size: 11pt; margin-top: 12pt; }
+
+  /* Keep risk rows together where possible */
+  .risk-row, tr {
+    page-break-inside: avoid;
+  }
+
+  /* Status badges — print-safe colors */
+  .badge-gap, .badge-high {
+    border: 1px solid #c00 !important;
+    color: #c00 !important;
+    background: none !important;
+  }
+  .badge-ok, .badge-low {
+    border: 1px solid #060 !important;
+    color: #060 !important;
+    background: none !important;
+  }
+  .badge-partial, .badge-medium {
+    border: 1px solid #850 !important;
+    color: #850 !important;
+    background: none !important;
+  }
+
+  /* Page breaks */
+  .page-break-before { page-break-before: always; }
+  .page-break-after  { page-break-after: always; }
+
+  /* Links — show URL in print */
+  a[href]::after {
+    content: none;
+  }
+}
