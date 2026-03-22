@@ -3,7 +3,6 @@
 // NIST_TO_CSA, CSA_CODE_MAP, EUAIA_TO_NIST, EUAIA_TO_CSA, OWASP_TO_CSA, OWASP_TO_NIST)
 // have been extracted to data.js which must be loaded before this file.
 
-};
 
 // ══════════════════════════════════════════════
 // STATE
@@ -1100,6 +1099,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const pDateEl = document.getElementById("p-date");
   if (pDateEl) pDateEl.value = new Date().toISOString().split("T")[0];
   // Init badges from saved state
+  loadSession();
   renderAssessBadges();
   updateStatusBar(null, null, null);
 
@@ -1112,7 +1112,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // ══════════════════════════════════════════════
 
 
-];
 
 // ── AUDIT STATE ──
 let auditProfile = {};
@@ -1130,6 +1129,8 @@ function goAuditStep(step) {
     s.classList.toggle("done", i < step);
   });
   if (step === 1) renderScenarios();
+  if (step === 2) buildRiskRegister();
+  if (step === 3) buildFindings();
   if (step === 4) renderAuditReport();
 }
 
