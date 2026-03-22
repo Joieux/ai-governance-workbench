@@ -81,6 +81,10 @@
             <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
           </svg>
         </button>
+        <span id="last-saved-indicator" class="sb-save-hint"></span>
+        <button class="nav-btn" onclick="exportSessionJSON()" title="Export full session as JSON file">
+          📥 Export Session
+        </button>
       </div>
     </nav>
 
@@ -1873,16 +1877,15 @@
                 ↓ Download .md
               </button>
         <button class="nav-btn primary" onclick="downloadAuditReportDocx()">&#8659; Download .docx</button>
-        <button class="nav-btn" onclick="saveSession()" title="Save current session to browser storage">
-          💾 Save Session
-        </button>
-        <button class="nav-btn" onclick="importSessionJSON()" title="Import a previously exported session file">
-          📂 Import Session
-        </button>
-        <button class="nav-btn" onclick="resetSession()" title="Clear all assessment data and start fresh">
-          🗑 New Assessment
-        </button>
             </div>
+          </div>
+          <!-- ── SESSION BAR ── -->
+          <div class="session-bar" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 0 4px;">
+            <span style="font-size:11px;color:var(--dim);margin-right:4px;">Session:</span>
+            <button class="nav-btn" onclick="saveSession()" title="Save current session to browser storage">💾 Save</button>
+            <button class="nav-btn" onclick="exportSessionJSON()" title="Export session as JSON file">📥 Export</button>
+            <button class="nav-btn" onclick="importSessionJSON()" title="Import a previously exported session file">📂 Import</button>
+            <button class="nav-btn warn" onclick="resetSession()" title="Clear all assessment data and start fresh">🗑 Reset</button>
           </div>
           <div class="export-preview">
             <div class="export-preview-header">
