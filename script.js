@@ -706,6 +706,9 @@ function switchMode(mode) {
   if (mode === "audit") {
     /* audit mode init handled by goAuditStep */
   }
+  if (mode === 'dashboard') {
+    renderDashboard();
+  }
 }
 
 // ══════════════════════════════════════════════
@@ -1208,6 +1211,10 @@ document.addEventListener("DOMContentLoaded", () => {
         case 'saveSession':             saveSession(); break;
         case 'importSessionJSON':       importSessionJSON(); break;
         case 'resetSession':            resetSession(); break;
+        case 'exportGrcServicenow':    exportGrcServicenow(); break;
+        case 'exportGrcArcher':         exportGrcArcher(); break;
+        case 'exportGrcJira':           exportGrcJira(); break;
+        case 'exportGrcCsv':            exportGrcCsv(); break;
         default: console.warn('[GWB] Unknown data-action:', escapeHtml(action));
       }
       return;
@@ -2278,3 +2285,242 @@ function importSessionJSON() {
   };
   input.click();
 }
+
+// ══════════════════════════════════════════════
+// DASHBOARD MODE
+// ══════════════════════════════════════════════
+
+/**
+ * Render the governance coverage dashboard.
+ * Called when switching to dashboard mode or after any assess state change.
+ */
+function renderDashboard() {
+  // Get assessment stats using existing function
+  var stats = getAssessStats();
+
+  // ── KPI cards ──
+  var el = function(id) { return document.getElementById(id); };
+  if (el('dash-total')) el('dash-total').textContent = stats.total;
+  if (el('dash-done'))  el('dash-done').textContent  = stats.done;
+  if (el('dash-wip'))   el('dash-wip').textContent   = stats.wip;
+  if (el('dash-gap'))   el('dash-gap').textContent   = stats.none;
+  var pct = stats.total > 0 ? Math.round((stats.done / stats.total) * 100) : 0;
+  var wipPct = stats.total > 0 ? Math.round((stats.wip / stats.total) * 100) : 0;
+  if (el('dash-pct')) el('dash-pct').textContent = pct + '%';
+
+  // ── Coverage bar ──
+  var bar = el('dash-coverage-bar');
+  var fill = el('dash-coverage-fill');
+  var wipBar = el('dash-coverage-wip');
+  if (fill) fill.style.width = pct + '%';
+  if (wipBar) wipBar.style.width = wipPct + '%';
+  if (bar) {
+    bar.setAttribute('aria-valuenow', pct);
+    bar.title = pct + '% implemented, ' + wipPct + '% in progress';
+  }
+
+  // ── Per-framework grid ──
+  var grid = el('dash-fw-grid');
+  if (grid && stats.fwStats) {
+    var html = '';
+    var fwNames = {
+      nist: 'NIST AI RMF', csa: 'CSA CAIQ', iso: 'ISO/IEC 42001',
+      atlas: 'MITRE ATLAS', owasp: 'OWASP LLM Top 10', euaia: 'EU AI Act'
+    };
+    Object.keys(stats.fwStats).forEach(function(fw) {
+      var fs = stats.fwStats[fw];
+      if (!fs || fs.total === 0) return;
+      var fwPct = Math.round((fs.done / fs.total) * 100);
+      var fwWip = Math.round((fs.wip / fs.total) * 100);
+      var statusClass = fwPct >= 80 ? 'dash-fw-card--green' : fwPct >= 40 ? 'dash-fw-card--amber' : 'dash-fw-card--red';
+      html += '<div class="dash-fw-card ' + statusClass + '">' +
+        '<div class="dash-fw-card__name">' + escapeHtml(fwNames[fw] || fw.toUpperCase()) + '</div>' +
+        '<div class="dash-fw-bar-wrap" role="progressbar" aria-label="' + escapeHtml(fwNames[fw] || fw) + ' coverage" aria-valuenow="' + fwPct + '" aria-valuemin="0" aria-valuemax="100">' +
+          '<div class="dash-fw-bar__fill" style="width:' + fwPct + '%"></div>' +
+          '<div class="dash-fw-bar__wip" style="width:' + fwWip + '%"></div>' +
+        '</div>' +
+        '<div class="dash-fw-card__stats">' +
+          '<span class="dash-fw-stat dash-fw-stat--done">' + fs.done + ' done</span>' +
+          '<span class="dash-fw-stat dash-fw-stat--wip">' + fs.wip + ' wip</span>' +
+          '<span class="dash-fw-stat dash-fw-stat--gap">' + (fs.total - fs.done - fs.wip) + ' gap</span>' +
+          '<span class="dash-fw-stat dash-fw-stat--pct">' + fwPct + '%</span>' +
+        '</div>' +
+      '</div>';
+    });
+    grid.innerHTML = html || '<p class="dash-no-data">No frameworks active. Enable frameworks in Assess mode.</p>';
+  }
+
+  // ── Session info ──
+  var session = {};
+  try { session = JSON.parse(localStorage.getItem(SESSION_KEY) || '{}'); } catch(e) {}
+  if (el('dash-last-saved')) {
+    var saved = session.savedAt ? new Date(session.savedAt).toLocaleString() : '—';
+    el('dash-last-saved').textContent = saved;
+  }
+  if (el('dash-frameworks')) {
+    var chips = document.querySelectorAll('.chip.selected[data-val]');
+    var fwList = Array.from(chips).map(function(c) { return c.dataset.val.toUpperCase(); });
+    el('dash-frameworks').textContent = fwList.length > 0 ? fwList.join(', ') : 'None selected';
+  }
+  if (el('dash-audit-tier')) {
+    el('dash-audit-tier').textContent = window.auditTier ? 'Tier ' + window.auditTier : 'Not set';
+  }
+  if (el('dash-system-name')) {
+    var pTitle = document.getElementById('p-title');
+    el('dash-system-name').textContent = (pTitle && pTitle.value) ? escapeHtml(pTitle.value) : '—';
+  }
+
+  announceToScreenReader('Dashboard updated: ' + pct + '% coverage across ' + stats.total + ' controls.');
+}
+
+// ══════════════════════════════════════════════
+// GRC INTEGRATION EXPORTS
+// ══════════════════════════════════════════════
+
+/**
+ * Build assessment rows for GRC exports.
+ * @returns {Array<{id,framework,title,status,priority,domain}>}
+ */
+function buildGrcRows() {
+  var rows = [];
+  var items = document.querySelectorAll('.fw-item[data-id]');
+  items.forEach(function(item) {
+    var id = item.dataset.id || '';
+    var fw = item.dataset.fw || item.closest('[data-fw]') ? item.closest('[data-fw]').dataset.fw : '';
+    var titleEl = item.querySelector('.fw-item-title') || item;
+    var title = titleEl.textContent.trim();
+    var status = assessState[id] || 'none';
+    var priority = (typeof PRIORITY_MAP !== 'undefined' && PRIORITY_MAP[id]) ? PRIORITY_MAP[id] : '';
+    var domain = item.closest('[data-domain]') ? item.closest('[data-domain]').dataset.domain : '';
+    rows.push({ id: id, framework: fw, title: title, status: status, priority: priority, domain: domain });
+  });
+  return rows;
+}
+
+/**
+ * Download data as a CSV file.
+ * @param {string} csv - CSV content
+ * @param {string} filename - Download filename
+ */
+function downloadCsv(csv, filename) {
+  try {
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('Exported ' + filename, 'success');
+    announceToScreenReader('Downloaded ' + filename);
+  } catch(e) {
+    showToast('Export failed: ' + e.message, 'error');
+  }
+}
+
+/** Export in ServiceNow GRC risk/compliance CSV format */
+function exportGrcServicenow() {
+  var rows = buildGrcRows();
+  var now = new Date().toISOString().split('T')[0];
+  var lines = ['Control ID,Control Name,Framework,Status,Risk Level,Business Domain,Assessment Date,Comments'];
+  rows.forEach(function(r) {
+    var status = r.status === 'done' ? 'Compliant' : r.status === 'wip' ? 'In Remediation' : 'Non-Compliant';
+    var risk = r.priority === 'high' ? 'High' : r.priority === 'medium' ? 'Medium' : r.priority === 'low' ? 'Low' : 'Not Rated';
+    lines.push([r.id, '"' + r.title.replace(/"/g,'""') + '"', r.framework.toUpperCase(), status, risk, r.domain, now, ''].join(','));
+  });
+  downloadCsv(lines.join('
+'), 'ai-governance-servicenow-' + now + '.csv');
+}
+
+/** Export in RSA Archer control standards import CSV format */
+function exportGrcArcher() {
+  var rows = buildGrcRows();
+  var now = new Date().toISOString().split('T')[0];
+  var lines = ['Control ID,Control Title,Source Framework,Implementation Status,Priority,Category,Review Date'];
+  rows.forEach(function(r) {
+    var status = r.status === 'done' ? 'Implemented' : r.status === 'wip' ? 'Partially Implemented' : 'Not Implemented';
+    lines.push([r.id, '"' + r.title.replace(/"/g,'""') + '"', r.framework.toUpperCase(), status, r.priority || 'TBD', r.domain, now].join(','));
+  });
+  downloadCsv(lines.join('
+'), 'ai-governance-archer-' + now + '.csv');
+}
+
+/** Export as Jira/Linear issue import CSV format */
+function exportGrcJira() {
+  var rows = buildGrcRows();
+  var now = new Date().toISOString().split('T')[0];
+  var lines = ['Summary,Issue Type,Priority,Labels,Status,Description'];
+  rows.filter(function(r) { return r.status !== 'done'; }).forEach(function(r) {
+    var priority = r.priority === 'high' ? 'High' : r.priority === 'medium' ? 'Medium' : 'Low';
+    var labels = ['ai-governance', r.framework, r.domain].filter(Boolean).join(' ');
+    var status = r.status === 'wip' ? 'In Progress' : 'To Do';
+    var summary = '[' + r.framework.toUpperCase() + '] ' + r.title;
+    lines.push(['"' + summary.replace(/"/g,'""') + '"', 'Task', priority, labels, status, '"Control ID: ' + r.id + '"'].join(','));
+  });
+  downloadCsv(lines.join('
+'), 'ai-governance-jira-' + now + '.csv');
+}
+
+/** Export all controls as generic CSV */
+function exportGrcCsv() {
+  var rows = buildGrcRows();
+  var now = new Date().toISOString().split('T')[0];
+  var lines = ['Control ID,Framework,Title,Status,Priority,Domain'];
+  rows.forEach(function(r) {
+    lines.push([r.id, r.framework.toUpperCase(), '"' + r.title.replace(/"/g,'""') + '"', r.status, r.priority || '', r.domain].join(','));
+  });
+  downloadCsv(lines.join('
+'), 'ai-governance-controls-' + now + '.csv');
+}
+
+// ══════════════════════════════════════════════
+// STORAGE ABSTRACTION LAYER
+// ══════════════════════════════════════════════
+
+/**
+ * StorageAdapter — abstract storage layer.
+ * Currently wraps localStorage. Replace 'localStorage' backend
+ * with a REST API adapter to enable multi-user/centralized storage.
+ *
+ * Usage:
+ *   StorageAdapter.get(key)        → value | null
+ *   StorageAdapter.set(key, value) → void
+ *   StorageAdapter.remove(key)     → void
+ *   StorageAdapter.keys()          → string[]
+ */
+var StorageAdapter = (function() {
+  var _backend = 'localStorage'; // switch to 'api' for REST backend
+
+  function _localGet(key) {
+    try { return localStorage.getItem(key); } catch(e) { console.error('[GWB] StorageAdapter.get failed', e); return null; }
+  }
+  function _localSet(key, value) {
+    try { localStorage.setItem(key, value); } catch(e) {
+      if (e.name === 'QuotaExceededError') {
+        showToast('Storage quota exceeded. Consider exporting your session.', 'warn', 8000);
+      }
+      console.error('[GWB] StorageAdapter.set failed', e);
+    }
+  }
+  function _localRemove(key) {
+    try { localStorage.removeItem(key); } catch(e) { console.error('[GWB] StorageAdapter.remove failed', e); }
+  }
+  function _localKeys() {
+    var keys = [];
+    try { for (var i = 0; i < localStorage.length; i++) keys.push(localStorage.key(i)); } catch(e) {}
+    return keys;
+  }
+
+  return {
+    backend: _backend,
+    get: _localGet,
+    set: _localSet,
+    remove: _localRemove,
+    keys: _localKeys,
+    /** Future: connect to REST API endpoint for centralized multi-user storage */
+    connectApi: function(baseUrl, authToken) {
+      console.info('[GWB] StorageAdapter.connectApi: API backend not yet implemented. baseUrl=', baseUrl);
+      showToast('API storage backend coming soon. Using local storage.', 'info');
+    }
+  };
+})();
