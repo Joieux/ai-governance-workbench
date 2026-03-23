@@ -1,21 +1,21 @@
 <a id="top"></a>
 
-# AI Governance Practitioner Workbench User Guide
+# AI Governance Practitioner Workbench — User Guide
 
-> **Version 1.1**  
+> **Version 1.2**  
 > **Format:** Markdown guide for GitHub and local use
 
 <p>
   <img src="https://img.shields.io/badge/Guide-User%20Guide-4F46E5" alt="User Guide badge" />
   <img src="https://img.shields.io/badge/App-Static%20Browser%20Tool-0F766E" alt="Static app badge" />
   <img src="https://img.shields.io/badge/Frameworks-6-2563EB" alt="Frameworks badge" />
-  <img src="https://img.shields.io/badge/Controls-47-7C3AED" alt="Controls badge" />
+  <img src="https://img.shields.io/badge/Modes-5-7C3AED" alt="Modes badge" />
 </p>
 
 <table>
   <tr>
     <td><strong>What this guide covers</strong></td>
-    <td>Setup, navigation, framework mapping, control review, exports, risk assessment workflow, shortcuts, and reference terms.</td>
+    <td>Setup, navigation, all five modes, session management, GRC exports, keyboard shortcuts, and framework reference.</td>
   </tr>
   <tr>
     <td><strong>Who it is for</strong></td>
@@ -23,7 +23,7 @@
   </tr>
   <tr>
     <td><strong>How to use it</strong></td>
-    <td>Start with the table of contents, jump to the section you need, and return to it during actual review work.</td>
+    <td>Start with the table of contents, jump to the section you need, and use keyboard shortcuts for faster navigation during demos.</td>
   </tr>
 </table>
 
@@ -40,9 +40,11 @@
 5. [Assess Mode](#5-assess-mode)
 6. [Export Mode](#6-export-mode)
 7. [Audit Mode](#7-audit-mode)
-8. [Keyboard Shortcuts](#8-keyboard-shortcuts)
-9. [Framework Reference](#9-framework-reference)
-10. [Glossary](#10-glossary)
+8. [Dashboard Mode](#8-dashboard-mode)
+9. [Session Management](#9-session-management)
+10. [Keyboard Shortcuts](#10-keyboard-shortcuts)
+11. [Framework Reference](#11-framework-reference)
+12. [Glossary](#12-glossary)
 
 ---
 
@@ -50,37 +52,20 @@
 
 ## 1. Overview
 
-<table>
-  <tr>
-    <td bgcolor="#EEF2FF"><strong>Purpose</strong></td>
-    <td>The AI Governance Practitioner Workbench is a browser based tool for mapping governance frameworks, reviewing control coverage, and running a structured AI risk assessment.</td>
-  </tr>
-  <tr>
-    <td bgcolor="#ECFDF5"><strong>Primary use</strong></td>
-    <td>It helps users understand how six major AI governance frameworks connect and supports a repeatable review workflow for assessing AI systems.</td>
-  </tr>
-  <tr>
-    <td bgcolor="#FFF7ED"><strong>Data handling</strong></td>
-    <td>The tool runs locally in the browser. There is no server, no login, and no external data transfer built into the app.</td>
-  </tr>
-</table>
+The AI Governance Practitioner Workbench is a zero-dependency browser application for exploring AI governance frameworks, tracking control coverage, running structured risk assessments, and visualising your governance posture — all in a single static file, with no install, no server, and no accounts required.
 
 ### What the workbench is designed to do
 
-The workbench supports two main jobs.
-
-**Framework exploration**  
-Understand how major governance, security, and assurance frameworks relate to each other and where concepts overlap. The workbench now covers six frameworks: NIST AI RMF, CSA AICM, ISO standards, MITRE ATLAS, OWASP LLM Top 10 2025, and the EU AI Act (Regulation 2024/1689).
-
-**Structured risk assessment**  
-Guide an organisation or practitioner through a five step AI risk assessment process that produces a markdown report.
+- Map relationships across six AI governance frameworks simultaneously
+- Track implementation status for individual controls and generate gap reports
+- Guide a five-step AI risk assessment from system profile through to report
+- Provide a live coverage dashboard with per-framework breakdowns
+- Export assessment outputs to markdown, Word (.docx), and GRC-platform CSV formats
+- Save, resume, and share sessions via portable JSON files
 
 ### What makes it useful
 
-- No install or server required. Open the HTML file and use it immediately.
-- Cross framework mapping is built in. Clicking an item in one column highlights related items in other columns, including EU AI Act compliance areas.
-- Control tracking persists in the browser. Assessment state is stored locally so work continues across sessions.
-- Outputs are portable markdown that can be pasted into reports, tickets, or documentation systems.
+All data lives in your browser. Nothing is sent to a server. Sessions persist through localStorage and can be exported as JSON for use on any device. The dashboard gives practitioners immediate visibility into coverage progress without switching tools.
 
 [Back to contents](#contents)
 
@@ -119,29 +104,26 @@ On Linux, open it from your file manager or launch it from the terminal.
 
 ### First run experience
 
-When the tool opens, it loads directly into **Explore mode**. The framework grid appears immediately, with six columns and all framework items visible.
+When the tool opens, it loads directly into **Explore mode**. The framework grid appears immediately with six columns and all framework items visible.
 
 No item is selected by default. Click any item to begin exploring framework relationships.
 
 ### Data persistence
 
-Assessment data is stored in browser `localStorage`.
+Your assessment state is automatically saved to `localStorage` in your browser. This means your work persists across sessions on the same device and browser without any manual action. If you clear browser data, use **Export Session** first to save a backup.
 
-That means:
+### Session bar
 
-- Progress stays saved on the same browser and device
-- Clearing browser data removes saved assessment state
-- Using a different browser or machine will not carry progress over
+A persistent **session toolbar** appears below the navigation bar. It is always visible regardless of which mode you are in.
 
-### Session management
+| Button | Purpose |
+|---|---|
+| 💾 Save | Write current state to localStorage with a timestamp |
+| 📥 Export | Download a portable `.json` session file |
+| 📂 Import | Load a previously exported `.json` file |
+| 🗑 Reset | Clear all state and start fresh (asks for confirmation) |
 
-The Audit tab includes three session controls in the toolbar:
-
-- **💾 Save Session** — persists your full assessment state (Assess data, audit profile, risk register values) to localStorage with a timestamp
-- **📂 Import Session** — loads a previously exported `.json` session file to resume work on any device
-- **🗑 New Assessment** — clears all state and resets the tool to a blank slate
-
-The status bar displays a last-saved indicator whenever a session is saved or restored. Use **Export Session** (in script, via `exportSessionJSON()`) to download a portable `.json` backup.
+The **📥 Export Session** button also appears in the top navigation bar for quick access.
 
 [Back to contents](#contents)
 
@@ -154,17 +136,17 @@ The status bar displays a last-saved indicator whenever a session is saved or re
 <table>
   <tr>
     <td bgcolor="#F3E8FF"><strong>Modes</strong></td>
-    <td>Explore, Assess, Export, Audit</td>
+    <td>Explore, Assess, Export, Audit, Dashboard</td>
   </tr>
   <tr>
     <td bgcolor="#E0F2FE"><strong>Global tools</strong></td>
-    <td>Search, theme toggle, quick navigation buttons</td>
+    <td>Search, theme toggle, export session button</td>
   </tr>
 </table>
 
 ### Top navigation bar
 
-The navigation bar appears at the top of the interface.
+The navigation bar appears at the top of the interface and is always visible.
 
 | Element | Purpose |
 |---|---|
@@ -172,9 +154,15 @@ The navigation bar appears at the top of the interface.
 | Explore | Framework mapping view |
 | Assess | Control tracking view |
 | Export | Markdown export view |
-| Audit | Structured risk assessment workflow |
+| Audit | Structured five-step risk assessment |
+| Dashboard | Coverage KPI summary and GRC exports |
 | Search | Filter framework items by keyword |
 | Theme toggle | Switch between dark and light mode |
+| 📥 Export Session | Quick-access button to download session JSON |
+
+### Session bar
+
+The session bar sits directly below the navigation bar and provides session management controls (Save, Export, Import, Reset) at all times. See [Session Management](#9-session-management) for full details.
 
 ### Search
 
@@ -182,11 +170,11 @@ The search bar filters framework items across all six columns in real time. Type
 
 Use **Command K** (macOS) or **Ctrl K** (Windows/Linux) to focus the search bar from anywhere in the tool.
 
-Press **Escape** to clear the search and restore the full grid.
+Press **Escape** to clear the search and return all items.
 
 ### Theme toggle
 
-The theme toggle switches between dark mode (default) and light mode. The selected theme is preserved in browser storage between sessions.
+Click the sun/moon icon to switch between dark and light mode. Your preference is saved to localStorage automatically.
 
 [Back to contents](#contents)
 
@@ -198,65 +186,51 @@ The theme toggle switches between dark mode (default) and light mode. The select
 
 <table>
   <tr>
-    <td bgcolor="#E0E7FF"><strong>Main purpose</strong></td>
-    <td>Visual cross reference map of six frameworks</td>
+    <td bgcolor="#D1FAE5"><strong>Main purpose</strong></td>
+    <td>Map and explore cross-framework relationships</td>
   </tr>
   <tr>
-    <td bgcolor="#D1FAE5"><strong>Best for</strong></td>
-    <td>Research, framework comparison, concept mapping, regulatory alignment, and control discovery</td>
+    <td bgcolor="#DBEAFE"><strong>Best for</strong></td>
+    <td>Research, gap identification, stakeholder demos, and framework comparison</td>
   </tr>
 </table>
 
 ### Framework grid
 
-Explore mode displays six columns side by side.
+Six framework columns are displayed side by side. Each column represents one framework and contains its constituent domains and controls. The columns are:
 
-| Column | Framework | Colour |
-|---|---|---|
-| 1 | NIST AI RMF | Blue |
-| 2 | CSA AICM | Purple |
-| 3 | ISO Standards | Green |
-| 4 | MITRE ATLAS | Red |
-| 5 | OWASP LLM Top 10 2025 | Amber |
-| 6 | EU AI Act (Reg. 2024/1689) | Fuchsia |
-
-Each column contains framework items or domains relevant to AI governance and security.
+| Column | Framework |
+|---|---|
+| NIST | NIST AI RMF (Govern, Map, Measure, Manage) |
+| CSA | CSA AI Controls Matrix |
+| ISO | ISO/IEC 42001 |
+| ATLAS | MITRE ATLAS (adversarial ML tactics) |
+| OWASP | OWASP LLM Top 10 2025 |
+| EU AI Act | EU AI Act (Regulation 2024/1689) |
 
 ### Selecting items
 
-Click any item to select it.
+Click any framework item to select it. The connector panel on the left will show cross-framework mappings — which items in other frameworks relate to the one you selected.
 
-When selected:
-
-- The chosen item is highlighted
-- Related items in other columns are highlighted
-- Unrelated items dim
-- A connector panel appears with contextual detail
-
-Clicking the same item again clears the selection.
-
-The EU AI Act column follows the same interaction pattern. Clicking an EU AI Act compliance area highlights related NIST functions, CSA domains, and ISO standards, and vice versa.
+Click anywhere in empty space, or press **Escape**, to clear the selection.
 
 ### Connector panel
 
-The connector panel explains why linked items matter together. It is meant to provide narrative context rather than just a list of references. The panel appears on the left side of the grid when an item is selected.
+The connector panel is a contextual sidebar that appears on the left when an item is selected. It shows:
+
+- The name and reference code of the selected item
+- A list of related items in other frameworks with their mapping rationale
+- A count of how many frameworks cover the same governance area
 
 ### Documentation modal
 
-Double clicking any framework item opens a documentation modal with:
+Double-click any item to open its documentation panel. This shows the full description, category, official documentation links, and any related EU AI Act provisions.
 
-- Full framework reference
-- Summary of the item
-- Sub categories and detailed descriptions
-- A link to the source document
-
-For EU AI Act items, the modal includes the specific article references, compliance obligations, and a direct link to the official EUR-Lex text of Regulation 2024/1689.
+Press **Escape** or click the **✕** button to close the modal.
 
 ### Domain cards and related exploration
 
-Domain cards appear below the framework grid. Each card represents a governance theme such as transparency, safety, or threat.
-
-Clicking a domain card highlights all framework items across all six columns that relate to that domain, including any EU AI Act articles that address that theme.
+Click a domain card (the coloured header row within a column) to filter the framework view to items within that domain. This makes it easier to focus on a specific governance area such as risk management or transparency.
 
 [Back to contents](#contents)
 
@@ -268,45 +242,38 @@ Clicking a domain card highlights all framework items across all six columns tha
 
 <table>
   <tr>
-    <td bgcolor="#FFF7ED"><strong>Main purpose</strong></td>
-    <td>Track review status for each framework control</td>
+    <td bgcolor="#FEF3C7"><strong>Main purpose</strong></td>
+    <td>Track your organisation's implementation status across all controls</td>
   </tr>
   <tr>
-    <td bgcolor="#ECFDF5"><strong>Best for</strong></td>
-    <td>Control gap reviews, compliance tracking, and audit preparation</td>
+    <td bgcolor="#F3E8FF"><strong>Best for</strong></td>
+    <td>Readiness reviews, programme tracking, and progress reporting</td>
   </tr>
 </table>
 
 ### What it tracks
 
-Assess mode shows all 47 framework items across all six frameworks and allows a status to be set for each one.
+Every framework item visible in Explore mode can be assigned a status in Assess mode. Status is stored per item and persists across sessions.
 
 ### Status options
 
 | Status | Meaning |
 |---|---|
-| Not Started | No review has been done yet |
-| In Progress | Review is underway |
-| Done | Review is complete |
+| ✅ Done | Control is implemented and documented |
+| 🔄 In Progress | Work has started but is not complete |
+| (blank) | Not yet assessed or not applicable |
 
 ### What the view shows
 
-The assess view shows each framework item with its current status. Items include EU AI Act compliance areas alongside the existing NIST, CSA, ISO, ATLAS, and OWASP items.
-
-Priority markers indicate which items are considered highest impact. EU AI Act items in Chapter II (Prohibited Practices), Chapter III (High-Risk Requirements and Obligations), and Chapter V (GPAI Models) are marked P1.
+The assess view displays a sortable and filterable list of all framework items alongside their current status. A progress bar at the top shows overall completion percentage and the number of items in progress.
 
 ### Filtering
 
-You can filter by:
-
-- All
-- Not Started
-- In Progress
-- Done
+Use the filter buttons to show only items in a specific state (Done, In Progress, or Not Started). Combine with the search bar to focus on a particular framework or domain.
 
 ### Why it matters
 
-This mode turns the tool from a reference experience into a practical review workflow. It gives users a simple way to see where work is complete and where the most important gaps remain.
+Assess mode feeds into several other features. The **Dashboard** uses assess data to populate KPI cards and per-framework coverage bars. The **Export** mode uses assess data to generate gap reports and control inventories. The **Audit** mode references assess status when generating findings.
 
 [Back to contents](#contents)
 
@@ -319,11 +286,11 @@ This mode turns the tool from a reference experience into a practical review wor
 <table>
   <tr>
     <td bgcolor="#FFE4E6"><strong>Main purpose</strong></td>
-    <td>Create portable markdown outputs</td>
+    <td>Create portable markdown outputs for reporting and documentation</td>
   </tr>
   <tr>
     <td bgcolor="#EDE9FE"><strong>Best for</strong></td>
-    <td>Reporting, documentation, planning, and record keeping</td>
+    <td>Board reporting, documentation, ticketing, and audit evidence</td>
   </tr>
 </table>
 
@@ -333,19 +300,28 @@ This mode turns the tool from a reference experience into a practical review wor
 |---|---|
 | Gap Report | Show coverage status and priority gaps |
 | Selection Mapping | Show linked framework items for a selected concept |
-| Full Control Inventory | Export the complete control set with statuses |
+| Full Control Inventory | Complete control set with implementation status |
 
 ### Output format
 
-Exports are produced as markdown so they can be reused in documentation systems, ticketing tools, or audit files. The full control inventory export includes EU AI Act compliance areas alongside all six frameworks.
-
-The Audit Report tab also supports print-to-PDF. Use Ctrl/Cmd+P from that tab to produce a clean A4-formatted PDF with navigation and interactive elements hidden.
+Exports are produced as markdown so they can be reused in documentation systems, wikis, ticketing tools, or audit files. The full control inventory export includes EU AI Act compliance areas alongside all six frameworks.
 
 ### Export actions
 
-- **Copy** pastes the markdown to your clipboard
-- **Download .md** saves a markdown file to your device
-- **Download .docx** (Audit tab only) exports the full audit report as a formatted Word document with cover page, risk register, and gap summary
+- **Copy** — paste the markdown directly to your clipboard
+- **Download .md** — save a markdown file to your device
+- **Download .docx** (Audit tab only) — export the full audit report as a formatted Word document with cover page, risk register, and gap summary
+
+### GRC platform exports
+
+For integrations with enterprise GRC platforms, use the **Dashboard mode** which provides direct CSV exports in the following formats:
+
+| Format | Compatible platform |
+|---|---|
+| ServiceNow GRC | Risk & Compliance module — Compliant / In Remediation / Non-Compliant status mapping |
+| RSA Archer | Control Standards import — Implemented / Partially Implemented format |
+| Jira / Linear | Task import — creates one task per incomplete control |
+| Generic CSV | All controls with ID, framework, status, priority, and domain |
 
 [Back to contents](#contents)
 
@@ -368,7 +344,7 @@ The Audit Report tab also supports print-to-PDF. Use Ctrl/Cmd+P from that tab to
 
 ### Five step workflow
 
-Audit mode guides the user through five structured stages.
+Audit mode guides the user through five structured stages. Each stage is represented as a step indicator at the top of the audit panel. Click any step to navigate directly to it, or use the **Back** and **Next** buttons within each stage.
 
 | Step | Purpose |
 |---|---|
@@ -380,169 +356,268 @@ Audit mode guides the user through five structured stages.
 
 ### Step 1: System Profile
 
-This stage captures context such as:
+Captures context for the assessment including:
 
-- Assessment title
-- Organization name
-- AI system being assessed
+- Assessment title and date
+- Organisation name
+- AI system being assessed (example: Salesforce Einstein — AI-powered CRM lead scoring)
 - Use case description
 - Data types involved
 - Deployment model
 - Supply chain role
-- Use case tier
+- Use case tier (select Tier 1–4 based on risk level)
 - Sector and context notes
 
 ### Step 2: Risk Scenarios
 
-Select the risk scenarios relevant to the system under review. Scenarios are drawn from the framework content and cover adversarial threats, data risks, governance failures, and regulatory exposures including EU AI Act obligations.
+Browse and select the AI risk scenarios relevant to your system. Scenarios are organised by risk theme. Selections are used to populate the risk register in step 3.
 
 ### Step 3: Risk Register
 
-The risk register calculates ratings based on likelihood and impact. Entries are generated from selected scenarios and can be reviewed, scored, and annotated.
+A generated register lists each selected risk scenario with fields for likelihood, impact, and commentary. Complete each entry before proceeding.
 
 ### Step 4: Formal Findings
 
-Draft findings follow a structured format including:
+Draft structured audit findings. Each finding includes:
 
-- Condition: what was observed
-- Criteria: what should exist
-- Cause: why the issue exists
-- Effect: what is at risk
-- Recommendation: what should be done
+- Finding title and reference
+- Observation
+- Risk implication
+- Recommended action
 
 ### Step 5: Report
 
-The final report is generated as markdown and includes the system profile, risk register, and formal findings. It can be copied or downloaded for use in documentation or governance reporting.
+Generates a complete audit report from all prior inputs. The report includes the system profile, risk register, and formal findings formatted for review. Available export options:
+
+- **Copy** — paste markdown to clipboard
+- **Download .md** — save as a markdown file
+- **Download .docx** — export as a formatted Word document
 
 [Back to contents](#contents)
 
 ---
 
-<a id="8-keyboard-shortcuts"></a>
+<a id="8-dashboard-mode"></a>
 
-## 8. Keyboard Shortcuts
+## 8. Dashboard Mode
+
+<table>
+  <tr>
+    <td bgcolor="#D1FAE5"><strong>Main purpose</strong></td>
+    <td>Live governance coverage summary and GRC integration hub</td>
+  </tr>
+  <tr>
+    <td bgcolor="#DBEAFE"><strong>Best for</strong></td>
+    <td>Status reviews, leadership updates, and exporting to GRC platforms</td>
+  </tr>
+</table>
+
+The Dashboard mode provides an at-a-glance view of your governance posture, drawing directly from your Assess mode data.
+
+### Coverage KPI cards
+
+Five metric cards appear at the top of the dashboard:
+
+| Card | What it shows |
+|---|---|
+| Total Controls | Count of all framework items across active frameworks |
+| Implemented | Controls with status set to Done |
+| In Progress | Controls marked as work in progress |
+| Not Started | Controls with no status assigned |
+| Coverage | Percentage of controls marked as Done |
+
+### Coverage bar
+
+A progress bar beneath the KPI cards visualises overall coverage. The green segment represents implemented controls; an amber overlay shows controls in progress.
+
+### Framework coverage breakdown
+
+A grid card for each active framework shows:
+
+- Framework name
+- An individual progress bar (green for done, amber for in progress)
+- Control counts: done, wip, and gap
+- Percentage coverage
+
+Cards are colour-coded: green for high coverage (80%+), amber for medium (40–79%), and red for low (<40%).
+
+### Session information
+
+A summary card at the bottom of the dashboard shows:
+
+| Field | Source |
+|---|---|
+| Last saved | Timestamp from last Save action |
+| Active frameworks | Frameworks currently selected via chip filter |
+| Audit tier | Tier selected in Audit mode Step 1 |
+| Assessment system | System name from Audit mode Step 1 |
+
+### GRC integration exports
+
+Four export buttons generate CSV files compatible with enterprise GRC platforms. These are based on your current Assess mode status data.
+
+| Button | Output format |
+|---|---|
+| ServiceNow GRC | Risk & Compliance module CSV |
+| RSA Archer | Control Standards import CSV |
+| Jira / Linear | Task import CSV (incomplete controls only) |
+| Generic CSV | All controls — ID, framework, status, priority, domain |
+
+Each export downloads automatically when clicked and includes a confirmation toast notification.
+
+[Back to contents](#contents)
+
+---
+
+<a id="9-session-management"></a>
+
+## 9. Session Management
+
+The session bar appears directly below the top navigation bar and is visible in all modes.
+
+### Session controls
+
+| Button | Action |
+|---|---|
+| 💾 Save | Writes the full current state (assess data, audit profile, risk register, tier selection) to localStorage with a timestamp. The save indicator in the navigation bar updates to show the saved time. |
+| 📥 Export | Downloads a `.json` file containing the complete session state. Use this to back up your work or transfer it to another device. |
+| 📂 Import | Opens a file picker to load a previously exported `.json` session file. After import, reload the page to fully apply all session state. |
+| 🗑 Reset | Clears all session data from localStorage and resets the tool to its initial state. A confirmation dialog appears before clearing. |
+
+### Transferring sessions between devices
+
+1. On device A: click **📥 Export** to download a `.json` session file
+2. On device B: open the tool and click **📂 Import**
+3. Select the downloaded file
+4. Reload the page when prompted
+
+### Session file format
+
+Exported session files are plain JSON and contain the following fields:
+
+| Field | Contents |
+|---|---|
+| `assessState` | Object mapping control IDs to their status |
+| `auditTier` | Selected tier number (1–4) |
+| `auditSystemName` | System name from audit profile |
+| `auditSystemDesc` | System description |
+| `auditSystemOwner` | Assessor or owner name |
+| `auditAuditDate` | Assessment date |
+| `activeFrameworks` | Selected framework chips |
+| `exportType` | Last used export format |
+| `savedAt` | ISO timestamp of the last save |
+| `version` | Session schema version |
+
+### Notifications
+
+The tool uses non-blocking toast notifications rather than browser alert dialogs. Notifications appear in the bottom-right corner and dismiss automatically after a few seconds. The × button dismisses them immediately.
+
+[Back to contents](#contents)
+
+---
+
+<a id="10-keyboard-shortcuts"></a>
+
+## 10. Keyboard Shortcuts
 
 <table>
   <tr>
     <td bgcolor="#F0FDF4"><strong>Tip</strong></td>
-    <td>These shortcuts make the tool much faster to navigate during demos and reviews.</td>
+    <td>These shortcuts make the tool faster to navigate during demos and reviews.</td>
   </tr>
 </table>
 
 | Shortcut | Action |
 |---|---|
-| Command K / Ctrl K | Focus search |
-| Escape | Clear search, close modal, or deselect current item |
-| Double click item | Open documentation directly |
+| Command K / Ctrl K | Focus the search bar from anywhere |
+| Escape | Clear search, close documentation modal, or deselect item |
+| Double click item | Open documentation modal directly |
+| Enter or Space | Activate focused audit step or tier card (keyboard navigation) |
+| Ctrl+P / Cmd+P | Print or export current view to PDF (works best from Audit Report step) |
 
 [Back to contents](#contents)
 
 ---
 
-<a id="9-framework-reference"></a>
+<a id="11-framework-reference"></a>
 
-## 9. Framework Reference
+## 11. Framework Reference
 
 ### NIST AI RMF
 
-The NIST AI Risk Management Framework organizes AI risk work into four functions.
+The NIST Artificial Intelligence Risk Management Framework (AI RMF 1.0, January 2023) provides a voluntary, rights-preserving framework for organisations to manage AI-related risks. It is structured around four core functions: **Govern**, **Map**, **Measure**, and **Manage**. Each function contains numbered subcategories that represent specific risk management activities.
 
-| Function | Focus |
-|---|---|
-| Govern | Accountability, policy, oversight, culture |
-| Map | Context, system purpose, and risk identification |
-| Measure | Evaluation, testing, analysis, and monitoring |
-| Manage | Response, treatment, and governance action |
+The workbench maps NIST AI RMF at the subcategory level and cross-references it to CSA, ISO, ATLAS, OWASP, and EU AI Act requirements.
 
 ### CSA AICM
 
-The Cloud Security Alliance AI Controls Matrix brings together AI security and governance controls across multiple domains relevant to the AI supply chain.
+The Cloud Security Alliance AI Controls Matrix (AICM) provides a structured set of controls for securing AI systems, particularly those deployed in cloud environments. It aligns to common cloud security principles and extends them to cover AI-specific risks including model integrity, training data governance, and inference security.
 
 ### ISO
 
-The workbench includes two ISO standards:
-
-- **ISO/IEC 42001:2023** — AI Management System. Covers governance, risk integration, and organizational AI accountability. Linked to GOVERN, MAP, and MANAGE in the NIST AI RMF.
-- **ISO/IEC 27001** — Information Security Management System. Covers security controls, risk treatment, and operational safeguards. Linked to GOVERN, MEASURE, and MANAGE in the NIST AI RMF.
+The workbench includes coverage of **ISO/IEC 42001:2023** (AI management systems — requirements and guidance) and references to **ISO/IEC 27001** (information security management). ISO/IEC 42001 provides a certification framework for responsible AI and maps closely to NIST AI RMF governance categories.
 
 ### MITRE ATLAS
 
-MITRE ATLAS focuses on adversarial threats to AI systems and helps frame attacker behavior, techniques, and defensive thinking.
+ATLAS (Adversarial Threat Landscape for Artificial-Intelligence Systems) is a knowledge base of adversarial tactics, techniques, and case studies targeting ML systems. It is modelled after MITRE ATT&CK and covers the AI-specific attack lifecycle including reconnaissance, resource development, initial access to ML pipelines, and impact.
+
+The workbench maps ATLAS tactic categories to related NIST and CSA controls to help practitioners identify defensive gaps against adversarial ML threats.
 
 ### OWASP LLM Top 10 2025
 
-OWASP identifies critical risks for applications built on large language models, including prompt injection, supply chain risk, and excessive agency.
+The OWASP Top 10 for Large Language Model Applications (2025 edition) identifies the ten most critical security risks for LLM-based systems. Risks include prompt injection, insecure output handling, training data poisoning, model denial of service, and excessive agency.
+
+The workbench maps each OWASP LLM risk to corresponding NIST subcategories and CSA controls to support threat-led control prioritisation.
 
 ### EU AI Act (Regulation 2024/1689)
 
-The EU AI Act is the European Union's comprehensive legal framework for artificial intelligence, published in the Official Journal on 12 July 2024. It applies to providers, deployers, importers, and distributors of AI systems and general-purpose AI models in or affecting the EU market.
+The EU Artificial Intelligence Act (published June 2024, entering force in stages from 2024–2027) establishes a risk-based regulatory framework for AI systems in the EU market. It classifies AI systems by risk level:
 
-The workbench maps seven compliance areas drawn from the Act's substantive chapters.
-
-| Compliance Area | Chapter / Articles | Priority |
+| Risk level | Examples | Requirements |
 |---|---|---|
-| Prohibited AI Practices | Ch. II · Art. 5 | P1 |
-| High-Risk AI Requirements | Ch. III · Arts. 8–15 | P1 |
-| Provider and Deployer Obligations | Ch. III · Arts. 16–27, 43–49 | P1 |
-| Transparency Obligations | Ch. IV · Art. 50 | P2 |
-| General-Purpose AI Models | Ch. V · Arts. 51–56 | P1 |
-| Governance and AI Office | Ch. VII · Arts. 64–70 | P2 |
-| Post-Market Monitoring and Incidents | Ch. IX · Arts. 72–74 | P2 |
+| Unacceptable risk | Social scoring, real-time biometric surveillance | Prohibited |
+| High risk | Hiring tools, credit scoring, medical devices, law enforcement | Conformity assessment, registration, human oversight, transparency |
+| Limited risk | Chatbots, deepfakes | Transparency obligations |
+| Minimal risk | Spam filters, AI in video games | No specific requirements |
 
-**Key obligations by role**
+Key compliance areas documented in the workbench:
 
-*Providers* (organisations that develop and place AI systems or GPAI models on the market) are responsible for conformity assessment, technical documentation, quality management systems, and logging.
-
-*Deployers* (organisations that put AI systems into use) are responsible for human oversight, fundamental rights impact assessments in public-sector contexts, and incident reporting.
-
-*GPAI model providers* must meet baseline documentation and copyright obligations. Those with systemic risk (training compute exceeding 10^25 FLOPs) must additionally conduct adversarial testing and report serious incidents to the EU AI Office.
-
-**Penalty tiers**
-
-| Violation type | Maximum penalty |
+| Article area | Subject |
 |---|---|
-| Prohibited AI practices (Art. 5) | €35 million or 7% of global annual turnover |
-| Other high-risk AI obligations | €15 million or 3% of global annual turnover |
-| Providing incorrect information | €7.5 million or 1% of global annual turnover |
-
-**Cross-framework alignment**
-
-EU AI Act compliance areas are mapped to NIST AI RMF functions, CSA AICM domains, and ISO standards in the tool. Clicking any EU AI Act item in Explore mode highlights its related NIST, CSA, and ISO counterparts, and vice versa.
+| Article 9 | Risk management system |
+| Article 10 | Data and data governance |
+| Article 11 | Technical documentation |
+| Article 12 | Record-keeping and logging |
+| Article 13 | Transparency and information to users |
+| Article 14 | Human oversight |
+| Article 15 | Accuracy, robustness and cybersecurity |
+| Article 17 | Quality management system |
+| Article 72 | Post-market monitoring |
 
 [Back to contents](#contents)
 
 ---
 
-<a id="10-glossary"></a>
+<a id="12-glossary"></a>
 
-## 10. Glossary
+## 12. Glossary
 
-| Term | Meaning |
+| Term | Definition |
 |---|---|
-| AIBOM | AI Bill of Materials |
-| AI Office | EU body within the European Commission responsible for supervising GPAI models and overseeing application of the EU AI Act |
-| AP | Application Provider |
-| AIC | AI Customer |
-| ATLAS | Adversarial Threat Landscape for AI Systems |
-| Condition | What was observed |
-| Criteria | What should exist |
-| Cause | Why the issue exists |
-| CE Marking | Conformity marking required for high-risk AI systems placed on the EU market |
-| Conformity Assessment | Procedure by which a provider verifies a high-risk AI system meets EU AI Act requirements |
-| Deployer | Organisation or individual that puts an AI system into use under its own authority |
-| Effect | What is at risk |
-| FRIA | Fundamental Rights Impact Assessment (required by Art. 27 for certain deployers of high-risk AI) |
-| GPAI | General-Purpose AI model — a model trained on broad data and capable of a wide range of tasks |
-| LLM | Large language model |
-| MP | Model Provider |
-| OSP | Orchestrated Service Provider |
-| Provider | Organisation or individual that develops an AI system or GPAI model and places it on the market |
-| RAG | Retrieval augmented generation |
-| Recommendation | What should be done |
-| Risk scenario | A plausible AI related risk event or condition |
-| Systemic risk | Classification applied to GPAI models exceeding 10^25 FLOPs training compute, carrying enhanced EU AI Act obligations |
-| Use case tier | Relative risk classification of the AI system under review |
-| Detect, Prevent, Correct | Common control types used in governance and assurance work |
+| Control | A specific requirement, safeguard, or practice within a governance framework |
+| Domain | A thematic grouping of related controls within a framework |
+| Framework | A structured set of guidance documents governing AI risk or security (e.g. NIST AI RMF, ISO 42001) |
+| Gap | A control that has not been implemented or assessed |
+| Coverage | The proportion of controls marked as Done relative to total controls |
+| Mapping | A documented relationship between equivalent or related items in different frameworks |
+| Session | The complete state of an assessment at a point in time — can be saved, exported, and imported |
+| Tier | A risk classification (1–4) applied to an AI system in Audit mode, indicating overall risk level |
+| GRC | Governance, Risk, and Compliance — a category of enterprise software for managing risk and regulatory obligations |
+| CSP | Content Security Policy — a browser security mechanism that restricts what resources a page can load |
+| SRI | Subresource Integrity — a security feature that validates the integrity of externally loaded scripts |
+| ARIA | Accessible Rich Internet Applications — HTML attributes that improve screen reader support |
+| Toast | A brief, non-blocking notification that appears at the screen edge and dismisses automatically |
+| localStorage | Browser-native key-value storage that persists data between sessions on the same device |
 
 [Back to contents](#contents)
 
@@ -552,7 +627,7 @@ EU AI Act compliance areas are mapped to NIST AI RMF functions, CSA AICM domains
 
 - Keep this guide as `USER_GUIDE.md` in the project root
 - Link to it from `README.md`
-- Keep screenshots in the main README for quick visual orientation
+- Keep screenshots in the `docs/` folder and reference them from `README.md`
 - Use this guide for deeper workflow and reference detail
 
 [Back to top](#top)
