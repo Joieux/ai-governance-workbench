@@ -2,10 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; connect-src 'none'; object-src 'none'; frame-ancestors 'none'" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Governance Practitioner Workbench</title>
     <link rel="stylesheet" href="styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.min.js" integrity="sha384-y1EDLKX+c12E9ccR4NDC7//QPOzuGeYSRjbXngqmyrss3xGHTyrhaXmVuM2l6QMi" crossorigin="anonymous"></script>
   </head>
   <body>
     <!-- ═══ TOP NAVIGATION BAR ═══ -->
@@ -82,7 +83,7 @@
           </svg>
         </button>
         <span id="last-saved-indicator" class="sb-save-hint"></span>
-        <button class="nav-btn" onclick="exportSessionJSON()" title="Export full session as JSON file">
+        <button id="btn-export-session-nav" class="nav-btn" data-action="exportSessionJSON" title="Export full session as JSON file">
           📥 Export Session
         </button>
       </div>
@@ -1404,7 +1405,7 @@
             </div>
           </div>
           <div style="display: flex; gap: 8px; flex-shrink: 0">
-            <button class="nav-btn" onclick="switchMode('export')">
+            <button class="nav-btn" data-action="switchModeExport">
               ↓ Export Report
             </button>
             <button class="nav-btn warn" id="reset-assess">↺ Reset</button>
@@ -1522,19 +1523,19 @@
       <div id="mode-audit" class="mode-panel">
         <!-- Stepper -->
         <div class="audit-stepper" id="audit-stepper">
-          <div class="audit-step active" data-step="0" onclick="goAuditStep(0)">
+          <div class="audit-step active" data-step="0" role="button" tabindex="0" aria-label="Step 1: AI System Profile">
             <span class="audit-step-num">1</span>System Profile
           </div>
-          <div class="audit-step" data-step="1" onclick="goAuditStep(1)">
+          <div class="audit-step" data-step="1" role="button" tabindex="0" aria-label="Step 2: Framework Assessment">
             <span class="audit-step-num">2</span>Risk Scenarios
           </div>
-          <div class="audit-step" data-step="2" onclick="goAuditStep(2)">
+          <div class="audit-step" data-step="2" role="button" tabindex="0" aria-label="Step 3: Risk Register">
             <span class="audit-step-num">3</span>Risk Register
           </div>
-          <div class="audit-step" data-step="3" onclick="goAuditStep(3)">
+          <div class="audit-step" data-step="3" role="button" tabindex="0" aria-label="Step 4: Findings &amp; Gaps">
             <span class="audit-step-num">4</span>Findings
           </div>
-          <div class="audit-step" data-step="4" onclick="goAuditStep(4)">
+          <div class="audit-step" data-step="4" role="button" tabindex="0" aria-label="Step 5: Report">
             <span class="audit-step-num">5</span>Report
           </div>
         </div>
@@ -1549,7 +1550,7 @@
                 scopes which controls and risk scenarios apply.
               </div>
             </div>
-            <button class="nav-btn primary" onclick="goAuditStep(1)">
+            <button class="nav-btn primary" data-action="goAuditStep" data-step="1">
               Next: Risk Scenarios →
             </button>
           </div>
@@ -1650,7 +1651,7 @@
                 Select the highest-risk tier that applies to this system
               </div>
               <div class="tier-cards">
-                <div class="tier-card" data-tier="1" onclick="selectTier(1)">
+                <div class="tier-card" data-tier="1" role="button" tabindex="0" aria-label="Select Risk Tier 1">
                   <span class="tier-num">1</span>
                   <div class="tier-title">Productivity / Assistive</div>
                   <div class="tier-desc">
@@ -1658,7 +1659,7 @@
                     Low stakes.
                   </div>
                 </div>
-                <div class="tier-card" data-tier="2" onclick="selectTier(2)">
+                <div class="tier-card" data-tier="2" role="button" tabindex="0" aria-label="Select Risk Tier 2">
                   <span class="tier-num">2</span>
                   <div class="tier-title">Decision Support</div>
                   <div class="tier-desc">
@@ -1666,7 +1667,7 @@
                     legal research.
                   </div>
                 </div>
-                <div class="tier-card" data-tier="3" onclick="selectTier(3)">
+                <div class="tier-card" data-tier="3" role="button" tabindex="0" aria-label="Select Risk Tier 3">
                   <span class="tier-num">3</span>
                   <div class="tier-title">Automated Decision</div>
                   <div class="tier-desc">
@@ -1674,7 +1675,7 @@
                     detection, content moderation.
                   </div>
                 </div>
-                <div class="tier-card" data-tier="4" onclick="selectTier(4)">
+                <div class="tier-card" data-tier="4" role="button" tabindex="0" aria-label="Select Risk Tier 4">
                   <span class="tier-num">4</span>
                   <div class="tier-title">Autonomous Action</div>
                   <div class="tier-desc">
@@ -1803,8 +1804,8 @@
               </div>
             </div>
             <div style="display: flex; gap: 8px">
-              <button class="nav-btn" onclick="goAuditStep(0)">← Back</button>
-              <button class="nav-btn primary" onclick="buildRiskRegister()">
+              <button class="nav-btn" data-action="goAuditStep" data-step="0">← Back</button>
+              <button class="nav-btn primary" data-action="buildRiskRegister">
                 Build Risk Register →
               </button>
             </div>
@@ -1823,8 +1824,8 @@
               </div>
             </div>
             <div style="display: flex; gap: 8px">
-              <button class="nav-btn" onclick="goAuditStep(1)">← Back</button>
-              <button class="nav-btn primary" onclick="buildFindings()">
+              <button class="nav-btn" data-action="goAuditStep" data-step="1">← Back</button>
+              <button class="nav-btn primary" data-action="buildFindings">
                 Generate Findings →
               </button>
             </div>
@@ -1845,8 +1846,8 @@
               </div>
             </div>
             <div style="display: flex; gap: 8px">
-              <button class="nav-btn" onclick="goAuditStep(2)">← Back</button>
-              <button class="nav-btn primary" onclick="goAuditStep(4)">
+              <button class="nav-btn" data-action="goAuditStep" data-step="2">← Back</button>
+              <button class="nav-btn primary" data-action="goAuditStep" data-step="4">
                 Generate Report →
               </button>
             </div>
@@ -1865,27 +1866,27 @@
               </div>
             </div>
             <div style="display: flex; gap: 8px">
-              <button class="nav-btn" onclick="goAuditStep(3)">← Back</button>
+              <button class="nav-btn" data-action="goAuditStep" data-step="3">← Back</button>
               <button
                 class="nav-btn"
                 id="audit-copy-btn"
-                onclick="copyAuditReport()"
+                data-action="copyAuditReport"
               >
                 Copy Report
               </button>
-              <button class="nav-btn primary" onclick="downloadAuditReport()">
+              <button class="nav-btn primary" data-action="downloadAuditReport">
                 ↓ Download .md
               </button>
-        <button class="nav-btn primary" onclick="downloadAuditReportDocx()">&#8659; Download .docx</button>
+              <button class="nav-btn primary" data-action="downloadAuditReportDocx">&#8659; Download .docx</button>
             </div>
           </div>
           <!-- ── SESSION BAR ── -->
           <div class="session-bar" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 0 4px;">
             <span style="font-size:11px;color:var(--dim);margin-right:4px;">Session:</span>
-            <button class="nav-btn" onclick="saveSession()" title="Save current session to browser storage">💾 Save</button>
-            <button class="nav-btn" onclick="exportSessionJSON()" title="Export session as JSON file">📥 Export</button>
-            <button class="nav-btn" onclick="importSessionJSON()" title="Import a previously exported session file">📂 Import</button>
-            <button class="nav-btn warn" onclick="resetSession()" title="Clear all assessment data and start fresh">🗑 Reset</button>
+            <button class="nav-btn" data-action="saveSession" title="Save current session to browser storage">💾 Save</button>
+            <button class="nav-btn" data-action="exportSessionJSON" title="Export session as JSON file">📥 Export</button>
+            <button class="nav-btn" data-action="importSessionJSON" title="Import a previously exported session file">📂 Import</button>
+            <button class="nav-btn warn" data-action="resetSession" title="Clear all assessment data and start fresh">🗑 Reset</button>
           </div>
           <div class="export-preview">
             <div class="export-preview-header">
@@ -1932,5 +1933,9 @@
 
     <script src="data.js" defer></script>
     <script src="script.js" defer></script>
+    <!-- Accessibility: screen-reader live region for dynamic notifications -->
+    <div id="aria-live-region" role="alert" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+    <!-- Toast notification container -->
+    <div id="toast-container" aria-live="assertive" aria-atomic="true"></div>
   </body>
 </html>
