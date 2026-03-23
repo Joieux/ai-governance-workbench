@@ -27,6 +27,9 @@
         <button class="nav-mode" data-mode="audit">
           <em class="mode-icon">🔍</em>Audit
         </button>
+      <button class="nav-mode" data-mode="dashboard">
+        <em class="mode-icon">📊</em>Dashboard
+      </button>
       </div>
 
       <div class="nav-divider"></div>
@@ -1901,6 +1904,116 @@
         </div>
       </div>
       <!-- end mode-audit -->
+    <!-- ═══ DASHBOARD MODE ═══ -->
+    <div id="mode-dashboard" class="mode-panel">
+      <div class="dash-header">
+        <h2 class="dash-title">Governance Coverage Dashboard</h2>
+        <p class="dash-subtitle">Live summary of your assessment progress across all active frameworks</p>
+      </div>
+
+      <!-- KPI row -->
+      <div class="dash-kpi-row">
+        <div class="dash-kpi">
+          <span class="dash-kpi__value" id="dash-total">—</span>
+          <span class="dash-kpi__label">Total Controls</span>
+        </div>
+        <div class="dash-kpi dash-kpi--green">
+          <span class="dash-kpi__value" id="dash-done">—</span>
+          <span class="dash-kpi__label">Implemented</span>
+        </div>
+        <div class="dash-kpi dash-kpi--amber">
+          <span class="dash-kpi__value" id="dash-wip">—</span>
+          <span class="dash-kpi__label">In Progress</span>
+        </div>
+        <div class="dash-kpi dash-kpi--red">
+          <span class="dash-kpi__value" id="dash-gap">—</span>
+          <span class="dash-kpi__label">Not Started</span>
+        </div>
+        <div class="dash-kpi dash-kpi--accent">
+          <span class="dash-kpi__value" id="dash-pct">—%</span>
+          <span class="dash-kpi__label">Coverage</span>
+        </div>
+      </div>
+
+      <!-- Coverage bar -->
+      <div class="dash-coverage-bar" role="progressbar" aria-label="Overall coverage" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="dash-coverage-bar">
+        <div class="dash-coverage-bar__fill" id="dash-coverage-fill"></div>
+        <div class="dash-coverage-bar__wip" id="dash-coverage-wip"></div>
+      </div>
+
+      <!-- Per-framework breakdown -->
+      <div class="dash-section">
+        <h3 class="dash-section-title">Framework Coverage Breakdown</h3>
+        <div class="dash-fw-grid" id="dash-fw-grid">
+          <!-- Populated by renderDashboard() -->
+        </div>
+      </div>
+
+      <!-- GRC Export section -->
+      <div class="dash-section">
+        <h3 class="dash-section-title">GRC Integration Exports</h3>
+        <p class="dash-section-desc">Export your assessment data in formats compatible with leading GRC platforms</p>
+        <div class="dash-export-grid">
+          <div class="dash-export-card">
+            <div class="dash-export-card__logo">🔧</div>
+            <div class="dash-export-card__info">
+              <strong>ServiceNow GRC</strong>
+              <span>CSV — Risk &amp; Compliance module format</span>
+            </div>
+            <button class="nav-btn" data-action="exportGrcServicenow">Export</button>
+          </div>
+          <div class="dash-export-card">
+            <div class="dash-export-card__logo">🏹</div>
+            <div class="dash-export-card__info">
+              <strong>RSA Archer</strong>
+              <span>CSV — Control Standards import format</span>
+            </div>
+            <button class="nav-btn" data-action="exportGrcArcher">Export</button>
+          </div>
+          <div class="dash-export-card">
+            <div class="dash-export-card__logo">📋</div>
+            <div class="dash-export-card__info">
+              <strong>Jira / Linear</strong>
+              <span>CSV — Issue tracker task import format</span>
+            </div>
+            <button class="nav-btn" data-action="exportGrcJira">Export</button>
+          </div>
+          <div class="dash-export-card">
+            <div class="dash-export-card__logo">📄</div>
+            <div class="dash-export-card__info">
+              <strong>Generic CSV</strong>
+              <span>All controls with status, framework, priority</span>
+            </div>
+            <button class="nav-btn" data-action="exportGrcCsv">Export</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Session info card -->
+      <div class="dash-section">
+        <h3 class="dash-section-title">Session Information</h3>
+        <div class="dash-session-card">
+          <div class="dash-session-row">
+            <span class="dash-session-label">Last saved</span>
+            <span class="dash-session-value" id="dash-last-saved">—</span>
+          </div>
+          <div class="dash-session-row">
+            <span class="dash-session-label">Active frameworks</span>
+            <span class="dash-session-value" id="dash-frameworks">—</span>
+          </div>
+          <div class="dash-session-row">
+            <span class="dash-session-label">Audit tier</span>
+            <span class="dash-session-value" id="dash-audit-tier">Not set</span>
+          </div>
+          <div class="dash-session-row">
+            <span class="dash-session-label">Assessment system</span>
+            <span class="dash-session-value" id="dash-system-name">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end mode-dashboard -->
+
     </div>
     <!-- end wrap -->
 
