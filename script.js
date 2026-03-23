@@ -1189,25 +1189,42 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initial export preview
   // ─── Global data-action event delegation ───────────────────────────────
   document.body.addEventListener('click', function(e) {
+    // Handle data-action buttons/elements
     var target = e.target.closest('[data-action]');
-    if (!target) return;
-    var action = target.dataset.action;
-    var step = target.dataset.step != null ? parseInt(target.dataset.step, 10) : null;
-    var tier = target.dataset.tier != null ? parseInt(target.dataset.tier, 10) : null;
-    switch (action) {
-      case 'exportSessionJSON':       exportSessionJSON(); break;
-      case 'switchModeExport':        switchMode('export'); break;
-      case 'goAuditStep':             if (step != null) goAuditStep(step); break;
-      case 'buildRiskRegister':       buildRiskRegister(); break;
-      case 'buildFindings':           buildFindings(); break;
-      case 'selectTier':              if (tier != null) selectTier(tier); break;
-      case 'copyAuditReport':         copyAuditReport(); break;
-      case 'downloadAuditReport':     downloadAuditReport(); break;
-      case 'downloadAuditReportDocx': downloadAuditReportDocx(); break;
-      case 'saveSession':             saveSession(); break;
-      case 'importSessionJSON':       importSessionJSON(); break;
-      case 'resetSession':            resetSession(); break;
-      default: console.warn('[GWB] Unknown data-action:', escapeHtml(action));
+    if (target) {
+      var action = target.dataset.action;
+      var step = target.dataset.step != null ? parseInt(target.dataset.step, 10) : null;
+      var tier = target.dataset.tier != null ? parseInt(target.dataset.tier, 10) : null;
+      switch (action) {
+        case 'exportSessionJSON':       exportSessionJSON(); break;
+        case 'switchModeExport':        switchMode('export'); break;
+        case 'goAuditStep':             if (step != null) goAuditStep(step); break;
+        case 'buildRiskRegister':       buildRiskRegister(); break;
+        case 'buildFindings':           buildFindings(); break;
+        case 'selectTier':              if (tier != null) selectTier(tier); break;
+        case 'copyAuditReport':         copyAuditReport(); break;
+        case 'downloadAuditReport':     downloadAuditReport(); break;
+        case 'downloadAuditReportDocx': downloadAuditReportDocx(); break;
+        case 'saveSession':             saveSession(); break;
+        case 'importSessionJSON':       importSessionJSON(); break;
+        case 'resetSession':            resetSession(); break;
+        default: console.warn('[GWB] Unknown data-action:', escapeHtml(action));
+      }
+      return;
+    }
+    // Handle audit-step nav (data-step without data-action)
+    var stepEl = e.target.closest('[data-step][role="button"]');
+    if (stepEl) {
+      var s = parseInt(stepEl.dataset.step, 10);
+      if (!isNaN(s)) goAuditStep(s);
+      return;
+    }
+    // Handle tier selection (data-tier without data-action)
+    var tierEl = e.target.closest('[data-tier][role="button"]');
+    if (tierEl) {
+      var t = parseInt(tierEl.dataset.tier, 10);
+      if (!isNaN(t)) selectTier(t);
+      return;
     }
   });
   // Keyboard activation for role="button" elements (Enter/Space)
