@@ -2428,8 +2428,7 @@ function exportGrcServicenow() {
     var risk = r.priority === 'high' ? 'High' : r.priority === 'medium' ? 'Medium' : r.priority === 'low' ? 'Low' : 'Not Rated';
     lines.push([r.id, '"' + r.title.replace(/"/g,'""') + '"', r.framework.toUpperCase(), status, risk, r.domain, now, ''].join(','));
   });
-  downloadCsv(lines.join('
-'), 'ai-governance-servicenow-' + now + '.csv');
+  downloadCsv(lines.join('\n'), 'ai-governance-servicenow-' + now + '.csv');
 }
 
 /** Export in RSA Archer control standards import CSV format */
@@ -2441,8 +2440,7 @@ function exportGrcArcher() {
     var status = r.status === 'done' ? 'Implemented' : r.status === 'wip' ? 'Partially Implemented' : 'Not Implemented';
     lines.push([r.id, '"' + r.title.replace(/"/g,'""') + '"', r.framework.toUpperCase(), status, r.priority || 'TBD', r.domain, now].join(','));
   });
-  downloadCsv(lines.join('
-'), 'ai-governance-archer-' + now + '.csv');
+  downloadCsv(lines.join('\n'), 'ai-governance-archer-' + now + '.csv');
 }
 
 /** Export as Jira/Linear issue import CSV format */
@@ -2457,8 +2455,7 @@ function exportGrcJira() {
     var summary = '[' + r.framework.toUpperCase() + '] ' + r.title;
     lines.push(['"' + summary.replace(/"/g,'""') + '"', 'Task', priority, labels, status, '"Control ID: ' + r.id + '"'].join(','));
   });
-  downloadCsv(lines.join('
-'), 'ai-governance-jira-' + now + '.csv');
+  downloadCsv(lines.join('\n'), 'ai-governance-jira-' + now + '.csv');
 }
 
 /** Export all controls as generic CSV */
@@ -2469,8 +2466,7 @@ function exportGrcCsv() {
   rows.forEach(function(r) {
     lines.push([r.id, r.framework.toUpperCase(), '"' + r.title.replace(/"/g,'""') + '"', r.status, r.priority || '', r.domain].join(','));
   });
-  downloadCsv(lines.join('
-'), 'ai-governance-controls-' + now + '.csv');
+  downloadCsv(lines.join('\n'), 'ai-governance-controls-' + now + '.csv');
 }
 
 // ══════════════════════════════════════════════
