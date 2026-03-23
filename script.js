@@ -3,6 +3,87 @@
 // NIST_TO_CSA, CSA_CODE_MAP, EUAIA_TO_NIST, EUAIA_TO_CSA, OWASP_TO_CSA, OWASP_TO_NIST)
 // have been extracted to data.js which must be loaded before this file.
 
+// ══════════════════════════════════════════════
+// SECURITY & ACCESSIBILITY UTILITIES
+// ══════════════════════════════════════════════
+
+/** Escape HTML to prevent XSS in innerHTML. */
+function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+/** Non-blocking toast replacing alert(). @param type info|success|warn|error */
+function showToast(message, type, duration) {
+  type = type || 'info'; duration = (duration != null) ? duration : 4000;
+  var container = document.getElementById('toast-container');
+  if (!container) { console.warn('[GWB] toast-container not found'); return; }
+  var toast = document.createElement('div');
+  toast.className = 'gwb-toast gwb-toast--' + type;
+  toast.setAttribute('role', 'status');
+  toast.textContent = message;
+  var closeBtn = document.createElement('button');
+  closeBtn.className = 'gwb-toast__close';
+  closeBtn.setAttribute('aria-label', 'Dismiss');
+  closeBtn.textContent = '×';
+  closeBtn.addEventListener('click', function() { toast.remove(); });
+  toast.appendChild(closeBtn);
+  container.appendChild(toast);
+  requestAnimationFrame(function() { toast.classList.add('gwb-toast--visible'); });
+  if (duration > 0) setTimeout(function() { toast.classList.remove('gwb-toast--visible'); setTimeout(function() { toast.remove(); }, 300); }, duration);
+}
+
+/** Async confirm dialog replacing confirm(). Returns Promise<boolean>. */
+function showConfirm(message, confirmLabel, cancelLabel) {
+  confirmLabel = confirmLabel || 'Confirm'; cancelLabel = cancelLabel || 'Cancel';
+  return new Promise(function(resolve) {
+    var overlay = document.createElement('div');
+    overlay.className = 'gwb-confirm-overlay';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-label', 'Confirmation required');
+    var dialog = document.createElement('div');
+    dialog.className = 'gwb-confirm-dialog';
+    var msgEl = document.createElement('p');
+    msgEl.className = 'gwb-confirm-message';
+    msgEl.textContent = message;
+    var actions = document.createElement('div');
+    actions.className = 'gwb-confirm-actions';
+    var cancelBtn = document.createElement('button');
+    cancelBtn.className = 'nav-btn'; cancelBtn.textContent = cancelLabel;
+    var confirmBtn = document.createElement('button');
+    confirmBtn.className = 'nav-btn warn'; confirmBtn.textContent = confirmLabel;
+    function cleanup(r) { overlay.remove(); resolve(r); }
+    cancelBtn.addEventListener('click', function() { cleanup(false); });
+    confirmBtn.addEventListener('click', function() { cleanup(true); });
+    overlay.addEventListener('keydown', function(e) { if (e.key === 'Escape') cleanup(false); });
+    actions.appendChild(cancelBtn); actions.appendChild(confirmBtn);
+    dialog.appendChild(msgEl); dialog.appendChild(actions);
+    overlay.appendChild(dialog); document.body.appendChild(overlay);
+    requestAnimationFrame(function() { confirmBtn.focus(); });
+  });
+}
+
+/** Announce to screen readers via ARIA live region. */
+function announceToScreenReader(message) {
+  var region = document.getElementById('aria-live-region');
+  if (!region) return;
+  region.textContent = '';
+  requestAnimationFrame(function() { region.textContent = message; });
+}
+
+/** Validate imported session JSON. Returns error string or null. */
+function validateSessionSchema(session) {
+  if (typeof session !== 'object' || session === null || Array.isArray(session)) return 'Invalid session: must be a JSON object';
+  var VALID = 'assessState,auditTier,auditSystemName,auditSystemDesc,auditSystemOwner,auditAuditDate,activeFrameworks,exportType,savedAt,version'.split(',');
+  var valid = {}; VALID.forEach(function(k){ valid[k]=1; });
+  var keys = Object.keys(session);
+  for (var i=0;i<keys.length;i++) { if (!valid[keys[i]]) return 'Invalid session: unexpected key ' + escapeHtml(keys[i]); }
+  if (session.auditTier != null && (typeof session.auditTier !== 'number' || session.auditTier<1 || session.auditTier>4)) return 'Invalid session: auditTier must be 1-4';
+  if (session.assessState != null && (typeof session.assessState !== 'object' || Array.isArray(session.assessState))) return 'Invalid session: assessState must be an object';
+  return null;
+}
+
 
 // ══════════════════════════════════════════════
 // STATE
@@ -1082,12 +1163,14 @@ document.addEventListener("DOMContentLoaded", () => {
     ?.addEventListener("click", downloadExport);
 
   // Reset assessment
-  document.getElementById("reset-assess")?.addEventListener("click", () => {
-    if (confirm("Clear all assessment data? This cannot be undone.")) {
+  document.getElementById("reset-assess")?.addEventListener("click", async function() {
+    var ok = await showConfirm("Clear all assessment data? This cannot be undone.", "Clear Data", "Keep Data");
+    if (ok) {
       assessState = {};
       localStorage.removeItem("ai_assess_state");
       renderAssessBadges();
       renderAssessMode();
+      announceToScreenReader("Assessment data cleared.");
     }
   });
 
@@ -1104,7 +1187,38 @@ document.addEventListener("DOMContentLoaded", () => {
   updateStatusBar(null, null, null);
 
   // Initial export preview
-  generateExportPreview(exportType);
+  // ─── Global data-action event delegation ───────────────────────────────
+  document.body.addEventListener('click', function(e) {
+    var target = e.target.closest('[data-action]');
+    if (!target) return;
+    var action = target.dataset.action;
+    var step = target.dataset.step != null ? parseInt(target.dataset.step, 10) : null;
+    var tier = target.dataset.tier != null ? parseInt(target.dataset.tier, 10) : null;
+    switch (action) {
+      case 'exportSessionJSON':       exportSessionJSON(); break;
+      case 'switchModeExport':        switchMode('export'); break;
+      case 'goAuditStep':             if (step != null) goAuditStep(step); break;
+      case 'buildRiskRegister':       buildRiskRegister(); break;
+      case 'buildFindings':           buildFindings(); break;
+      case 'selectTier':              if (tier != null) selectTier(tier); break;
+      case 'copyAuditReport':         copyAuditReport(); break;
+      case 'downloadAuditReport':     downloadAuditReport(); break;
+      case 'downloadAuditReportDocx': downloadAuditReportDocx(); break;
+      case 'saveSession':             saveSession(); break;
+      case 'importSessionJSON':       importSessionJSON(); break;
+      case 'resetSession':            resetSession(); break;
+      default: console.warn('[GWB] Unknown data-action:', escapeHtml(action));
+    }
+  });
+  // Keyboard activation for role="button" elements (Enter/Space)
+  document.body.addEventListener('keydown', function(e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var stepEl = e.target.closest('[data-step][role="button"]');
+    if (stepEl) { e.preventDefault(); stepEl.click(); }
+    var tierEl = e.target.closest('[data-tier][role="button"]');
+    if (tierEl) { e.preventDefault(); tierEl.click(); }
+  });
+    generateExportPreview(exportType);
 });
 
 // ══════════════════════════════════════════════
@@ -2023,7 +2137,7 @@ async function downloadAuditReportDocx() {
     a.click();
     URL.revokeObjectURL(a.href);
   } catch (e) {
-    alert("Word export failed: " + e.message);
+    showToast('Word export failed: ' + e.message, 'error');
     console.error("docx export error", e);
   }
 }
@@ -2092,8 +2206,9 @@ function loadSession() {
     console.error('[GWB] Load failed', e);
   }
 }
-function resetSession() {
-  if (!confirm('Reset all assessment data? This cannot be undone.')) return;
+async function resetSession() {
+  var ok = await showConfirm('Reset all assessment data? This cannot be undone.', 'Reset', 'Cancel');
+  if (!ok) return;
   localStorage.removeItem(SESSION_KEY);
   localStorage.removeItem('ai_assess_state');
   window.auditProfile = {};
@@ -2116,7 +2231,7 @@ function exportSessionJSON() {
     a.click();
     URL.revokeObjectURL(a.href);
   } catch(e) {
-    alert('Export failed: ' + e.message);
+    showToast('Export failed: ' + e.message, 'error');
   }
 }
 function importSessionJSON() {
@@ -2129,6 +2244,8 @@ function importSessionJSON() {
       if (!file) return;
       const text = await file.text();
       const session = JSON.parse(text);
+      var schemaErr = validateSessionSchema(session);
+      if (schemaErr) throw new Error(schemaErr);
       if (session.assessState) {
         localStorage.setItem('ai_assess_state', JSON.stringify(session.assessState));
       }
@@ -2136,10 +2253,10 @@ function importSessionJSON() {
       if (session.auditTier != null) window.auditTier = session.auditTier;
       const d = new Date(session.savedAt || Date.now());
       updateSavedIndicator('Imported ' + d.toLocaleDateString());
-      alert('Session imported. Reload the page to apply all state.');
+      showToast('Session imported successfully. Reload the page to apply all state.', 'success', 6000);
       console.log('[GWB] Session imported');
     } catch(e) {
-      alert('Import failed: ' + e.message);
+      showToast('Import failed: ' + e.message, 'error');
     }
   };
   input.click();
